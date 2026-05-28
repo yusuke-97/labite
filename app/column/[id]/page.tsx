@@ -3,20 +3,18 @@ import styles from './page.module.scss';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArticleListSection } from '../../../components/ArticleListSection';
 import { TableOfContents } from '../../../components/TableOfContents';
+import { getLatestColumnPosts, getRelatedColumnPosts, type Category, type ImageField } from '../../../libs/column';
 import { renderToc } from '../../../libs/render-toc';
 
 type Props = {
   id: string;
   title: string;
-  image: {
-    url: string;
-    width: number;
-    height: number;
-  };
+  image: ImageField;
   body: string;
   publishedAt: string;
-  category: { name: string };
+  category: Category;
   summaryItems?: {
     text: string;
   }[];
@@ -26,11 +24,7 @@ type Props = {
       article: {
         id: string;
         title: string;
-        image: {
-          url: string;
-          width: number;
-          height: number;
-        };
+        image: ImageField;
         body: string;
       };
     };
@@ -131,6 +125,10 @@ function renderContent(
 export default async function ColumnPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const post = await getColumnPost(id);
+  const [latestPosts, relatedPosts] = await Promise.all([
+    getLatestColumnPosts(id),
+    getRelatedColumnPosts(id, post.category.id),
+  ]);
   const publishedAt = dayjs(post.publishedAt).format('YYYY/MM/DD');
   const toc = renderToc(post.body);
 
@@ -144,9 +142,19 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
             itemType="https://schema.org/ListItem"
           >
             <Link href="/" itemProp="item">
-              <span itemProp="name">HOME</span>
+              <span itemProp="name">TOP</span>
             </Link>
             <meta itemProp="position" content="1" />
+          </li>
+          <li
+            itemProp="itemListElement"
+            itemScope
+            itemType="https://schema.org/ListItem"
+          >
+            <Link href={`/category/${post.category.id}`} itemProp="item">
+              <span itemProp="name">{post.category.name}</span>
+            </Link>
+            <meta itemProp="position" content="2" />
           </li>
           <li
             itemProp="itemListElement"
@@ -155,7 +163,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
             aria-current="page"
           >
             <span itemProp="name">{post.title}</span>
-            <meta itemProp="position" content="2" />
+            <meta itemProp="position" content="3" />
           </li>
         </ol>
       </nav>
@@ -172,12 +180,15 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
               width={post.image.width}
               height={post.image.height}
               alt={post.title}
+              priority
             />
           </div>
           <TableOfContents toc={toc} styles={styles} />
           <div className={styles.content}>
             {renderContent(post.body, post.recommendBlocks, post.summaryItems)}
           </div>
+          <ArticleListSection title="新着記事" posts={latestPosts} variant="primary" />
+          <ArticleListSection title="関連記事" posts={relatedPosts} variant="light" />
         </article>
       </div>
     </main>

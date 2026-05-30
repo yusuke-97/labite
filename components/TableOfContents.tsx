@@ -23,7 +23,7 @@ export function TableOfContents({ toc, expandable = false, variant = 'default' }
   const isSidebar = variant === 'sidebar';
   const navClassName = isSidebar
     ? 'mt-12 bg-transparent p-0'
-    : 'mt-12 bg-[#1496a04d] p-3';
+    : 'mt-12 bg-[#bbe0e3] p-3';
   const titleClassName = isSidebar
     ? 'm-0 border-b-2 border-[#1496A0] bg-transparent pb-2 text-left text-xl leading-normal font-bold'
     : 'm-0 border-b border-[#1496a0] bg-white px-6 py-4 text-center text-xl leading-normal font-bold';

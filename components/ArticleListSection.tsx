@@ -14,13 +14,13 @@ export function ArticleListSection({ title, posts, variant = 'primary' }: Props)
     return null;
   }
 
-  const sectionClassName = `mt-[72px] px-6 py-12 ${
-    variant === 'primary' ? 'bg-[#1496a04d]' : 'bg-[#fafafa]'
+  const sectionClassName = `mt-18 max-sm:mt-12 px-6 max-sm:px-4 py-12 max-sm:py-8 ${
+    variant === 'primary' ? 'bg-[#bbe0e3]' : 'bg-[#fafafa]'
   }`;
 
   return (
     <section className={sectionClassName}>
-      <h2 className="relative m-0 mb-6 border-b-4 border-[#1496A0] px-8 py-4 text-[32px] leading-normal font-bold before:absolute before:top-0 before:left-0 before:h-10 before:w-10 before:bg-[url('/images/section-title-icon.svg')] before:bg-contain before:bg-center before:bg-no-repeat before:content-['']">
+      <h2 className="relative m-0 mb-6 border-b-4 border-[#1496A0] px-8 max-sm:px-6 py-4 text-[32px] max-sm:text-2xl leading-normal font-bold before:absolute before:top-0 before:left-0 before:h-8 before:w-8 before:bg-[url('/images/section-title-icon.svg')] before:bg-contain before:bg-center before:bg-no-repeat before:content-['']">
         {title}
       </h2>
       <div className="grid grid-cols-2 max-md:grid-cols-1 gap-x-5 gap-y-10">

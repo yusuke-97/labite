@@ -58,11 +58,11 @@ function SummaryBox({ items }: { items: NonNullable<Props['summaryItems']> }) {
 
   return (
     <div className="mt-12">
-      <p className="mb-0 flex w-fit items-center gap-2 border-4 border-b-0 border-[#1496A0] bg-[rgba(20,150,160,0.3)] px-3 py-2 text-xl leading-normal font-bold text-[#1496A0]">
+      <p className="mb-0 flex w-fit items-center gap-2 border-2 border-b-0 border-[#1496A0] bg-[rgba(20,150,160,0.3)] px-3 py-2 text-xl leading-normal font-bold text-[#1496A0]">
         <span className="block h-8 w-8 shrink-0 bg-[url('/images/summary-title-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
         この記事でわかること
       </p>
-      <ul className="m-0 grid list-none gap-3 border-4 border-[#1496A0] p-6">
+      <ul className="m-0 grid list-none gap-3 border-2 border-[#1496A0] p-6">
         {items.map((item) => (
           <li key={item.text} className="relative m-0 pl-9 text-base leading-normal font-bold">
             <span className="absolute top-0 left-0 h-6 w-6 bg-[url('/images/summary-list-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
@@ -83,24 +83,27 @@ function RecommendCard({
 
   return (
     <div className="mt-12">
-      <p className="m-0 flex w-fit items-center gap-2 border-4 border-b-0 border-[#565656] px-3 py-2 text-xl leading-normal font-bold">
+      <p className="m-0 flex w-fit items-center gap-2 border-2 border-b-0 border-[#565656] px-3 py-2 text-xl leading-normal font-bold">
         <span className="block h-8 w-8 shrink-0 bg-[url('/images/recommend-title-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
         こちらもチェック
       </p>
-      <Link href={`/column/${article.id}`} className="grid grid-cols-[calc(2/9*100%)_1fr] gap-9 border-4 border-[#565656] p-6 text-inherit no-underline">
-        <div className="aspect-[3/2] w-full overflow-hidden">
-          <Image
-            src={article.image.url}
-            width={article.image.width}
-            height={article.image.height}
-            alt={article.title}
-            className="h-full w-full object-cover"
-          />
+      <Link href={`/column/${article.id}`} className="grid grid-cols-[calc(2/9*100%)_1fr] gap-9 border-2 border-[#565656] p-6 max-sm:p-4 text-inherit no-underline max-sm:grid-cols-1 max-sm:gap-4">
+        <div className="max-sm:grid max-sm:grid-cols-[40%_1fr] max-sm:gap-3">
+          <div className="aspect-[3/2] w-full overflow-hidden">
+            <Image
+              src={article.image.url}
+              width={article.image.width}
+              height={article.image.height}
+              alt={article.title}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <p className="hidden !text-lg leading-normal font-bold max-sm:!m-0 max-sm:block">{article.title}</p>
         </div>
         <div className="flex flex-col gap-4">
-          <p className="text-xl leading-normal font-bold">{article.title}</p>
+          <p className="text-xl leading-normal font-bold max-sm:hidden">{article.title}</p>
           {text && (
-            <p className="!m-0 overflow-hidden text-base leading-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
+            <p className="!m-0 overflow-hidden text-base max-sm:!text-sm leading-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
               {text}
             </p>
           )}
@@ -227,9 +230,9 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
         </ol>
       </nav>
       <div className="flex items-start justify-between max-lg:flex-col">
-        <article className="w-[calc(900/1280*100%)] max-w-[900px] pt-10 max-lg:w-full max-lg:max-w-none">
-          <div className="mb-8 flex flex-col gap-4">
-            <h1 className="text-5xl leading-normal font-bold">{post.title}</h1>
+        <article className="w-[calc(900/1280*100%)] max-w-[900px] pt-10 max-sm:pt-6 max-lg:w-full max-lg:max-w-none">
+          <div className="mb-8 flex flex-col gap-4 max-sm:gap-2">
+            <h1 className="text-5xl max-sm:text-4xl leading-normal font-bold">{post.title}</h1>
             <time className="block text-sm leading-normal" itemProp="datePublished">{publishedAt}</time>
             <p className="w-fit border border-[#1496A0] px-2 py-1 text-xs leading-normal text-[#1496A0]">{post.category.name}</p>
           </div>

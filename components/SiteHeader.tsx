@@ -13,7 +13,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-20 w-full bg-[#bbe0e3] shadow-[0_8px_24px_rgba(17,17,17,0.08)] backdrop-blur-md">
-      <div className="relative mx-auto flex w-full max-w-[1280px] items-center justify-between px-10 py-4 max-lg:px-6 max-sm:px-4 max-sm:py-4">
+      <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-10 py-4 max-lg:px-6 max-sm:px-4 max-sm:py-4">
         <Link href="/" className="inline-flex items-center no-underline" aria-label="トップページへ" onClick={closeMenu}>
           <Image
             src="/images/site-logo.svg"
@@ -25,8 +25,8 @@ export function SiteHeader() {
           />
         </Link>
         <nav className="flex items-center justify-end gap-12 max-sm:gap-4 max-md:hidden" aria-label="グローバルナビゲーション">
-          <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline max-sm:px-2 max-sm:py-1.5 max-sm:text-[13px]">TOP</Link>
-          <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline max-sm:px-2 max-sm:py-1.5 max-sm:text-[13px]">コラム</Link>
+          <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">TOP</Link>
+          <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">コラム</Link>
         </nav>
         <button
           className="hidden h-[34px] w-[34px] flex-col items-center justify-center gap-2 bg-transparent text-[#171717] transition-colors hover:text-[#1496A0] max-md:inline-flex"

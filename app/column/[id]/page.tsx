@@ -190,7 +190,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   const toc = renderToc(post.body);
 
   return (
-    <main className="mx-auto w-full max-w-[1280px] px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
+    <main className="mx-auto w-full max-w-7xl px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
       <nav className="text-sm leading-normal" aria-label="breadcrumb">
         <ol className="m-0 flex list-none flex-wrap p-0" itemScope itemType="https://schema.org/BreadcrumbList">
           <li

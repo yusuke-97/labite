@@ -48,10 +48,10 @@ export function TableOfContents({ toc, expandable = false, variant = 'default' }
             className={
               isSidebar
                 ? `py-3 text-sm leading-normal before:content-none ${
-                    item.name === 'h2' ? 'text-[15px] font-bold' : 'pl-5 font-normal'
+                    item.name === 'h2' ? 'text-base font-bold' : 'pl-5 font-normal'
                   }`
                 : `relative px-6 py-3 text-base leading-normal font-bold before:absolute before:top-[21px] before:left-9 before:h-0 before:w-0 before:border-x-[6px] before:border-t-[6px] before:border-x-transparent before:border-t-[#1496a0] before:content-[''] ${
-                    item.name === 'h2' ? 'text-lg before:content-none' : 'pl-[60px]'
+                    item.name === 'h2' ? 'text-lg before:content-none' : 'pl-15'
                   }`
             }
           >

@@ -6,19 +6,20 @@ import type { TocItem } from '../libs/render-toc';
 type Props = {
   toc: TocItem[];
   styles: Record<string, string>;
+  expandable: boolean;
 };
 
 const INITIAL_VISIBLE_COUNT = 6;
 
-export function TableOfContents({ toc, styles }: Props) {
+export function TableOfContents({ toc, styles, expandable = false }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (toc.length === 0) {
     return null;
   }
 
-  const hasHiddenItems = toc.length > INITIAL_VISIBLE_COUNT;
-  const visibleToc = isExpanded ? toc : toc.slice(0, INITIAL_VISIBLE_COUNT);
+  const hasHiddenItems = expandable && toc.length > INITIAL_VISIBLE_COUNT;
+  const visibleToc = hasHiddenItems && !isExpanded ? toc.slice(0, INITIAL_VISIBLE_COUNT) : toc;
 
   const scrollToHeading = (id: string) => {
     document.getElementById(id)?.scrollIntoView({

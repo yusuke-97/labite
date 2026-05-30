@@ -5,7 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArticleListSection } from '../../../components/ArticleListSection';
 import { TableOfContents } from '../../../components/TableOfContents';
-import { getLatestColumnPosts, getRelatedColumnPosts, type Category, type ImageField } from '../../../libs/column';
+import {
+  getLatestColumnPosts,
+  getRelatedColumnPosts,
+  type ArticleCard,
+  type Category,
+  type ImageField,
+} from '../../../libs/column';
 import { renderToc } from '../../../libs/render-toc';
 
 type Props = {
@@ -87,6 +93,39 @@ function RecommendCard({
         </div>
       </Link>
     </div>
+  );
+}
+
+function SidebarRelatedArticles({ posts }: { posts: ArticleCard[] }) {
+  if (posts.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className={styles.sidebarRelated}>
+      <h2 className={styles.sidebarTitle}>関連記事</h2>
+      <div className={styles.sidebarRelatedList}>
+        {posts.map((post) => (
+          <Link key={post.id} href={`/column/${post.id}`} className={styles.sidebarRelatedCard}>
+            <div className={styles.sidebarRelatedImage}>
+              <Image
+                src={post.image.url}
+                width={post.image.width}
+                height={post.image.height}
+                alt={post.title}
+              />
+            </div>
+            <div className={styles.sidebarRelatedBody}>
+              <span className={styles.sidebarRelatedCategory}>{post.category.name}</span>
+              <p className={styles.sidebarRelatedTitle}>{post.title}</p>
+              <time className={styles.sidebarRelatedDate} dateTime={post.publishedAt}>
+                {dayjs(post.publishedAt).format('YYYY年MM月DD日')}
+              </time>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -183,13 +222,17 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
               priority
             />
           </div>
-          <TableOfContents toc={toc} styles={styles} />
+          <TableOfContents toc={toc} styles={styles} expandable />
           <div className={styles.content}>
             {renderContent(post.body, post.recommendBlocks, post.summaryItems)}
           </div>
           <ArticleListSection title="新着記事" posts={latestPosts} variant="primary" />
           <ArticleListSection title="関連記事" posts={relatedPosts} variant="light" />
         </article>
+        <aside className={styles.sidebar}>
+          <SidebarRelatedArticles posts={relatedPosts} />
+          <TableOfContents toc={toc} styles={styles} />
+        </aside>
       </div>
     </main>
   );

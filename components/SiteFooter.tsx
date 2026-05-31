@@ -18,7 +18,7 @@ export function SiteFooter() {
         </div>
         <nav className="flex items-center justify-end gap-12 max-sm:justify-start max-sm:gap-6" aria-label="フッターナビゲーション">
           <Link href="/" className="text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">TOP</Link>
-          <Link href="/" className="text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">コラム</Link>
+          <Link href="/column" className="text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">コラム</Link>
         </nav>
       </div>
       <div className="mx-auto w-full max-w-7xl px-10 py-6 max-sm:px-4 max-sm:py-4">

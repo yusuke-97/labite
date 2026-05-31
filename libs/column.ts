@@ -19,6 +19,74 @@ export type ArticleCard = {
   category: Category;
 };
 
+export type PaginatedColumnPosts = {
+  posts: ArticleCard[];
+  totalCount: number;
+  category?: Category;
+};
+
+export async function getColumnCategories(): Promise<Category[]> {
+  const posts = await client.getAllContents<ArticleCard>({
+    endpoint: 'column',
+    queries: {
+      fields: 'category',
+      depth: 1,
+    },
+  });
+  const categories = new Map<string, Category>();
+
+  posts.forEach((post) => {
+    categories.set(post.category.id, post.category);
+  });
+
+  return Array.from(categories.values());
+}
+
+export async function getColumnPostsPage(
+  page: number,
+  limit: number,
+): Promise<PaginatedColumnPosts> {
+  const data = await client.get({
+    endpoint: 'column',
+    queries: {
+      fields: 'id,title,image,publishedAt,category',
+      limit,
+      offset: (page - 1) * limit,
+      orders: '-publishedAt',
+      depth: 1,
+    },
+  });
+
+  return {
+    posts: data.contents,
+    totalCount: data.totalCount,
+  };
+}
+
+export async function getColumnPostsByCategoryPage(
+  categorySlug: string,
+  page: number,
+  limit: number,
+): Promise<PaginatedColumnPosts> {
+  const posts = await client.getAllContents<ArticleCard>({
+    endpoint: 'column',
+    queries: {
+      fields: 'id,title,image,publishedAt,category',
+      orders: '-publishedAt',
+      depth: 1,
+    },
+  });
+  const filteredPosts = posts.filter(
+    (post) => post.category.id === categorySlug || post.category.name === categorySlug,
+  );
+
+  return {
+    posts: filteredPosts.slice((page - 1) * limit, page * limit),
+    totalCount: filteredPosts.length,
+    category: filteredPosts[0]?.category,
+  };
+}
+
 export async function getLatestColumnPosts(excludeId?: string): Promise<ArticleCard[]> {
   const data = await client.get({
     endpoint: 'column',

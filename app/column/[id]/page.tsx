@@ -211,10 +211,22 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
             itemType="https://schema.org/ListItem"
           >
             <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
-            <Link href={`/category/${post.category.id}`} className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
-              <span itemProp="name">{post.category.name}</span>
+            <Link href="/column" className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
+              <span itemProp="name">お役立ち記事一覧</span>
             </Link>
             <meta itemProp="position" content="2" />
+          </li>
+          <li
+            className="flex items-center"
+            itemProp="itemListElement"
+            itemScope
+            itemType="https://schema.org/ListItem"
+          >
+            <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
+            <Link href={`/column/category/${post.category.id}`} className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
+              <span itemProp="name">{post.category.name}の記事一覧</span>
+            </Link>
+            <meta itemProp="position" content="3" />
           </li>
           <li
             className="flex items-center"
@@ -225,7 +237,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
           >
             <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
             <span itemProp="name">{post.title}</span>
-            <meta itemProp="position" content="3" />
+            <meta itemProp="position" content="4" />
           </li>
         </ol>
       </nav>

@@ -26,7 +26,7 @@ export function SiteHeader() {
         </Link>
         <nav className="flex items-center justify-end gap-12 max-sm:gap-4 max-md:hidden" aria-label="グローバルナビゲーション">
           <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">TOP</Link>
-          <Link href="/" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">コラム</Link>
+          <Link href="/column" className="inline-flex items-center text-base leading-normal font-bold no-underline transition-colors hover:text-[#1496A0] hover:underline">コラム</Link>
         </nav>
         <button
           className="hidden h-[34px] w-[34px] flex-col items-center justify-center gap-2 bg-transparent text-[#171717] transition-colors hover:text-[#1496A0] max-md:inline-flex"
@@ -53,7 +53,7 @@ export function SiteHeader() {
           aria-label="モバイルナビゲーション"
         >
           <Link href="/" className="block border-b border-[#1496A0]/10 px-6 py-4 text-base leading-normal font-bold no-underline transition-colors hover:bg-[rgba(20,150,160,0.08)] hover:text-[#1496A0]" onClick={closeMenu}>TOP</Link>
-          <Link href="/" className="block px-6 py-4 text-base leading-normal font-bold no-underline transition-colors hover:bg-[rgba(20,150,160,0.08)] hover:text-[#1496A0]" onClick={closeMenu}>コラム</Link>
+          <Link href="/column" className="block px-6 py-4 text-base leading-normal font-bold no-underline transition-colors hover:bg-[rgba(20,150,160,0.08)] hover:text-[#1496A0]" onClick={closeMenu}>コラム</Link>
         </nav>
       </div>
     </header>

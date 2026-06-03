@@ -3,6 +3,7 @@ import styles from './page.module.scss';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ArticleListSection } from '../../../components/ArticleListSection';
 import { TableOfContents } from '../../../components/TableOfContents';
 import {
@@ -38,13 +39,21 @@ type Props = {
 };
 
 async function getColumnPost(id: string): Promise<Props> {
-  const data = await client.get({
-    endpoint: `column/${id}`,
-    queries: {
-      depth: 2,
-    },
-  });
-  return data;
+  try {
+    const data = await client.get({
+      endpoint: `column/${id}`,
+      queries: {
+        depth: 2,
+      },
+    });
+    return data;
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('status: 404')) {
+      notFound();
+    }
+
+    throw error;
+  }
 }
 
 function stripHtml(html: string) {

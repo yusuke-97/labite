@@ -2,40 +2,36 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArticleListSection } from '../components/ArticleListSection';
 import { getColumnCategories, getLatestColumnPosts } from '../libs/column';
+import { ogImage, siteDescription, siteTitle } from '../libs/site-metadata';
 
 export const dynamic = 'force-dynamic';
 
-const title = 'Labite | 未経験からWebエンジニアを目指す技術ブログ';
-const description =
-  'Labiteは、未経験からWebエンジニアを目指す方のための技術ブログです。学習記録や開発ノウハウ、キャリアに関する情報など、エンジニアとして成長するための知識を発信しています。';
-const ogImage = '/images/og-image.png';
-
 export const metadata: Metadata = {
   title: {
-    absolute: title,
+    absolute: siteTitle,
   },
-  description,
+  description: siteDescription,
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title,
-    description,
+    title: siteTitle,
+    description: siteDescription,
     url: '/',
     images: [
       {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: title,
+        url: ogImage.url,
+        width: ogImage.width,
+        height: ogImage.height,
+        alt: siteTitle,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title,
-    description,
-    images: [ogImage],
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImage.url],
   },
 };
 

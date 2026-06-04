@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP, Roboto } from "next/font/google";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
+import {
+  ogImage,
+  siteDescription,
+  siteName,
+  siteTitle,
+  siteUrl,
+} from "../libs/site-metadata";
 import "./globals.scss";
 
 const roboto = Roboto({
@@ -16,13 +23,6 @@ const notoSansJp = Noto_Sans_JP({
   weight: ["400", "500", "700", "900"],
   display: "swap",
 });
-
-const siteName = "Labite";
-const siteTitle = "Labite | 未経験からWebエンジニアを目指す技術ブログ";
-const siteDescription =
-  "Labiteは、未経験からWebエンジニアを目指す方のための技術ブログです。学習記録や開発ノウハウ、キャリアに関する情報など、エンジニアとして成長するための知識を発信しています。";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const ogImage = "/images/og-image.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: ogImage,
-        width: 1200,
-        height: 630,
+        url: ogImage.url,
+        width: ogImage.width,
+        height: ogImage.height,
         alt: siteTitle,
       },
     ],
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [ogImage],
+    images: [ogImage.url],
   },
 };
 

@@ -4,18 +4,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getColumnPostsPage } from '../../libs/column';
+import { ogImage, withSiteName } from '../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 10;
 
 export const dynamic = 'force-dynamic';
 
-const title = 'Webエンジニア向け記事一覧 | Labite';
+const title = withSiteName('Webエンジニア向け記事一覧');
 const description =
   '未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。';
-const ogImage = '/images/og-image.png';
 
 export const metadata: Metadata = {
-  title,
+  title: {
+    absolute: title,
+  },
   description,
   alternates: {
     canonical: '/column',
@@ -26,9 +28,9 @@ export const metadata: Metadata = {
     url: '/column',
     images: [
       {
-        url: ogImage,
-        width: 1200,
-        height: 630,
+        url: ogImage.url,
+        width: ogImage.width,
+        height: ogImage.height,
         alt: title,
       },
     ],
@@ -37,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: [ogImage],
+    images: [ogImage.url],
   },
 };
 

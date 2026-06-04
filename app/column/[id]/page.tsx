@@ -38,6 +38,10 @@ type Props = {
   }[];
 };
 
+const noStoreRequestInit = {
+  cache: 'no-store',
+} satisfies RequestInit;
+
 async function getColumnPost(id: string): Promise<Props> {
   try {
     const data = await client.get({
@@ -45,6 +49,7 @@ async function getColumnPost(id: string): Promise<Props> {
       queries: {
         depth: 2,
       },
+      customRequestInit: noStoreRequestInit,
     });
     return data;
   } catch (error) {
@@ -284,7 +289,10 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
 }
 
 export async function generateStaticParams() {
-  const contentIds = await client.getAllContentIds({ endpoint: 'column' });
+  const contentIds = await client.getAllContentIds({
+    endpoint: 'column',
+    customRequestInit: noStoreRequestInit,
+  });
 
   return contentIds.map((contentId) => ({
     id: contentId,

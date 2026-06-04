@@ -25,6 +25,10 @@ export type PaginatedColumnPosts = {
   category?: Category;
 };
 
+const noStoreRequestInit = {
+  cache: 'no-store',
+} satisfies RequestInit;
+
 export async function getColumnCategories(): Promise<Category[]> {
   const posts = await client.getAllContents<ArticleCard>({
     endpoint: 'column',
@@ -32,6 +36,7 @@ export async function getColumnCategories(): Promise<Category[]> {
       fields: 'category',
       depth: 1,
     },
+    customRequestInit: noStoreRequestInit,
   });
   const categories = new Map<string, Category>();
 
@@ -55,6 +60,7 @@ export async function getColumnPostsPage(
       orders: '-publishedAt',
       depth: 1,
     },
+    customRequestInit: noStoreRequestInit,
   });
 
   return {
@@ -75,6 +81,7 @@ export async function getColumnPostsByCategoryPage(
       orders: '-publishedAt',
       depth: 1,
     },
+    customRequestInit: noStoreRequestInit,
   });
   const filteredPosts = posts.filter(
     (post) => post.category.id === categorySlug || post.category.name === categorySlug,
@@ -97,6 +104,7 @@ export async function getLatestColumnPosts(excludeId?: string): Promise<ArticleC
       orders: '-publishedAt',
       depth: 1,
     },
+    customRequestInit: noStoreRequestInit,
   });
 
   return data.contents;
@@ -115,6 +123,7 @@ export async function getRelatedColumnPosts(
       orders: '-publishedAt',
       depth: 1,
     },
+    customRequestInit: noStoreRequestInit,
   });
 
   return data.contents;

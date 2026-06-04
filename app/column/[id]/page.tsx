@@ -15,6 +15,8 @@ import {
 } from '../../../libs/column';
 import { renderToc } from '../../../libs/render-toc';
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
   id: string;
   title: string;
@@ -286,15 +288,4 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
       </div>
     </main>
   );
-}
-
-export async function generateStaticParams() {
-  const contentIds = await client.getAllContentIds({
-    endpoint: 'column',
-    customRequestInit: noStoreRequestInit,
-  });
-
-  return contentIds.map((contentId) => ({
-    id: contentId,
-  }));
 }

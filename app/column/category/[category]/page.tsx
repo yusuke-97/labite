@@ -6,6 +6,8 @@ import { getColumnPostsByCategoryPage } from '../../../../libs/column';
 
 const POSTS_PER_PAGE = 10;
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
   params: Promise<{
     category: string;

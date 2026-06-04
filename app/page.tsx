@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { ArticleListSection } from '../components/ArticleListSection';
 import { getColumnCategories, getLatestColumnPosts } from '../libs/column';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const [posts, categories] = await Promise.all([
     getLatestColumnPosts(),

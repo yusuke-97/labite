@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +8,38 @@ import { getColumnPostsPage } from '../../libs/column';
 const POSTS_PER_PAGE = 10;
 
 export const dynamic = 'force-dynamic';
+
+const title = 'Webエンジニア向け記事一覧 | Labite';
+const description =
+  '未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。';
+const ogImage = '/images/og-image.png';
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: {
+    canonical: '/column',
+  },
+  openGraph: {
+    title,
+    description,
+    url: '/column',
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
+  },
+};
 
 type Props = {
   searchParams: Promise<{

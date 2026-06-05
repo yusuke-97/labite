@@ -44,21 +44,19 @@
     padding: 12px 16px;
     border-left: 4px solid #1496A0;
     margin-top: 48px;
+    margin-bottom: 48px;
 
     @media (max-width: 639px) {
       font-size: 20px;
       padding: 8px 12px;
+      margin-bottom: 24px;
     }
   }
 
   p {
-    margin-top: 48px;
+    margin-top: 16px;
     font-size: 16px;
     line-height: 2;
-
-    @media (max-width: 639px) {
-      margin-top: 24px;
-    }
 
     &:first-child {
       margin-top: 0;

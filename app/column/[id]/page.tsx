@@ -64,7 +64,16 @@ async function getColumnPost(id: string): Promise<Props> {
 }
 
 function stripHtml(html: string) {
-  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+  return decodeHtmlEntities(html).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function decodeHtmlEntities(html: string) {
+  return html
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
 }
 
 function SummaryBox({ items }: { items: NonNullable<Props['summaryItems']> }) {
@@ -169,7 +178,8 @@ function renderContent(
   summaryItems: Props['summaryItems'],
 ) {
   const blocks = recommendBlocks ?? [];
-  const parts = body.split(/<p>\s*(\[summary\]|\[recommend:([\w-]+)\])\s*<\/p>/g);
+  const html = decodeHtmlEntities(body);
+  const parts = html.split(/<p>\s*(\[summary\]|\[recommend:([\w-]+)\])\s*<\/p>/g);
 
   return parts.map((part, index) => {
     if (!part || parts[index - 1]?.startsWith('[recommend:')) {
@@ -203,7 +213,8 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     getRelatedColumnPosts(id, post.category.id),
   ]);
   const publishedAt = dayjs(post.publishedAt).format('YYYY/MM/DD');
-  const toc = renderToc(post.body);
+  const bodyHtml = decodeHtmlEntities(post.body);
+  const toc = renderToc(bodyHtml);
 
   return (
     <main className="mx-auto w-full max-w-7xl px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
@@ -276,7 +287,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
           </div>
           <TableOfContents toc={toc} expandable />
           <div className={styles.content}>
-            {renderContent(post.body, post.recommendBlocks, post.summaryItems)}
+            {renderContent(bodyHtml, post.recommendBlocks, post.summaryItems)}
           </div>
           <ArticleListSection title="新着記事" posts={latestPosts} variant="primary" />
           <ArticleListSection title="関連記事" posts={relatedPosts} variant="light" />

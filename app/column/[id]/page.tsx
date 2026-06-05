@@ -13,7 +13,7 @@ import {
   type Category,
   type ImageField,
 } from '../../../libs/column';
-import { renderToc } from '../../../libs/render-toc';
+import { addHeadingIds, renderToc } from '../../../libs/render-toc';
 
 export const dynamic = 'force-dynamic';
 
@@ -213,7 +213,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     getRelatedColumnPosts(id, post.category.id),
   ]);
   const publishedAt = dayjs(post.publishedAt).format('YYYY/MM/DD');
-  const bodyHtml = decodeHtmlEntities(post.body);
+  const bodyHtml = addHeadingIds(decodeHtmlEntities(post.body));
   const toc = renderToc(bodyHtml);
 
   return (

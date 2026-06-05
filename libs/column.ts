@@ -19,6 +19,14 @@ export type ArticleCard = {
   category: Category;
 };
 
+export type SitemapColumnPost = {
+  id: string;
+  publishedAt: string;
+  revisedAt?: string;
+  updatedAt?: string;
+  category: Category;
+};
+
 export type PaginatedColumnPosts = {
   posts: ArticleCard[];
   totalCount: number;
@@ -45,6 +53,18 @@ export async function getColumnCategories(): Promise<Category[]> {
   });
 
   return Array.from(categories.values());
+}
+
+export async function getSitemapColumnPosts(): Promise<SitemapColumnPost[]> {
+  return client.getAllContents<SitemapColumnPost>({
+    endpoint: 'column',
+    queries: {
+      fields: 'id,publishedAt,revisedAt,updatedAt,category',
+      orders: '-publishedAt',
+      depth: 1,
+    },
+    customRequestInit: noStoreRequestInit,
+  });
 }
 
 export async function getColumnPostsPage(

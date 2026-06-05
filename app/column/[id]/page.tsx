@@ -15,7 +15,7 @@ import {
   type ImageField,
 } from '../../../libs/column';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
-import { withSiteName } from '../../../libs/site-metadata';
+import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +25,8 @@ type Props = {
   image: ImageField;
   body: string;
   publishedAt: string;
+  revisedAt?: string;
+  updatedAt?: string;
   category: Category;
   summaryItems?: {
     text: string;
@@ -264,9 +266,41 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   const publishedAt = dayjs(post.publishedAt).format('YYYY/MM/DD');
   const bodyHtml = addHeadingIds(decodeHtmlEntities(post.body));
   const toc = renderToc(bodyHtml);
+  const description = createMetaDescription(post.title);
+  const articleUrl = getAbsoluteUrl(`/column/${id}`);
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': articleUrl,
+    },
+    headline: post.title,
+    description,
+    image: [post.image.url],
+    datePublished: post.publishedAt,
+    dateModified: post.revisedAt ?? post.updatedAt ?? post.publishedAt,
+    author: {
+      '@type': 'Organization',
+      name: siteName,
+      url: getAbsoluteUrl('/'),
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteName,
+      logo: {
+        '@type': 'ImageObject',
+        url: getAbsoluteUrl('/images/site-logo.png'),
+      },
+    },
+  };
 
   return (
     <main className="mx-auto w-full max-w-7xl px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <nav className="overflow-x-auto text-sm leading-normal whitespace-nowrap" aria-label="breadcrumb">
         <ol className="m-0 flex w-max min-w-full list-none p-0" itemScope itemType="https://schema.org/BreadcrumbList">
           <li

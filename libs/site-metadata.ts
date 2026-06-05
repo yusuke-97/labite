@@ -17,3 +17,7 @@ export const ogImage = {
 export function withSiteName(title: string) {
   return `${title} | ${siteName}`;
 }
+
+export function getAbsoluteUrl(path: string) {
+  return new URL(path, siteUrl).toString();
+}

@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArticleListSection } from '../components/ArticleListSection';
 import { getColumnCategories, getLatestColumnPosts } from '../libs/column';
-import { ogImage, siteDescription, siteTitle } from '../libs/site-metadata';
+import {
+  getAbsoluteUrl,
+  ogImage,
+  siteDescription,
+  siteName,
+  siteTitle,
+} from '../libs/site-metadata';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,9 +46,19 @@ export default async function Home() {
     getLatestColumnPosts(),
     getColumnCategories(),
   ]);
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteName,
+    url: getAbsoluteUrl('/'),
+  };
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <section className="relative min-h-[520px] overflow-hidden bg-[url('/images/fv.png')] bg-cover bg-center max-lg:min-h-[480px] max-sm:min-h-[430px]">
         <div className="absolute inset-0 bg-white/55" aria-hidden="true" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.88)_0%,rgba(255,255,255,0.66)_46%,rgba(255,255,255,0.2)_100%)]" aria-hidden="true" />

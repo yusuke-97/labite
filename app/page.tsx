@@ -50,6 +50,7 @@ export default async function Home() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: siteName,
+    alternateName: ['Labite Tech'],
     url: getAbsoluteUrl('/'),
   };
 

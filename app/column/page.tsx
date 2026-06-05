@@ -84,8 +84,8 @@ export default async function ColumnPage({ searchParams }: Props) {
 
   return (
     <main className="mx-auto w-full max-w-7xl px-10 py-20 max-lg:px-6 max-lg:py-12 max-sm:px-4 max-sm:py-10">
-      <nav className="mb-10 text-sm leading-normal" aria-label="breadcrumb">
-        <ol className="m-0 flex list-none flex-wrap p-0" itemScope itemType="https://schema.org/BreadcrumbList">
+      <nav className="mb-10 overflow-x-auto text-sm leading-normal whitespace-nowrap" aria-label="breadcrumb">
+        <ol className="m-0 flex w-max min-w-full list-none p-0" itemScope itemType="https://schema.org/BreadcrumbList">
           <li
             className="flex items-center"
             itemProp="itemListElement"

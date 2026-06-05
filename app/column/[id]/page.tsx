@@ -218,8 +218,8 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
 
   return (
     <main className="mx-auto w-full max-w-7xl px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
-      <nav className="text-sm leading-normal" aria-label="breadcrumb">
-        <ol className="m-0 flex list-none flex-wrap p-0" itemScope itemType="https://schema.org/BreadcrumbList">
+      <nav className="overflow-x-auto text-sm leading-normal whitespace-nowrap" aria-label="breadcrumb">
+        <ol className="m-0 flex w-max min-w-full list-none p-0" itemScope itemType="https://schema.org/BreadcrumbList">
           <li
             className="flex items-center"
             itemProp="itemListElement"
@@ -271,7 +271,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
       <div className="flex items-start justify-between max-lg:flex-col">
         <article className="w-[calc(900/1280*100%)] max-w-[900px] pt-10 max-sm:pt-6 max-lg:w-full max-lg:max-w-none">
           <div className="mb-8 flex flex-col gap-4 max-sm:gap-2">
-            <h1 className="text-5xl max-sm:text-4xl leading-normal font-bold">{post.title}</h1>
+            <h1 className="text-4xl max-sm:text-3xl leading-normal font-bold">{post.title}</h1>
             <time className="block text-sm leading-normal" itemProp="datePublished">{publishedAt}</time>
             <p className="w-fit border border-[#1496A0] px-2 py-1 text-xs leading-normal text-[#1496A0]">{post.category.name}</p>
           </div>

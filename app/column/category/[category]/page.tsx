@@ -1,8 +1,10 @@
+import type { Metadata } from 'next';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getColumnPostsByCategoryPage } from '../../../../libs/column';
+import { ogImage, withSiteName } from '../../../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 10;
 
@@ -36,6 +38,60 @@ function buildPageHref(categorySlug: string, page: number) {
   return page === 1
     ? `/column/category/${categoryPath}`
     : `/column/category/${categoryPath}?page=${page}`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{
+    category: string;
+  }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+  const categorySlug = decodeURIComponent(category);
+  const { totalCount, category: currentCategory } = await getColumnPostsByCategoryPage(
+    categorySlug,
+    1,
+    1,
+  );
+
+  if (totalCount === 0) {
+    notFound();
+  }
+
+  const categoryName = currentCategory?.name ?? categorySlug;
+  const title = withSiteName(`${categoryName}の記事一覧`);
+  const description = `${categoryName}に関する記事一覧です。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。`;
+  const canonical = `/column/category/${encodeURIComponent(categorySlug)}`;
+
+  return {
+    title: {
+      absolute: title,
+    },
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: [
+        {
+          url: ogImage.url,
+          width: ogImage.width,
+          height: ogImage.height,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage.url],
+    },
+  };
 }
 
 export default async function ColumnCategoryPage({ params, searchParams }: Props) {

@@ -28,7 +28,7 @@ export function TableOfContents({ toc, expandable = false, variant = 'default' }
     ? 'm-0 border-b-2 border-[#1496A0] bg-transparent pb-2 text-left text-xl leading-normal font-bold'
     : 'm-0 border-b border-[#1496a0] bg-white px-6 py-4 text-center text-xl leading-normal font-bold';
   const listClassName = isSidebar
-    ? 'm-0 list-none overflow-y-auto bg-transparent p-0'
+    ? 'm-0 max-h-[calc(100vh-260px)] list-none overflow-y-auto bg-transparent p-0 pr-2'
     : 'm-0 list-none bg-white p-0';
 
   const scrollToHeading = (id: string) => {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { client } from '../../../libs/microcms';
 import styles from './page.module.scss';
 import dayjs from 'dayjs';
@@ -14,6 +15,7 @@ import {
   type ImageField,
 } from '../../../libs/column';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
+import { withSiteName } from '../../../libs/site-metadata';
 
 export const dynamic = 'force-dynamic';
 
@@ -74,6 +76,53 @@ function decodeHtmlEntities(html: string) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&amp;/g, '&');
+}
+
+function createMetaDescription(title: string) {
+  return `${title}を解説しております。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const post = await getColumnPost(id);
+  const title = withSiteName(post.title);
+  const description = createMetaDescription(post.title);
+  const canonical = `/column/${id}`;
+
+  return {
+    title: {
+      absolute: title,
+    },
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      images: [
+        {
+          url: post.image.url,
+          width: post.image.width,
+          height: post.image.height,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [post.image.url],
+    },
+  };
 }
 
 function SummaryBox({ items }: { items: NonNullable<Props['summaryItems']> }) {

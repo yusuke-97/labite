@@ -275,7 +275,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
             <time className="block text-sm leading-normal" itemProp="datePublished">{publishedAt}</time>
             <p className="w-fit border border-[#1496A0] px-2 py-1 text-xs leading-normal text-[#1496A0]">{post.category.name}</p>
           </div>
-          <div className="aspect-[3/2] w-full overflow-hidden">
+          <div className="w-full overflow-hidden">
             <Image
               src={post.image.url}
               width={post.image.width}

@@ -26,7 +26,7 @@ export function ArticleListSection({ title, posts, variant = 'primary' }: Props)
       <div className="grid grid-cols-2 max-md:grid-cols-1 gap-x-5 gap-y-10">
         {posts.map((post) => (
           <Link key={post.id} href={`/column/${post.id}`} className="group grid grid-cols-[40%_1fr] gap-4 text-inherit no-underline">
-            <div className="aspect-[3/2] w-full overflow-hidden">
+            <div className="w-full overflow-hidden">
               <Image
                 src={post.image.url}
                 width={post.image.width}

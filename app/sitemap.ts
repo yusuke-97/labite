@@ -41,6 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    {
+      url: getAbsoluteUrl('/privacy-policy'),
+      lastModified: new Date('2026-06-06'),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
     ...categories.map((category) => ({
       url: getAbsoluteUrl(`/column/category/${encodeURIComponent(category.id)}`),
       lastModified: latestPostDate,

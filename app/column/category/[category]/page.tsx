@@ -63,32 +63,34 @@ export async function generateMetadata({
   const title = withSiteName(`${categoryName}の記事一覧`);
   const description = `${categoryName}に関する記事一覧です。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。`;
   const canonical = `/column/category/${encodeURIComponent(categorySlug)}`;
+  const metaTitle = currentCategory?.metaTitle ?? title;
+  const metaDescription = currentCategory?.metaDescription ?? description;
 
   return {
     title: {
-      absolute: title,
+      absolute: metaTitle,
     },
-    description,
+    description: metaDescription,
     alternates: {
       canonical,
     },
     openGraph: {
-      title,
-      description,
+      title: metaTitle,
+      description: metaDescription,
       url: canonical,
       images: [
         {
           url: ogImage.url,
           width: ogImage.width,
           height: ogImage.height,
-          alt: title,
+          alt: metaTitle,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
+      title: metaTitle,
+      description: metaDescription,
       images: [ogImage.url],
     },
   };

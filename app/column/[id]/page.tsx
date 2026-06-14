@@ -101,6 +101,9 @@ export async function generateMetadata({
   const title = withSiteName(post.title);
   const description = createMetaDescription(post.title);
   const canonical = `/column/${id}`;
+  const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)
+    ? post.revisedAt
+    : undefined;
 
   return {
     title: { absolute: title },
@@ -112,6 +115,7 @@ export async function generateMetadata({
       url: canonical,
       type: 'article',
       publishedTime: post.publishedAt,
+      modifiedTime: revisedAt,
       images: [{
         url: post.image.url,
         width: post.image.width,
@@ -324,6 +328,9 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   const bodyHtml = addSectionLabels(addHeadingIds(decodeHtmlEntities(post.body)));
   const toc = renderToc(bodyHtml);
   const articleUrl = getAbsoluteUrl(`/column/${id}`);
+  const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)
+    ? post.revisedAt
+    : undefined;
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -332,7 +339,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     description: createMetaDescription(post.title),
     image: [post.image.url],
     datePublished: post.publishedAt,
-    dateModified: post.revisedAt ?? post.updatedAt ?? post.publishedAt,
+    ...(revisedAt ? { dateModified: revisedAt } : {}),
     author: { '@type': 'Organization', name: siteName, url: getAbsoluteUrl('/') },
     publisher: {
       '@type': 'Organization',
@@ -364,11 +371,24 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
         <div className={`${innerClass} grid grid-cols-[minmax(0,1fr)_300px] items-start gap-10 max-lg:grid-cols-1`}>
           <main className="min-w-0">
             <div className="fade is-show">
-              <div className="mb-3.5 flex flex-wrap items-center gap-3.5">
+              <div className="mb-3.5 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <span className="rounded-full bg-blue px-4 py-1 text-xs font-bold text-white">{post.category.name}</span>
-                <time className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.08em] text-navy/70" dateTime={post.publishedAt}>
-                  {dayjs(post.publishedAt).format('YYYY.MM.DD')}
-                </time>
+                <span className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-navy/70">
+                  <span className="inline-flex items-baseline gap-1.5">
+                    <span className="font-bold">公開日</span>
+                    <time className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.08em]" dateTime={post.publishedAt}>
+                      {dayjs(post.publishedAt).format('YYYY.MM.DD')}
+                    </time>
+                  </span>
+                  {revisedAt && (
+                    <span className="inline-flex items-baseline gap-1.5">
+                      <span className="font-bold">更新日</span>
+                      <time className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.08em]" dateTime={revisedAt}>
+                        {dayjs(revisedAt).format('YYYY.MM.DD')}
+                      </time>
+                    </span>
+                  )}
+                </span>
               </div>
               <h1 className="mb-6 border-l-8 border-yellow pl-4.5 text-[clamp(24px,3vw,33px)] leading-[1.6] font-black max-md:border-l-6 max-md:pl-3.5 max-md:text-[22px]">
                 {post.title}

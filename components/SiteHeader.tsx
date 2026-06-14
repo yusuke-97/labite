@@ -181,17 +181,17 @@ export function SiteHeader() {
       </div>
 
       <a
-        className={`${isNotFoundPage ? 'hidden' : 'flex'} ${isToTopVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isTopClicked ? 'bg-white! translate-y-0!' : ''} fixed right-5 bottom-5 z-90 size-23 items-center justify-center rounded-full border-2 border-navy bg-white transition-[opacity,transform,background] duration-400 hover:-translate-y-0.75 hover:bg-yellow max-md:size-19.5`}
+        className={`${isNotFoundPage ? 'hidden' : 'flex'} ${isToTopVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isTopClicked ? 'bg-white! translate-y-0!' : ''} fixed right-5 bottom-5 z-90 aspect-square size-23 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-navy bg-white transition-[opacity,transform,background] duration-400 hover:-translate-y-0.75 hover:bg-yellow max-md:right-3 max-md:bottom-3 max-md:size-18`}
         href="#"
         aria-label="ページ上部へ戻る"
         onClick={scrollToTop}
         onMouseLeave={() => setIsTopClicked(false)}
       >
-        <svg className="absolute inset-1.25 animate-[ttSpin_16s_linear_infinite]" viewBox="0 0 100 100" aria-hidden="true">
+        <svg className="absolute inset-1.25 size-[calc(100%_-_10px)] animate-[ttSpin_16s_linear_infinite] max-md:inset-1 max-md:size-[calc(100%_-_8px)]" viewBox="0 0 100 100" aria-hidden="true">
           <defs>
             <path id="ttCircle" d="M50,50 m-39,0 a39,39 0 1,1 78,0 a39,39 0 1,1 -78,0" />
           </defs>
-          <text className="fill-navy font-[family-name:var(--font-oswald)] text-[10px] font-semibold uppercase">
+          <text className="fill-navy font-[family-name:var(--font-oswald)] text-[10px] font-semibold uppercase max-md:text-[9px]">
             <textPath href="#ttCircle" textLength="245" lengthAdjust="spacing">
               LABITE - BACK TO TOP&nbsp;-&nbsp;
             </textPath>
@@ -199,7 +199,7 @@ export function SiteHeader() {
         </svg>
         <svg
           key={logoSpinKey}
-          className={`${logoSpinKey > 0 ? 'animate-[logoSpin_.9s_cubic-bezier(.2,.7,.2,1)]' : ''} absolute size-11 overflow-visible drop-shadow-[1.5px_1.5px_0_#FFC94B] max-md:size-9.5`}
+          className={`${logoSpinKey > 0 ? 'animate-[logoSpin_.9s_cubic-bezier(.2,.7,.2,1)]' : ''} absolute size-11 overflow-visible drop-shadow-[1.5px_1.5px_0_#FFC94B] max-md:size-8.5`}
           viewBox="0 0 56 60"
           aria-hidden="true"
         >

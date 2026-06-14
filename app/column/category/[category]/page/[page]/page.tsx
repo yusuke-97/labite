@@ -7,7 +7,7 @@ import {
 } from '../../../../../../libs/column';
 import { ogImage, withSiteName } from '../../../../../../libs/site-metadata';
 
-const POSTS_PER_PAGE = 9;
+const POSTS_PER_PAGE = 15;
 
 export const dynamic = 'force-dynamic';
 

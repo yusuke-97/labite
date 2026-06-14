@@ -35,6 +35,11 @@ export type PaginatedColumnPosts = {
   category?: Category;
 };
 
+export type ColumnCategoryCount = {
+  category: Category;
+  count: number;
+};
+
 const noStoreRequestInit = {
   cache: 'no-store',
 } satisfies RequestInit;
@@ -55,6 +60,28 @@ export async function getColumnCategories(): Promise<Category[]> {
   });
 
   return Array.from(categories.values());
+}
+
+export async function getColumnCategoryCounts(): Promise<ColumnCategoryCount[]> {
+  const posts = await client.getAllContents<ArticleCard>({
+    endpoint: 'column',
+    queries: {
+      fields: 'category',
+      depth: 1,
+    },
+    customRequestInit: noStoreRequestInit,
+  });
+  const counts = new Map<string, ColumnCategoryCount>();
+
+  posts.forEach((post) => {
+    const current = counts.get(post.category.id);
+    counts.set(post.category.id, {
+      category: post.category,
+      count: (current?.count ?? 0) + 1,
+    });
+  });
+
+  return Array.from(counts.values());
 }
 
 export async function getSitemapColumnPosts(): Promise<SitemapColumnPost[]> {

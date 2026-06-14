@@ -1,0 +1,252 @@
+import dayjs from 'dayjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { ArticleCard, ColumnCategoryCount } from '../libs/column';
+import { ArrowIcon } from './ArrowIcon';
+import {
+  yellowPillArrowClass,
+  yellowPillClass,
+} from './site-design';
+
+type Props = {
+  posts: ArticleCard[];
+  categories: ColumnCategoryCount[];
+  totalCount: number;
+  currentPage: number;
+  totalPages: number;
+  currentCategoryId?: string;
+  currentCategoryName?: string;
+};
+
+const innerClass = 'mx-auto w-full max-w-280 px-6';
+
+function buildPageHref(page: number, categoryId?: string) {
+  const base = categoryId
+    ? `/column/category/${encodeURIComponent(categoryId)}`
+    : '/column';
+  return page === 1 ? base : `${base}/page/${page}`;
+}
+
+function getVisiblePages(currentPage: number, totalPages: number) {
+  if (totalPages <= 5) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const pages = new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+  return Array.from(pages)
+    .filter((page) => page > 0 && page <= totalPages)
+    .sort((a, b) => a - b);
+}
+
+export function ColumnArchive({
+  posts,
+  categories,
+  totalCount,
+  currentPage,
+  totalPages,
+  currentCategoryId,
+  currentCategoryName,
+}: Props) {
+  const heading = currentCategoryName
+    ? `${currentCategoryName}の記事一覧`
+    : 'お役立ち記事一覧';
+  const visiblePages = getVisiblePages(currentPage, totalPages);
+
+  return (
+    <main data-rail-label={`${currentPage}/${totalPages}`}>
+      <nav
+        className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"
+        aria-label="パンくずリスト"
+      >
+        <div className={innerClass}>
+          <ol className="flex items-center gap-2.5">
+            <li>
+              <Link href="/" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">
+                TOP
+              </Link>
+            </li>
+            <li className="text-navy/50">›</li>
+            {currentCategoryName ? (
+              <>
+                <li>
+                  <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">
+                    お役立ち記事一覧
+                  </Link>
+                </li>
+                <li className="text-navy/50">›</li>
+                <li className="text-navy/60">{heading}</li>
+              </>
+            ) : (
+              <li className="text-navy/60">お役立ち記事一覧</li>
+            )}
+          </ol>
+        </div>
+      </nav>
+
+      <header className="pt-15 pb-9 max-md:pt-10 max-md:pb-6">
+        <div className={`${innerClass} fade is-show`}>
+          <span className="block font-[family-name:var(--font-oswald)] text-[clamp(44px,6.5vw,72px)] leading-none font-bold tracking-[.06em] text-transparent uppercase [-webkit-text-stroke:1.5px_#1D2B50]">
+            Column
+          </span>
+          <div className="mt-3.5 flex flex-wrap items-center gap-4">
+            <h1 className="text-[clamp(24px,3vw,32px)] font-black tracking-[.04em]">
+              {heading}
+            </h1>
+            <span className="inline-flex items-baseline gap-1 rounded-full border-2 border-navy bg-white px-4 py-1 text-[12.5px] font-bold">
+              全
+              <span className="font-[family-name:var(--font-oswald)] text-[15px] text-blue">
+                {totalCount}
+              </span>
+              記事
+            </span>
+          </div>
+          <p className="mt-3.5 max-w-170 text-[14.5px] text-navy/88 max-md:text-[13.5px]">
+            未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。
+          </p>
+        </div>
+      </header>
+
+      <section className="pb-11 max-md:pb-8">
+        <div className={`${innerClass} fade is-show`}>
+          <h2 className="mb-3.5 flex items-baseline gap-3 text-sm font-bold">
+            カテゴリーから探す
+            <span className="font-[family-name:var(--font-oswald)] text-[11px] tracking-[.22em] text-blue uppercase">
+              category
+            </span>
+          </h2>
+          <div className="-mx-6 flex gap-3 overflow-x-auto px-6 py-0.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:flex-wrap md:overflow-visible md:p-0">
+            <Link
+              href="/column"
+              className={`${!currentCategoryId ? 'pointer-events-none bg-yellow' : 'bg-white hover:-translate-y-0.5 hover:bg-pale-blue'} inline-flex shrink-0 items-baseline gap-1.5 rounded-full border-2 border-navy px-5 py-2 text-[13.5px] font-bold transition-[background,transform] max-md:px-4 max-md:py-1.75 max-md:text-[12.5px]`}
+            >
+              すべて
+              <span className={`font-[family-name:var(--font-oswald)] text-xs ${!currentCategoryId ? 'text-navy' : 'text-blue'}`}>
+                ({categories.reduce((sum, item) => sum + item.count, 0)})
+              </span>
+            </Link>
+            {categories.map(({ category, count }) => {
+              const isCurrent = category.id === currentCategoryId;
+              return (
+                <Link
+                  key={category.id}
+                  href={`/column/category/${encodeURIComponent(category.id)}`}
+                  className={`${isCurrent ? 'pointer-events-none bg-yellow' : 'bg-white hover:-translate-y-0.5 hover:bg-pale-blue'} inline-flex shrink-0 items-baseline gap-1.5 rounded-full border-2 border-navy px-5 py-2 text-[13.5px] font-bold transition-[background,transform] max-md:px-4 max-md:py-1.75 max-md:text-[12.5px]`}
+                >
+                  {category.name}
+                  <span className={`font-[family-name:var(--font-oswald)] text-xs ${isCurrent ? 'text-navy' : 'text-blue'}`}>
+                    ({count})
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-24 max-md:pb-18">
+        <div className={innerClass}>
+          <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1 max-md:gap-4.5">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/column/${post.id}`}
+                className="group fade flex flex-col overflow-hidden rounded-xl border-2 border-navy bg-white transition-[transform,border-color] duration-250 hover:-translate-y-0.75 hover:border-[#d9a521]"
+              >
+                <div className="relative aspect-video overflow-hidden border-b-2 border-navy bg-pale-blue">
+                  <Image
+                    src={post.image.url}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col px-5 pt-4.5 pb-4">
+                  <div className="mb-2 flex items-center gap-3">
+                    <span className="rounded-full bg-blue px-3.5 py-0.75 text-[11px] font-bold text-white">
+                      {post.category.name}
+                    </span>
+                    <time className="font-[family-name:var(--font-oswald)] text-xs tracking-[.08em] text-navy/70" dateTime={post.publishedAt}>
+                      {dayjs(post.publishedAt).format('YYYY.MM.DD')}
+                    </time>
+                  </div>
+                  <h2 className="mb-3.5 line-clamp-2 text-base leading-[1.7] font-bold">
+                    {post.title}
+                  </h2>
+                  <div className="mt-auto flex items-center justify-between border-t-[1.5px] border-dashed border-navy/40 pt-3">
+                    <span className="text-[12.5px] font-bold text-blue">続きを読む</span>
+                    <span className="flex size-7.5 items-center justify-center rounded-full border-2 border-navy bg-yellow text-navy transition-transform group-hover:translate-x-1">
+                      <ArrowIcon />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <nav className="mt-15 flex flex-wrap items-center justify-center gap-3 max-md:mt-12 max-md:gap-2.5" aria-label="ページネーション">
+              {currentPage > 1 ? (
+                <Link className="group inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-5 py-2.25 font-[family-name:var(--font-oswald)] text-[13px] font-semibold tracking-[.16em] uppercase hover:-translate-y-0.5 hover:bg-pale-blue max-md:size-10 max-md:justify-center max-md:p-0" href={buildPageHref(currentPage - 1, currentCategoryId)}>
+                  <span className="inline-flex size-6.5 rotate-180 items-center justify-center rounded-full bg-navy text-white max-md:size-auto max-md:bg-transparent max-md:text-navy"><ArrowIcon /></span>
+                  <span className="max-md:hidden">prev</span>
+                </Link>
+              ) : (
+                <span className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-5 py-2.25 font-[family-name:var(--font-oswald)] text-[13px] font-semibold tracking-[.16em] uppercase opacity-40 max-md:size-10 max-md:justify-center max-md:p-0">
+                  <span className="inline-flex size-6.5 rotate-180 items-center justify-center rounded-full bg-navy text-white max-md:size-auto max-md:bg-transparent max-md:text-navy"><ArrowIcon /></span>
+                  <span className="max-md:hidden">prev</span>
+                </span>
+              )}
+
+              {visiblePages.map((pageNumber, index) => (
+                <span className="contents" key={pageNumber}>
+                  {index > 0 && pageNumber - visiblePages[index - 1] > 1 && (
+                    <span className="px-0.5 font-[family-name:var(--font-oswald)] font-semibold tracking-[.2em] text-navy/60">…</span>
+                  )}
+                  <Link
+                    href={buildPageHref(pageNumber, currentCategoryId)}
+                    aria-current={pageNumber === currentPage ? 'page' : undefined}
+                    className={`${pageNumber === currentPage ? 'pointer-events-none bg-yellow font-bold' : 'bg-white hover:-translate-y-0.5 hover:bg-pale-blue'} inline-flex size-11.5 items-center justify-center rounded-full border-2 border-navy font-[family-name:var(--font-oswald)] text-[15px] font-semibold transition-[background,transform] max-md:size-10 max-md:text-sm`}
+                  >
+                    {pageNumber}
+                  </Link>
+                </span>
+              ))}
+
+              {currentPage < totalPages ? (
+                <Link className="group inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-5 py-2.25 font-[family-name:var(--font-oswald)] text-[13px] font-semibold tracking-[.16em] uppercase hover:-translate-y-0.5 hover:bg-pale-blue max-md:size-10 max-md:justify-center max-md:p-0" href={buildPageHref(currentPage + 1, currentCategoryId)}>
+                  <span className="max-md:hidden">next</span>
+                  <span className="inline-flex size-6.5 items-center justify-center rounded-full bg-navy text-white max-md:size-auto max-md:bg-transparent max-md:text-navy"><ArrowIcon /></span>
+                </Link>
+              ) : (
+                <span className="inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-white px-5 py-2.25 font-[family-name:var(--font-oswald)] text-[13px] font-semibold tracking-[.16em] uppercase opacity-40 max-md:size-10 max-md:justify-center max-md:p-0">
+                  <span className="max-md:hidden">next</span>
+                  <span className="inline-flex size-6.5 items-center justify-center rounded-full bg-navy text-white max-md:size-auto max-md:bg-transparent max-md:text-navy"><ArrowIcon /></span>
+                </span>
+              )}
+            </nav>
+          )}
+        </div>
+      </section>
+
+      <section className="pb-24 max-md:pb-18">
+        <div className={innerClass}>
+          <div className="fade relative mx-auto max-w-210 rounded-2xl border-2 border-navy bg-pale-blue px-8 py-14 text-center before:absolute before:top-3.5 before:left-3.5 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow before:content-[''] after:absolute after:right-3.5 after:bottom-3.5 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow after:content-[''] max-md:px-5.5 max-md:py-11">
+            <h2 className="mb-3 text-[clamp(18px,2.4vw,24px)] font-black">
+              学習やキャリアの相談を受け付けています
+            </h2>
+            <p className="mx-auto mb-7 max-w-135 text-[13.5px]">
+              記事を読んで分からなかったこと、学習の進め方やキャリアの悩みなど、お気軽にご相談ください。
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link className={yellowPillClass} href="/contact">
+                お問い合わせ
+                <span className={yellowPillArrowClass}><ArrowIcon /></span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

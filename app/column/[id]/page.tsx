@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
-import { client } from '../../../libs/microcms';
-import styles from './page.module.scss';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArticleListSection } from '../../../components/ArticleListSection';
+import { ArticleProgress } from '../../../components/ArticleProgress';
+import { ArrowIcon } from '../../../components/ArrowIcon';
 import { TableOfContents } from '../../../components/TableOfContents';
 import {
   getLatestColumnPosts,
@@ -14,8 +13,10 @@ import {
   type Category,
   type ImageField,
 } from '../../../libs/column';
+import { client } from '../../../libs/microcms';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
 import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
+import styles from './page.module.scss';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,9 +29,7 @@ type Props = {
   revisedAt?: string;
   updatedAt?: string;
   category: Category;
-  summaryItems?: {
-    text: string;
-  }[];
+  summaryItems?: { text: string }[];
   recommendBlocks?: {
     marker: string;
     recommendCard: {
@@ -48,27 +47,25 @@ const noStoreRequestInit = {
   cache: 'no-store',
 } satisfies RequestInit;
 
+const innerClass = 'mx-auto w-full max-w-280 px-6';
+const pillClass =
+  'group inline-flex items-center gap-3 rounded-full border-2 border-navy bg-white px-6.5 py-3.5 text-[15px] font-bold transition-[transform,background] duration-250 hover:-translate-y-0.75';
+const arrowClass =
+  'inline-flex size-7 items-center justify-center rounded-full bg-navy text-white transition-transform duration-250 group-hover:translate-x-1';
+
 async function getColumnPost(id: string): Promise<Props> {
   try {
-    const data = await client.get({
+    return await client.get({
       endpoint: `column/${id}`,
-      queries: {
-        depth: 2,
-      },
+      queries: { depth: 2 },
       customRequestInit: noStoreRequestInit,
     });
-    return data;
   } catch (error) {
     if (error instanceof Error && error.message.includes('status: 404')) {
       notFound();
     }
-
     throw error;
   }
-}
-
-function stripHtml(html: string) {
-  return decodeHtmlEntities(html).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 }
 
 function decodeHtmlEntities(html: string) {
@@ -84,6 +81,16 @@ function createMetaDescription(title: string) {
   return `${title}を解説しております。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。`;
 }
 
+function addSectionLabels(html: string) {
+  let sectionNumber = 0;
+
+  return html.replace(/<h2\b/g, () => {
+    sectionNumber += 1;
+    const firstClass = sectionNumber === 1 ? ' section-label--first' : '';
+    return `<span class="section-label${firstClass}">Section ${String(sectionNumber).padStart(2, '0')}</span><h2`;
+  });
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -96,27 +103,21 @@ export async function generateMetadata({
   const canonical = `/column/${id}`;
 
   return {
-    title: {
-      absolute: title,
-    },
+    title: { absolute: title },
     description,
-    alternates: {
-      canonical,
-    },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
       url: canonical,
       type: 'article',
       publishedTime: post.publishedAt,
-      images: [
-        {
-          url: post.image.url,
-          width: post.image.width,
-          height: post.image.height,
-          alt: post.title,
-        },
-      ],
+      images: [{
+        url: post.image.url,
+        width: post.image.width,
+        height: post.image.height,
+        alt: post.title,
+      }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -128,21 +129,19 @@ export async function generateMetadata({
 }
 
 function SummaryBox({ items }: { items: NonNullable<Props['summaryItems']> }) {
-  if (items.length === 0) {
-    return null;
-  }
+  if (items.length === 0) return null;
 
   return (
-    <div className="mt-12">
-      <p className="mb-0 flex w-fit items-center gap-2 border-2 border-b-0 border-[#1496A0] bg-[rgba(20,150,160,0.3)] px-3 py-2 text-xl leading-normal font-bold text-[#1496A0]">
-        <span className="block h-8 w-8 shrink-0 bg-[url('/images/summary-title-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
+    <div className="relative mt-0 mb-2 rounded-xl border-2 border-navy bg-pale-blue px-6.5 pt-8.5 pb-5.5 max-md:px-4.5 max-md:pt-7.5 max-md:pb-4.5">
+      <p className="absolute -top-4.25 left-4.5 inline-flex items-center gap-2.5 rounded-full border-2 border-navy bg-yellow px-4.5 py-1 text-[13px] font-bold max-md:px-3.5 max-md:text-xs">
         この記事でわかること
+        <span className="font-[family-name:var(--font-oswald)] text-[10px] tracking-[.18em] text-navy/70 uppercase">summary</span>
       </p>
-      <ul className="m-0 grid list-none gap-3 border-2 border-[#1496A0] p-6">
+      <ul>
         {items.map((item) => (
-          <li key={item.text} className="relative m-0 pl-9 text-base leading-normal font-bold">
-            <span className="absolute top-0 left-0 h-6 w-6 bg-[url('/images/summary-list-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
-            {item.text}
+          <li key={item.text} className="flex items-start gap-2.5 py-1 text-sm font-medium max-md:text-[13px]">
+            <span className="mt-1.25 inline-flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] border-navy bg-yellow text-[11px] font-bold">✓</span>
+            <span>{item.text}</span>
           </li>
         ))}
       </ul>
@@ -155,105 +154,164 @@ function RecommendCard({
 }: {
   article: NonNullable<Props['recommendBlocks']>[number]['recommendCard']['article'];
 }) {
-  const text = stripHtml(article.body);
-
   return (
-    <div className="mt-12">
-      <p className="m-0 flex w-fit items-center gap-2 border-2 border-b-0 border-[#565656] px-3 py-2 text-xl leading-normal font-bold">
-        <span className="block h-8 w-8 shrink-0 bg-[url('/images/recommend-title-icon.svg')] bg-contain bg-center bg-no-repeat" aria-hidden="true" />
-        こちらもチェック
-      </p>
-      <Link href={`/column/${article.id}`} className="grid grid-cols-[calc(2/9*100%)_1fr] gap-9 border-2 border-[#565656] p-6 max-sm:p-4 text-inherit no-underline max-sm:grid-cols-1 max-sm:gap-4">
-        <div className="max-sm:grid max-sm:grid-cols-[40%_1fr] max-sm:gap-3">
-          <div className="aspect-[3/2] w-full overflow-hidden">
-            <Image
-              src={article.image.url}
-              width={article.image.width}
-              height={article.image.height}
-              alt={article.title}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <p className="hidden !text-lg leading-normal font-bold max-sm:!m-0 max-sm:block">{article.title}</p>
-        </div>
-        <div className="flex flex-col gap-4">
-          <p className="text-xl leading-normal font-bold max-sm:hidden">{article.title}</p>
-          {text && (
-            <p className="!m-0 overflow-hidden text-base max-sm:!text-sm leading-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
-              {text}
-            </p>
-          )}
-        </div>
-      </Link>
-    </div>
+    <Link
+      href={`/column/${article.id}`}
+      className="group relative my-13 grid min-w-0 grid-cols-[150px_minmax(0,1fr)_40px] items-center gap-4.5 rounded-xl border-2 border-navy bg-white p-5 transition-[transform,border-color] duration-250 hover:-translate-y-0.75 hover:border-[#d9a521] max-md:grid-cols-[96px_minmax(0,1fr)] max-md:gap-3"
+    >
+      <span className="absolute -top-3.75 left-4 rounded-full border-2 border-navy bg-yellow px-4 py-0.5 text-xs font-bold max-md:text-[11px]">こちらもチェック</span>
+      <span className="relative aspect-16/9 overflow-hidden rounded-lg border-[1.5px] border-navy bg-white">
+        <Image
+          src={article.image.url}
+          alt={article.title}
+          fill
+          sizes="(max-width: 768px) 96px, 150px"
+          className="object-cover"
+        />
+      </span>
+      <span className="min-w-0 text-[14.5px] leading-[1.7] font-bold break-words max-md:text-[13px]">{article.title}</span>
+      <span className={`${arrowClass} max-md:hidden`}><ArrowIcon /></span>
+    </Link>
   );
 }
 
-function SidebarRelatedArticles({ posts }: { posts: ArticleCard[] }) {
-  if (posts.length === 0) {
-    return null;
-  }
-
-  return (
-    <section>
-      <h2 className="m-0 mb-3 border-b-2 border-[#1496A0] pb-2 text-xl leading-normal font-bold">関連記事</h2>
-      <div className="flex flex-col gap-6">
-        {posts.map((post) => (
-          <Link key={post.id} href={`/column/${post.id}`} className="group flex items-start justify-between no-underline">
-            <div className="aspect-square w-[calc(100/300*100%)] overflow-hidden">
-              <Image
-                src={post.image.url}
-                width={post.image.width}
-                height={post.image.height}
-                alt={post.title}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="flex w-[calc(182/300*100%)] flex-col items-start gap-1.5">
-              <span className="rounded-full bg-[#1496A0] px-4 py-1 text-xs leading-normal font-bold text-white">{post.category.name}</span>
-              <p className="overflow-hidden text-sm leading-normal font-bold [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:text-[#1496A0] group-hover:underline">{post.title}</p>
-              <time className="text-xs leading-normal" dateTime={post.publishedAt}>
-                {dayjs(post.publishedAt).format('YYYY年MM月DD日')}
-              </time>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function renderContent(
-  body: string,
-  recommendBlocks: Props['recommendBlocks'],
-  summaryItems: Props['summaryItems'],
-) {
+function renderContent(body: string, recommendBlocks: Props['recommendBlocks']) {
   const blocks = recommendBlocks ?? [];
-  const html = decodeHtmlEntities(body);
-  const parts = html.split(/<p>\s*(\[summary\]|\[recommend:([\w-]+)\])\s*<\/p>/g);
+  const parts = body.split(/<p>\s*(\[summary\]|\[recommend:([\w-]+)\])\s*<\/p>/g);
 
   return parts.map((part, index) => {
-    if (!part || parts[index - 1]?.startsWith('[recommend:')) {
+    if (!part || parts[index - 1]?.startsWith('[recommend:') || part === '[summary]') {
       return null;
-    }
-
-    if (part === '[summary]') {
-      return <SummaryBox key="summary" items={summaryItems ?? []} />;
     }
 
     if (part.startsWith('[recommend:')) {
       const marker = part.match(/\[recommend:([\w-]+)\]/)?.[1];
       const block = blocks.find((item) => item.marker === marker);
-
-      if (!block) {
-        return null;
-      }
-
-      return <RecommendCard key={`recommend-${marker}`} article={block.recommendCard.article} />;
+      return block
+        ? <RecommendCard key={`recommend-${marker}`} article={block.recommendCard.article} />
+        : null;
     }
 
     return <div key={`body-${index}`} dangerouslySetInnerHTML={{ __html: part }} />;
   });
+}
+
+function SidebarNewPosts({ posts }: { posts: ArticleCard[] }) {
+  return (
+    <div className="rounded-xl border-2 border-navy bg-white px-5 py-5.5">
+      <h2 className="mb-3.5 flex items-baseline gap-2.5 border-b-2 border-navy pb-2.5 text-[15px] font-black">
+        新着記事
+        <span className="font-[family-name:var(--font-oswald)] text-[10px] tracking-[.2em] text-blue uppercase">new posts</span>
+      </h2>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id} className="border-b-[1.5px] border-dashed border-navy/40 last:border-0">
+            <Link href={`/column/${post.id}`} className="block py-2.5 text-[12.5px] leading-[1.6] font-medium hover:text-blue">
+              <time className="mb-0.5 block font-[family-name:var(--font-oswald)] text-[11px] tracking-[.08em] text-navy/70">
+                {dayjs(post.publishedAt).format('YYYY.MM.DD')}
+              </time>
+              {post.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function AuthorBox() {
+  return (
+    <div className="relative mt-18 mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
+      <div className="flex size-25 items-center justify-center overflow-hidden rounded-full border-3 border-yellow bg-pale-blue max-md:mx-auto">
+        <Image src="/images/site-logo.svg" width={62} height={22} alt="" />
+      </div>
+      <div>
+        <p className="!mb-0 text-base font-bold">Labite 運営者</p>
+        <p className="!mb-2 text-xs font-bold text-[#c99514]">Webエンジニア</p>
+        <p className="!mb-3 text-[13px] text-navy/90 max-md:text-[12.5px]">
+          Web開発の現場で得た知識をもとに、未経験の人がつまずきやすいポイントを整理して記事にしています。
+        </p>
+        <Link href="/about" className={`${pillClass} !px-5 !py-2.25 !text-[13px]`}>
+          プロフィールを見る
+          <span className={`${arrowClass} !size-6`}><ArrowIcon /></span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function ConsultationCard() {
+  return (
+    <div id="cta" className="relative mb-2 rounded-2xl border-2 border-navy bg-pale-blue px-7 py-11 text-center before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:px-4.5 max-md:py-9">
+      <h2 className="!m-0 !border-0 !bg-transparent !p-0 !text-[clamp(17px,2vw,21px)] before:!hidden">学習やキャリアの相談を受け付けています</h2>
+      <p className="mx-auto mt-2.5 mb-6 max-w-120 text-[13.5px]">
+        記事を読んで分からなかったこと、学習の進め方やキャリアの悩みなど、お気軽にご相談ください。
+      </p>
+      <div className="flex flex-wrap justify-center gap-3.5 max-md:flex-col max-md:items-center">
+        <Link href="/contact" className={`${pillClass} !bg-yellow`}>
+          お問い合わせ <span className={arrowClass}><ArrowIcon /></span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function PostSection({
+  posts,
+  label,
+  title,
+  mobileOnly = false,
+}: {
+  posts: ArticleCard[];
+  label: string;
+  title: string;
+  mobileOnly?: boolean;
+}) {
+  if (posts.length === 0) return null;
+
+  return (
+    <section className={`border-t-[1.5px] border-navy bg-cream py-22 max-md:py-16 ${mobileOnly ? 'hidden max-lg:block' : ''}`}>
+      <div className={innerClass}>
+        <div className="fade mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="block font-[family-name:var(--font-oswald)] text-[clamp(34px,5vw,56px)] leading-none font-bold tracking-[.06em] text-transparent uppercase [-webkit-text-stroke:1.5px_#1D2B50]">{label}</span>
+            <h2 className="mt-2.5 text-[clamp(20px,2.6vw,26px)] font-black">{title}</h2>
+          </div>
+          <Link href="/column" className={pillClass}>
+            記事一覧を見る <span className={arrowClass}><ArrowIcon /></span>
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-4.5 max-md:grid-cols-1">
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              href={`/column/${post.id}`}
+              className="fade grid grid-cols-[110px_1fr] items-center gap-4 rounded-xl border-2 border-navy bg-white p-3.5 transition-[transform,border-color] duration-250 hover:-translate-y-0.75 hover:border-[#d9a521] max-md:grid-cols-1 max-md:gap-0 max-md:overflow-hidden max-md:p-0"
+            >
+              <span className="relative aspect-16/9 overflow-hidden rounded-lg border-[1.5px] border-navy bg-white max-md:aspect-video max-md:rounded-none max-md:border-0 max-md:border-b-2">
+                <Image
+                  src={post.image.url}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 110px"
+                  className="object-cover"
+                />
+              </span>
+              <span className="max-md:px-5 max-md:pt-4 max-md:pb-5.5">
+                <span className="mb-1 flex items-center gap-2.5">
+                  <span className="rounded-full bg-blue px-3 py-0.5 text-[10.5px] font-bold text-white">{post.category.name}</span>
+                  <time className="font-[family-name:var(--font-oswald)] text-[11px] tracking-[.08em] text-navy/70">
+                    {dayjs(post.publishedAt).format('YYYY.MM.DD')}
+                  </time>
+                </span>
+                <span className="line-clamp-2 text-[13.5px] leading-[1.65] font-bold max-md:text-base">{post.title}</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default async function ColumnPostPage({ params }: { params: Promise<{ id: string }> }) {
@@ -263,123 +321,94 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     getLatestColumnPosts(id),
     getRelatedColumnPosts(id, post.category.id),
   ]);
-  const publishedAt = dayjs(post.publishedAt).format('YYYY/MM/DD');
-  const bodyHtml = addHeadingIds(decodeHtmlEntities(post.body));
+  const bodyHtml = addSectionLabels(addHeadingIds(decodeHtmlEntities(post.body)));
   const toc = renderToc(bodyHtml);
-  const description = createMetaDescription(post.title);
   const articleUrl = getAbsoluteUrl(`/column/${id}`);
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': articleUrl,
-    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     headline: post.title,
-    description,
+    description: createMetaDescription(post.title),
     image: [post.image.url],
     datePublished: post.publishedAt,
     dateModified: post.revisedAt ?? post.updatedAt ?? post.publishedAt,
-    author: {
-      '@type': 'Organization',
-      name: siteName,
-      url: getAbsoluteUrl('/'),
-    },
+    author: { '@type': 'Organization', name: siteName, url: getAbsoluteUrl('/') },
     publisher: {
       '@type': 'Organization',
       name: siteName,
-      logo: {
-        '@type': 'ImageObject',
-        url: getAbsoluteUrl('/images/site-logo.png'),
-      },
+      logo: { '@type': 'ImageObject', url: getAbsoluteUrl('/images/site-logo.png') },
     },
   };
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-10 max-lg:px-6 max-sm:px-4 py-20 max-lg:py-12 max-sm:py-10">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
-      <nav className="overflow-x-auto text-sm leading-normal whitespace-nowrap" aria-label="breadcrumb">
-        <ol className="m-0 flex w-max min-w-full list-none p-0" itemScope itemType="https://schema.org/BreadcrumbList">
-          <li
-            className="flex items-center"
-            itemProp="itemListElement"
-            itemScope
-            itemType="https://schema.org/ListItem"
-          >
-            <Link href="/" className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
-              <span itemProp="name">TOP</span>
-            </Link>
-            <meta itemProp="position" content="1" />
-          </li>
-          <li
-            className="flex items-center"
-            itemProp="itemListElement"
-            itemScope
-            itemType="https://schema.org/ListItem"
-          >
-            <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
-            <Link href="/column" className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
-              <span itemProp="name">お役立ち記事一覧</span>
-            </Link>
-            <meta itemProp="position" content="2" />
-          </li>
-          <li
-            className="flex items-center"
-            itemProp="itemListElement"
-            itemScope
-            itemType="https://schema.org/ListItem"
-          >
-            <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
-            <Link href={`/column/category/${post.category.id}`} className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
-              <span itemProp="name">{post.category.name}の記事一覧</span>
-            </Link>
-            <meta itemProp="position" content="3" />
-          </li>
-          <li
-            className="flex items-center"
-            itemProp="itemListElement"
-            itemScope
-            itemType="https://schema.org/ListItem"
-            aria-current="page"
-          >
-            <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
-            <span itemProp="name">{post.title}</span>
-            <meta itemProp="position" content="4" />
-          </li>
-        </ol>
+    <>
+      <ArticleProgress />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+
+      <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">
+        <div className={innerClass}>
+          <ol className="flex items-center gap-2.5">
+            <li><Link href="/" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">TOP</Link></li>
+            <li className="text-navy/50">›</li>
+            <li><Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">お役立ち記事一覧</Link></li>
+            <li className="text-navy/50">›</li>
+            <li><Link href={`/column/category/${post.category.id}`} className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">{post.category.name}の記事一覧</Link></li>
+            <li className="text-navy/50">›</li>
+            <li className="text-navy/60" aria-current="page">{post.title}</li>
+          </ol>
+        </div>
       </nav>
-      <div className="flex items-start justify-between max-lg:flex-col">
-        <article className="w-[calc(900/1280*100%)] max-w-[900px] pt-10 max-sm:pt-6 max-lg:w-full max-lg:max-w-none">
-          <div className="mb-8 flex flex-col gap-4 max-sm:gap-2">
-            <h1 className="text-4xl max-sm:text-3xl leading-normal font-bold">{post.title}</h1>
-            <time className="block text-sm leading-normal" itemProp="datePublished">{publishedAt}</time>
-            <p className="w-fit border border-[#1496A0] px-2 py-1 text-xs leading-normal text-[#1496A0]">{post.category.name}</p>
-          </div>
-          <div className="w-full overflow-hidden">
-            <Image
-              src={post.image.url}
-              width={post.image.width}
-              height={post.image.height}
-              alt={post.title}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
-          <TableOfContents toc={toc} expandable />
-          <div className={styles.content}>
-            {renderContent(bodyHtml, post.recommendBlocks, post.summaryItems)}
-          </div>
-          <ArticleListSection title="新着記事" posts={latestPosts} variant="primary" />
-          <ArticleListSection title="関連記事" posts={relatedPosts} variant="light" />
-        </article>
-        <aside className="sticky top-[82px] w-[calc(300/1280*100%)] pt-10 pb-10 max-lg:hidden">
-          <SidebarRelatedArticles posts={relatedPosts} />
-          <TableOfContents toc={toc} variant="sidebar" />
-        </aside>
+
+      <div className="py-14 pb-27.5 max-md:py-9 max-md:pb-18">
+        <div className={`${innerClass} grid grid-cols-[minmax(0,1fr)_300px] items-start gap-10 max-lg:grid-cols-1`}>
+          <main className="min-w-0">
+            <div className="fade is-show">
+              <div className="mb-3.5 flex flex-wrap items-center gap-3.5">
+                <span className="rounded-full bg-blue px-4 py-1 text-xs font-bold text-white">{post.category.name}</span>
+                <time className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.08em] text-navy/70" dateTime={post.publishedAt}>
+                  {dayjs(post.publishedAt).format('YYYY.MM.DD')}
+                </time>
+              </div>
+              <h1 className="mb-6 border-l-8 border-yellow pl-4.5 text-[clamp(24px,3vw,33px)] leading-[1.6] font-black max-md:border-l-6 max-md:pl-3.5 max-md:text-[22px]">
+                {post.title}
+              </h1>
+              <figure className="relative mb-13 overflow-hidden rounded-xl border-2 border-navy max-md:mb-9 max-md:rounded-[10px]">
+                <Image
+                  src={post.image.url}
+                  width={post.image.width}
+                  height={post.image.height}
+                  alt={post.title}
+                  className="h-auto w-full"
+                  priority
+                />
+              </figure>
+              <SummaryBox items={post.summaryItems ?? []} />
+              <TableOfContents toc={toc} variant="mobile" />
+            </div>
+
+            <article className={`${styles.content} mt-10`}>
+              {renderContent(bodyHtml, post.recommendBlocks)}
+              <AuthorBox />
+              <ConsultationCard />
+            </article>
+          </main>
+
+          <aside className="sticky top-25 flex flex-col gap-7 max-lg:hidden">
+            <div className="rounded-xl border-2 border-navy bg-white px-5 py-5.5">
+              <h2 className="mb-3.5 flex items-baseline gap-2.5 border-b-2 border-navy pb-2.5 text-[15px] font-black">
+                目次
+                <span className="font-[family-name:var(--font-oswald)] text-[10px] tracking-[.2em] text-blue uppercase">index</span>
+              </h2>
+              <TableOfContents toc={toc} variant="sidebar" />
+            </div>
+            <SidebarNewPosts posts={latestPosts} />
+          </aside>
+        </div>
       </div>
-    </main>
+
+      <PostSection posts={relatedPosts} label="Related" title="関連記事" />
+      <PostSection posts={latestPosts} label="New Posts" title="新着記事" mobileOnly />
+    </>
   );
 }

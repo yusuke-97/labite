@@ -5,31 +5,27 @@ import type { TocItem } from '../libs/render-toc';
 
 type Props = {
   toc: TocItem[];
-  expandable?: boolean;
-  variant?: 'default' | 'sidebar';
+  variant?: 'mobile' | 'sidebar';
 };
 
 const INITIAL_VISIBLE_COUNT = 6;
 
-export function TableOfContents({ toc, expandable = false, variant = 'default' }: Props) {
+export function TableOfContents({ toc, variant = 'mobile' }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (toc.length === 0) {
     return null;
   }
 
-  const hasHiddenItems = expandable && toc.length > INITIAL_VISIBLE_COUNT;
-  const visibleToc = hasHiddenItems && !isExpanded ? toc.slice(0, INITIAL_VISIBLE_COUNT) : toc;
   const isSidebar = variant === 'sidebar';
-  const navClassName = isSidebar
-    ? 'mt-12 bg-transparent p-0'
-    : 'mt-12 bg-[#bbe0e3] p-3';
-  const titleClassName = isSidebar
-    ? 'm-0 border-b-2 border-[#1496A0] bg-transparent pb-2 text-left text-xl leading-normal font-bold'
-    : 'm-0 border-b border-[#1496a0] bg-white px-6 py-4 text-center text-xl leading-normal font-bold';
-  const listClassName = isSidebar
-    ? 'm-0 max-h-[calc(100vh-260px)] list-none overflow-y-auto bg-transparent p-0 pr-2'
-    : 'm-0 list-none bg-white p-0';
+  const hasHiddenItems = !isSidebar && toc.length > INITIAL_VISIBLE_COUNT;
+  const visibleToc = hasHiddenItems && !isExpanded ? toc.slice(0, INITIAL_VISIBLE_COUNT) : toc;
+  const numberedToc = visibleToc.map((item, index) => ({
+    ...item,
+    sectionNumber: visibleToc
+      .slice(0, index + 1)
+      .filter((tocItem) => tocItem.name === 'h2').length,
+  }));
 
   const scrollToHeading = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -38,40 +34,54 @@ export function TableOfContents({ toc, expandable = false, variant = 'default' }
     });
   };
 
-  return (
-    <nav className={navClassName} aria-label="目次">
-      <p className={titleClassName}>目次</p>
-      <ol className={listClassName}>
-        {visibleToc.map((item) => (
+  const list = (
+    <ol className={isSidebar ? 'max-h-115 overflow-y-auto pr-2' : 'max-h-55.5 overflow-hidden px-4.5 py-3.5'}>
+      {numberedToc.map((item) => (
           <li
             key={item.id}
             className={
-              isSidebar
-                ? `py-3 text-sm leading-normal before:content-none ${
-                    item.name === 'h2' ? 'text-base font-bold' : 'pl-5 font-normal'
-                  }`
-                : `relative px-6 py-3 text-base leading-normal font-bold before:absolute before:top-[21px] before:left-9 before:h-0 before:w-0 before:border-x-[6px] before:border-t-[6px] before:border-x-transparent before:border-t-[#1496a0] before:content-[''] ${
-                    item.name === 'h2' ? 'text-lg before:content-none' : 'pl-15'
-                  }`
+              item.name === 'h2'
+                ? 'py-0.75 text-[14.5px] font-bold'
+                : 'py-0.75 pl-5.5 text-[13.5px] text-navy/75'
             }
           >
             <button
-              className="w-full cursor-pointer border-0 bg-transparent p-0 text-left font-[inherit] leading-[1.6] text-inherit hover:text-[#1496A0] hover:underline"
+              className="group flex w-full cursor-pointer items-baseline gap-2.5 rounded-md border-0 bg-transparent px-2 py-1 text-left font-[inherit] leading-[1.6] text-inherit hover:text-blue"
               type="button"
               onClick={() => scrollToHeading(item.id)}
             >
-              {item.text}
+              {item.name === 'h2' ? (
+                <span className="inline-flex size-5.5 shrink-0 translate-y-0.75 items-center justify-center rounded-full font-[family-name:var(--font-oswald)] text-xs font-semibold text-blue">
+                  {String(item.sectionNumber).padStart(2, '0')}
+                </span>
+              ) : (
+                <span className="shrink-0 text-[11px] text-blue">└</span>
+              )}
+              <span>{item.text}</span>
             </button>
           </li>
-        ))}
-      </ol>
-      {hasHiddenItems && (
+      ))}
+    </ol>
+  );
+
+  if (isSidebar) {
+    return list;
+  }
+
+  return (
+    <nav className="mt-8 hidden overflow-hidden rounded-xl border-2 border-navy bg-white max-lg:block" aria-label="目次">
+      <div className="flex items-center justify-between border-b-[1.5px] border-dashed border-navy bg-pale-blue px-4.5 py-3.5 font-bold">
+        <span>目次</span>
+        <span className="font-[family-name:var(--font-oswald)] text-[11px] tracking-[.2em] text-blue uppercase">index</span>
+      </div>
+      <div className={isExpanded ? '[&>ol]:max-h-none' : ''}>{list}</div>
+      {hasHiddenItems && !isExpanded && (
         <button
-          className="mx-auto mt-3 block w-60 cursor-pointer rounded border border-[#999] bg-white px-6 py-3 text-sm leading-normal font-bold hover:border-[#1496A0] hover:text-[#1496A0]"
+          className="block w-full cursor-pointer border-0 border-t-[1.5px] border-dashed border-navy bg-pale-blue p-2.75 text-[13px] font-bold tracking-[.06em] text-navy"
           type="button"
-          onClick={() => setIsExpanded((current) => !current)}
+          onClick={() => setIsExpanded(true)}
         >
-          {isExpanded ? '閉じる' : '全てを見る'}
+          すべてを見る <span className="text-[10px]">▼</span>
         </button>
       )}
     </nav>

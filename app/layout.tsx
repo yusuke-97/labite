@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, Roboto } from "next/font/google";
+import { Noto_Sans_JP, Oswald } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
@@ -12,10 +12,10 @@ import {
 } from "../libs/site-metadata";
 import "./globals.scss";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -68,12 +68,13 @@ export default function RootLayout({
     <html
       lang="ja"
       data-scroll-behavior="smooth"
-      className={`${roboto.variable} ${notoSansJp.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${oswald.variable} ${notoSansJp.variable} h-full antialiased`}
     >
       {isProduction && (
         <GoogleTagManager gtmId={gtmId} />
       )}
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-cream pl-16 text-base leading-[1.8] text-navy [overflow-wrap:anywhere] max-lg:pl-0 max-md:text-[15px]">
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

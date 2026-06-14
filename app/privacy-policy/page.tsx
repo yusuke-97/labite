@@ -80,59 +80,103 @@ const sections = [
   },
 ];
 
+const innerClass = 'mx-auto w-full max-w-220 px-6';
+
 export default function PrivacyPolicyPage() {
   return (
-    <main className="mx-auto w-full max-w-4xl px-10 py-20 max-lg:px-6 max-lg:py-12 max-sm:px-4 max-sm:py-10">
-      <nav className="mb-10 overflow-x-auto text-sm leading-normal whitespace-nowrap" aria-label="breadcrumb">
-        <ol className="m-0 flex w-max min-w-full list-none p-0" itemScope itemType="https://schema.org/BreadcrumbList">
-          <li className="flex items-center" itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-            <Link href="/" className="text-[#1496A0] underline hover:opacity-80" itemProp="item">
-              <span itemProp="name">TOP</span>
-            </Link>
-            <meta itemProp="position" content="1" />
-          </li>
-          <li
-            className="flex items-center"
-            itemProp="itemListElement"
+    <main>
+      <nav
+        className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"
+        aria-label="パンくずリスト"
+      >
+        <div className={innerClass}>
+          <ol
+            className="flex items-center gap-2.5"
             itemScope
-            itemType="https://schema.org/ListItem"
-            aria-current="page"
+            itemType="https://schema.org/BreadcrumbList"
           >
-            <span className="mx-3.5 h-0 w-0 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#111]" aria-hidden="true" />
-            <span itemProp="name">プライバシーポリシー</span>
-            <meta itemProp="position" content="2" />
-          </li>
-        </ol>
+            <li
+              itemProp="itemListElement"
+              itemScope
+              itemType="https://schema.org/ListItem"
+            >
+              <Link
+                href="/"
+                className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue"
+                itemProp="item"
+              >
+                <span itemProp="name">TOP</span>
+              </Link>
+              <meta itemProp="position" content="1" />
+            </li>
+            <li className="text-navy/50" aria-hidden="true">›</li>
+            <li
+              className="text-navy/60"
+              itemProp="itemListElement"
+              itemScope
+              itemType="https://schema.org/ListItem"
+              aria-current="page"
+            >
+              <span itemProp="name">プライバシーポリシー</span>
+              <meta itemProp="position" content="2" />
+            </li>
+          </ol>
+        </div>
       </nav>
 
-      <header className="mb-12">
-        <p className="mb-3 text-sm leading-normal font-bold tracking-normal text-[#1496A0]">PRIVACY POLICY</p>
-        <h1 className="m-0 text-4xl leading-normal font-bold max-sm:text-3xl">プライバシーポリシー</h1>
-        <p className="mt-5 mb-0 text-base leading-8 text-[#555]">
-          当サイト「Labite」は、個人情報の重要性を認識し、以下の方針に基づいて適切な取り扱いに努めます。
-        </p>
+      <header className="pt-14 pb-9 max-md:pt-9 max-md:pb-6">
+        <div className={`${innerClass} fade is-show`}>
+          <span className="block w-fit origin-left scale-x-[1.12] font-[family-name:var(--font-oswald)] text-[clamp(34px,5.5vw,64px)] leading-none font-bold tracking-[.05em] text-transparent uppercase [-webkit-text-stroke:1.5px_#1D2B50]">
+            Privacy Policy
+          </span>
+          <h1 className="mt-3.5 text-[clamp(24px,3vw,32px)] font-black tracking-[.04em]">
+            プライバシーポリシー
+          </h1>
+          <p className="mt-3.5 max-w-170 text-[14.5px] text-navy/88 max-md:text-[13.5px]">
+            当サイト「Labite」は、個人情報の重要性を認識し、以下の方針に基づいて適切な取り扱いに努めます。
+          </p>
+          <span className="mt-4.5 inline-flex items-baseline gap-2 rounded-full border-2 border-navy bg-white px-5.5 py-0.75 text-[12.5px] font-bold">
+            制定日
+            <span className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.04em] text-blue">
+              2026.06.06
+            </span>
+          </span>
+        </div>
       </header>
 
-      <div className="grid gap-10">
-        {sections.map((section) => (
-          <section key={section.title}>
-            <h2 className="m-0 border-l-4 border-[#1496A0] pl-4 text-2xl leading-normal font-bold max-sm:text-xl">
-              {section.title}
-            </h2>
-            <div className="mt-5 grid gap-4">
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="m-0 text-base leading-8 text-[#333]">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+      <div className="pb-27.5 max-md:pb-18">
+        <div className={innerClass}>
+          <article className="fade is-show rounded-2xl border-2 border-navy bg-white px-12 pt-12 pb-10 max-md:px-5.5 max-md:pt-8 max-md:pb-7 max-sm:border-0 max-sm:bg-transparent max-sm:px-0 max-sm:pt-1">
+            {sections.map((section, index) => (
+              <section key={section.title}>
+                <h2
+                  className={`${index === 0 ? 'mt-0' : 'mt-16 max-md:mt-12'} relative mb-6 flex items-baseline gap-3 overflow-hidden rounded-xl border-2 border-navy bg-white py-3.5 pr-4.5 pl-8 text-[clamp(18px,2vw,21px)] leading-[1.6] font-black before:absolute before:inset-y-0 before:left-0 before:w-3 before:border-r-2 before:border-navy before:bg-yellow before:content-[''] max-md:mb-5 max-md:py-3 max-md:pr-3.5 max-md:pl-6.5 max-md:text-[17px] max-md:before:w-2.25`}
+                >
+                  <span className="shrink-0 font-[family-name:var(--font-oswald)] text-[15px] font-semibold tracking-[.06em] text-blue">
+                    {String(index + 1).padStart(2, '0')}.
+                  </span>
+                  {section.title}
+                </h2>
+                {section.paragraphs.map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    className="mb-6 text-[15.5px] leading-[2] last:mb-0 max-md:text-[14.5px]"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </section>
+            ))}
 
-      <footer className="mt-14 border-t border-[#1496A0]/20 pt-6 text-sm leading-7 text-[#555]">
-        <p className="m-0">制定日: 2026年6月6日</p>
-      </footer>
+            <p className="mt-12 border-t-[1.5px] border-dashed border-navy/45 pt-4.5 text-right text-[13px] font-bold">
+              制定日:
+              <span className="ml-1.5 font-[family-name:var(--font-oswald)] text-[13.5px] tracking-[.04em] text-blue">
+                2026.06.06
+              </span>
+            </p>
+          </article>
+        </div>
+      </div>
     </main>
   );
 }

@@ -49,6 +49,18 @@ const sections = [
     ],
   },
   {
+    title: 'Cloudflare Turnstileの利用について',
+    paragraphs: [
+      '当サイトでは、お問い合わせフォームの不正利用やスパム送信を防止するため、Cloudflare, Inc.が提供するCloudflare Turnstileを利用しています。',
+      'Turnstileの利用に伴い、IPアドレス、ブラウザ情報、TLSフィンガープリント、ユーザーエージェント、サイトキーおよびアクセス元などの情報がCloudflareによって処理される場合があります。',
+      'これらの情報は、利用者が人間であるか自動化されたプログラムであるかを判定し、当サイトの安全性を確保する目的で使用されます。',
+    ],
+    link: {
+      href: 'https://www.cloudflare.com/turnstile-privacy-policy/',
+      label: 'Cloudflare Turnstile Privacy Addendum',
+    },
+  },
+  {
     title: '広告・アフィリエイトプログラムについて',
     paragraphs: [
       '当サイトでは、今後、第三者配信の広告サービスやアフィリエイトプログラムを利用する場合があります。',
@@ -138,7 +150,7 @@ export default function PrivacyPolicyPage() {
           <span className="mt-4.5 inline-flex items-baseline gap-2 rounded-full border-2 border-navy bg-white px-5.5 py-0.75 text-[12.5px] font-bold">
             制定日
             <span className="font-[family-name:var(--font-oswald)] text-[13px] tracking-[.04em] text-blue">
-              2026.06.06
+              2026.06.14
             </span>
           </span>
         </div>
@@ -165,13 +177,25 @@ export default function PrivacyPolicyPage() {
                     {paragraph}
                   </p>
                 ))}
+                {'link' in section && section.link && (
+                  <p className="mt-[-8px]">
+                    <a
+                      className="font-bold text-blue underline decoration-dotted underline-offset-4 hover:opacity-75"
+                      href={section.link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {section.link.label}
+                    </a>
+                  </p>
+                )}
               </section>
             ))}
 
             <p className="mt-12 border-t-[1.5px] border-dashed border-navy/45 pt-4.5 text-right text-[13px] font-bold">
               制定日:
               <span className="ml-1.5 font-[family-name:var(--font-oswald)] text-[13.5px] tracking-[.04em] text-blue">
-                2026.06.06
+                2026.06.14
               </span>
             </p>
           </article>

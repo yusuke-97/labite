@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ArticleCard, ColumnCategoryCount } from '../libs/column';
+import { createBreadcrumbListJsonLd } from '../libs/structured-data';
 import { ArrowIcon } from './ArrowIcon';
 import {
   yellowPillArrowClass,
@@ -51,9 +52,26 @@ export function ColumnArchive({
     ? `${currentCategoryName}の記事一覧`
     : 'お役立ち記事一覧';
   const visiblePages = getVisiblePages(currentPage, totalPages);
+  const currentPath = buildPageHref(currentPage, currentCategoryId);
+  const breadcrumbJsonLd = createBreadcrumbListJsonLd(
+    currentCategoryName
+      ? [
+          { name: 'TOP', path: '/' },
+          { name: 'お役立ち記事一覧', path: '/column' },
+          { name: heading, path: currentPath },
+        ]
+      : [
+          { name: 'TOP', path: '/' },
+          { name: 'お役立ち記事一覧', path: currentPath },
+        ],
+  );
 
   return (
     <main data-rail-label={`${currentPage}/${totalPages}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <nav
         className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"
         aria-label="パンくずリスト"

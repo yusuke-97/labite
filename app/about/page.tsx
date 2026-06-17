@@ -12,6 +12,7 @@ import {
   yellowPillClass,
 } from '../../components/site-design';
 import { ogImage, withSiteName } from '../../libs/site-metadata';
+import { createBreadcrumbListJsonLd } from '../../libs/structured-data';
 
 const title = withSiteName('運営者について');
 const description =
@@ -74,8 +75,17 @@ const policies = [
 ];
 
 export default function AboutPage() {
+  const breadcrumbJsonLd = createBreadcrumbListJsonLd([
+    { name: 'TOP', path: '/' },
+    { name: '運営者について', path: '/about' },
+  ]);
+
   return (
     <main data-rail-label="01">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <nav
         className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"
         aria-label="パンくずリスト"

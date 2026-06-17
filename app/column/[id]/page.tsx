@@ -16,6 +16,7 @@ import {
 import { client } from '../../../libs/microcms';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
 import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
+import { createBreadcrumbListJsonLd } from '../../../libs/structured-data';
 import styles from './page.module.scss';
 
 export const dynamic = 'force-dynamic';
@@ -337,6 +338,12 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)
     ? post.revisedAt
     : undefined;
+  const breadcrumbJsonLd = createBreadcrumbListJsonLd([
+    { name: 'TOP', path: '/' },
+    { name: 'お役立ち記事一覧', path: '/column' },
+    { name: `${post.category.name}の記事一覧`, path: `/column/category/${post.category.id}` },
+    { name: post.title, path: `/column/${id}` },
+  ]);
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -357,6 +364,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   return (
     <>
       <ArticleProgress />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
       <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">

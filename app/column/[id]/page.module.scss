@@ -213,6 +213,24 @@
     font-size: 14px;
   }
 
+  :global(.table-scroll) {
+    margin: 0 0 1.5em;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  :global(.table-scroll) table {
+    width: max-content;
+    min-width: 480px;
+    margin: 0;
+  }
+
+  :global(.table-scroll) th,
+  :global(.table-scroll) td {
+    white-space: nowrap;
+  }
+
   th {
     padding: 10px 14px;
     background: #1d2b50;
@@ -301,24 +319,6 @@
     pre {
       padding: 14px;
       font-size: 12px;
-    }
-
-    :global(.table-scroll) {
-      margin: 0 0 1.5em;
-      max-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    :global(.table-scroll) table {
-      width: max-content;
-      min-width: 480px;
-      margin: 0;
-    }
-
-    :global(.table-scroll) th,
-    :global(.table-scroll) td {
-      white-space: nowrap;
     }
   }
 }

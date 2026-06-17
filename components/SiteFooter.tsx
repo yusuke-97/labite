@@ -9,7 +9,7 @@ import {
 
 const footerItems = [
   { href: '/', label: 'TOP', sub: 'top' },
-  // { href: '/#roadmap', label: '学習ロードマップ', sub: 'roadmap' },
+  { href: '/roadmap', label: '学習ロードマップ', sub: 'roadmap' },
   { href: '/column', label: 'コラム', sub: 'column', prefetch: false },
   { href: '/about', label: '運営者について', sub: 'about' },
   { href: '/privacy-policy', label: 'プライバシーポリシー', sub: 'privacy' },

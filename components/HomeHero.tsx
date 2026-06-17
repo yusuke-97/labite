@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowIcon } from './ArrowIcon';
 import {
-  // bluePillArrowClass,
-  // bluePillClass,
+  bluePillArrowClass,
+  bluePillClass,
   innerClass,
   pillArrowClass,
   pillClass,
@@ -138,10 +138,10 @@ export function HomeHero() {
             <FvIllustration />
           </div>
           <div className="absolute bottom-[30%] left-1/2 z-2 flex w-max max-w-[80%] -translate-x-1/2 flex-col items-center gap-2.5">
-            {/* <Link className={`${bluePillClass} !px-5 !py-2.75 !text-[13.5px] whitespace-nowrap max-md:!px-4.5 max-md:!py-2.5 max-md:!text-[12.5px]`} href="#roadmap">
+            <Link className={`${bluePillClass} !px-5 !py-2.75 !text-[13.5px] whitespace-nowrap max-md:!px-4.5 max-md:!py-2.5 max-md:!text-[12.5px]`} href="/roadmap">
               学習ロードマップを見る
               <span className={`${bluePillArrowClass} !size-6 !text-xs`}><ArrowIcon /></span>
-            </Link> */}
+            </Link>
             <Link className={`${pillClass} !px-5 !py-2.75 !text-[13.5px] whitespace-nowrap max-md:!px-4.5 max-md:!py-2.5 max-md:!text-[12.5px]`} href="/column">
               記事一覧を見る
               <span className={`${pillArrowClass} !size-6 !text-xs`}><ArrowIcon /></span>

@@ -90,8 +90,10 @@ export default function AboutPage() {
                 TOP
               </Link>
             </li>
-            <li className="text-navy/50">›</li>
-            <li className="text-navy/60">運営者について</li>
+            <li className="flex items-center gap-2.5 text-navy/60">
+              <span className="text-navy/50" aria-hidden="true">›</span>
+              運営者について
+            </li>
           </ol>
         </div>
       </nav>

@@ -121,14 +121,14 @@ export default function PrivacyPolicyPage() {
               </Link>
               <meta itemProp="position" content="1" />
             </li>
-            <li className="text-navy/50" aria-hidden="true">›</li>
             <li
-              className="text-navy/60"
+              className="flex items-center gap-2.5 text-navy/60"
               itemProp="itemListElement"
               itemScope
               itemType="https://schema.org/ListItem"
               aria-current="page"
             >
+              <span className="text-navy/50" aria-hidden="true">›</span>
               <span itemProp="name">プライバシーポリシー</span>
               <meta itemProp="position" content="2" />
             </li>

@@ -77,8 +77,10 @@ export default function ContactPage() {
                 TOP
               </Link>
             </li>
-            <li className="text-navy/50">›</li>
-            <li className="text-navy/60">お問い合わせ</li>
+            <li className="flex items-center gap-2.5 text-navy/60">
+              <span className="text-navy/50" aria-hidden="true">›</span>
+              お問い合わせ
+            </li>
           </ol>
         </div>
       </nav>

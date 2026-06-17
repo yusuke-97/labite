@@ -65,19 +65,24 @@ export function ColumnArchive({
                 TOP
               </Link>
             </li>
-            <li className="text-navy/50">›</li>
             {currentCategoryName ? (
               <>
-                <li>
+                <li className="flex items-center gap-2.5">
+                  <span className="text-navy/50" aria-hidden="true">›</span>
                   <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">
                     お役立ち記事一覧
                   </Link>
                 </li>
-                <li className="text-navy/50">›</li>
-                <li className="text-navy/60">{heading}</li>
+                <li className="flex items-center gap-2.5 text-navy/60">
+                  <span className="text-navy/50" aria-hidden="true">›</span>
+                  {heading}
+                </li>
               </>
             ) : (
-              <li className="text-navy/60">お役立ち記事一覧</li>
+              <li className="flex items-center gap-2.5 text-navy/60">
+                <span className="text-navy/50" aria-hidden="true">›</span>
+                お役立ち記事一覧
+              </li>
             )}
           </ol>
         </div>
@@ -143,7 +148,7 @@ export function ColumnArchive({
         </div>
       </section>
 
-      <section className="pb-24 max-md:pb-18">
+      <div className="pb-24 max-md:pb-18">
         <div className={innerClass}>
           <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1 max-md:gap-4.5">
             {posts.map((post) => (
@@ -227,7 +232,7 @@ export function ColumnArchive({
             </nav>
           )}
         </div>
-      </section>
+      </div>
 
       <section className="pb-24 max-md:pb-18">
         <div className={innerClass}>

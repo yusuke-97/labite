@@ -231,7 +231,7 @@ function SidebarNewPosts({ posts }: { posts: ArticleCard[] }) {
 
 function AuthorBox() {
   return (
-    <div className="relative mt-18 mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
+    <footer className="relative mt-18 mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
       <div className="flex size-25 items-center justify-center overflow-hidden rounded-full border-3 border-yellow bg-pale-blue max-md:mx-auto">
         <Image src="/images/site-logo.svg" width={62} height={22} alt="" />
       </div>
@@ -246,13 +246,13 @@ function AuthorBox() {
           <span className={`${arrowClass} !size-6`}><ArrowIcon /></span>
         </Link>
       </div>
-    </div>
+    </footer>
   );
 }
 
 function ConsultationCard() {
   return (
-    <div id="cta" className="relative mb-2 rounded-2xl border-2 border-navy bg-pale-blue px-7 py-11 text-center before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:px-4.5 max-md:py-9">
+    <aside id="cta" className="relative mb-2 rounded-2xl border-2 border-navy bg-pale-blue px-7 py-11 text-center before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:px-4.5 max-md:py-9">
       <h2 className="!m-0 !border-0 !bg-transparent !p-0 !text-[clamp(17px,2vw,21px)] before:!hidden">学習やキャリアの相談を受け付けています</h2>
       <p className="mx-auto mt-2.5 mb-6 max-w-120 text-[13.5px]">
         記事を読んで分からなかったこと、学習の進め方やキャリアの悩みなど、お気軽にご相談ください。
@@ -262,7 +262,7 @@ function ConsultationCard() {
           お問い合わせ <span className={arrowClass}><ArrowIcon /></span>
         </Link>
       </div>
-    </div>
+    </aside>
   );
 }
 
@@ -363,12 +363,18 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
         <div className={innerClass}>
           <ol className="flex items-center gap-2.5">
             <li><Link href="/" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">TOP</Link></li>
-            <li className="text-navy/50">›</li>
-            <li><Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">お役立ち記事一覧</Link></li>
-            <li className="text-navy/50">›</li>
-            <li><Link href={`/column/category/${post.category.id}`} className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">{post.category.name}の記事一覧</Link></li>
-            <li className="text-navy/50">›</li>
-            <li className="text-navy/60" aria-current="page">{post.title}</li>
+            <li className="flex items-center gap-2.5">
+              <span className="text-navy/50" aria-hidden="true">›</span>
+              <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">お役立ち記事一覧</Link>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <span className="text-navy/50" aria-hidden="true">›</span>
+              <Link href={`/column/category/${post.category.id}`} className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">{post.category.name}の記事一覧</Link>
+            </li>
+            <li className="flex items-center gap-2.5 text-navy/60" aria-current="page">
+              <span className="text-navy/50" aria-hidden="true">›</span>
+              {post.title}
+            </li>
           </ol>
         </div>
       </nav>

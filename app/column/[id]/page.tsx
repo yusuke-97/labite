@@ -392,7 +392,12 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
           <main className="min-w-0">
             <div className="fade is-show">
               <div className="mb-3.5 flex flex-wrap items-center gap-x-4 gap-y-2">
-                <span className="rounded-full bg-blue px-4 py-1 text-xs font-bold text-white">{post.category.name}</span>
+                <Link
+                  href={`/column/category/${encodeURIComponent(post.category.id)}`}
+                  className="rounded-full bg-blue px-4 py-1 text-xs font-bold !text-white hover:bg-navy"
+                >
+                  {post.category.name}
+                </Link>
                 <span className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-navy/70">
                   <span className="inline-flex items-baseline gap-1.5">
                     <span className="font-bold">公開日</span>

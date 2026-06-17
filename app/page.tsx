@@ -12,7 +12,7 @@ import {
   yellowPillArrowClass,
   yellowPillClass,
 } from '../components/site-design';
-import { getLatestColumnPosts } from '../libs/column';
+import { getColumnCategoryCounts, getLatestColumnPosts } from '../libs/column';
 import {
   getAbsoluteUrl,
   ogImage,
@@ -115,6 +115,34 @@ const roadmapSteps = [
   },
 ];
 
+const categoryIcons = [
+  (
+    <svg key="clock" className="w-11 flex-none text-[#1D2B50]" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <circle cx="22" cy="22" r="16" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M22 14v8l6 4" stroke="#4A7DFF" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
+  (
+    <svg key="mountain" className="w-11 flex-none text-[#1D2B50]" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <path d="M8 34c4-16 8-22 14-22s10 6 14 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M14 26h16" stroke="#FFC94B" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
+  (
+    <svg key="briefcase" className="w-11 flex-none text-[#1D2B50]" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <rect x="8" y="14" width="28" height="20" rx="4" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M16 14v-3a4 4 0 014-4h4a4 4 0 014 4v3" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M8 23h28" stroke="#4A7DFF" strokeWidth="2.5" />
+    </svg>
+  ),
+  (
+    <svg key="code" className="w-11 flex-none text-[#1D2B50]" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+      <path d="M14 12l-8 10 8 10M30 12l8 10-8 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M25 8l-6 28" stroke="#FFC94B" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
+];
+
 /* const categories = [
   {
     no: 'NO.01',
@@ -182,7 +210,10 @@ function SectionHeading({
 }
 
 export default async function Home() {
-  const posts = await getLatestColumnPosts();
+  const [posts, categoryCounts] = await Promise.all([
+    getLatestColumnPosts(),
+    getColumnCategoryCounts(),
+  ]);
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -242,7 +273,7 @@ export default async function Home() {
 
       <ArticleListSection posts={posts} />
 
-      {/* <section className={`${sectionClass} bg-white`}>
+      <section className={`${sectionClass} bg-white`}>
         <div className={innerClass}>
           <SectionHeading
             english="Category"
@@ -250,20 +281,27 @@ export default async function Home() {
             lead="単語ではなく目的で記事をまとめています。今の状況に近いものから選んでください。"
           />
           <div className="grid grid-cols-2 gap-5.5 max-md:grid-cols-1">
-            {categories.map((category) => (
-              <Link className="fade relative flex items-start gap-5 rounded-xl border-[1.5px] border-navy bg-cream py-7 pr-18 pl-7 transition-[transform,border-color] duration-250 hover:-translate-y-1 hover:border-[#d9a521]" href="/column/category/beginner" key={category.no}>
-                {category.icon}
+            {categoryCounts.map(({ category, count }, index) => (
+              <Link className="fade relative flex items-start gap-5 rounded-xl border-[1.5px] border-navy bg-cream py-7 pr-18 pl-7 transition-[transform,border-color] duration-250 hover:-translate-y-1 hover:border-[#d9a521]" href={`/column/category/${encodeURIComponent(category.id)}`} key={category.id}>
+                <span className="absolute -top-3.5 left-5 rounded-full border-[1.5px] border-navy bg-yellow px-3 py-0.5 font-[family-name:var(--font-oswald)] text-[11px] font-bold tracking-[.08em]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                {categoryIcons[index % categoryIcons.length]}
                 <div>
-                  <span className="font-[family-name:var(--font-oswald)] text-[13px] font-bold tracking-[.1em] text-[#4A7DFF]">{category.no}</span>
-                  <h3 className="mt-0.5 mb-1.5 text-lg">{category.title}</h3>
-                  <p className="text-[13.5px] text-[#1D2B50]/85">{category.description}</p>
+                  <span className="inline-flex w-fit rounded-full border-[1.5px] border-navy bg-white px-3 py-0.75 text-[12px] font-bold text-blue">
+                    {count}記事
+                  </span>
+                  <h3 className="mt-0.5 mb-1.5 text-lg">{category.name}</h3>
+                  {category.metaDescription && (
+                    <p className="text-[13.5px] text-[#1D2B50]/85">{category.metaDescription}</p>
+                  )}
                 </div>
                 <span className="absolute top-1/2 right-5 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border-2 border-navy bg-yellow text-[13px]"><ArrowIcon /></span>
               </Link>
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
       <section className={`${sectionClass} border-y-[1.5px] border-navy bg-pale-blue`} id="about">
         <div className={innerClass}>

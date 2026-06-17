@@ -91,6 +91,12 @@ function addSectionLabels(html: string) {
   });
 }
 
+function wrapScrollableTables(html: string) {
+  return html
+    .replace(/<table\b/g, '<div class="table-scroll"><table')
+    .replace(/<\/table>/g, '</table></div>');
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -196,7 +202,7 @@ function renderContent(body: string, recommendBlocks: Props['recommendBlocks']) 
         : null;
     }
 
-    return <div key={`body-${index}`} dangerouslySetInnerHTML={{ __html: part }} />;
+    return <div key={`body-${index}`} dangerouslySetInnerHTML={{ __html: wrapScrollableTables(part) }} />;
   });
 }
 

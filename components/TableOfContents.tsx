@@ -75,13 +75,22 @@ export function TableOfContents({ toc, variant = 'mobile' }: Props) {
         <span className="font-[family-name:var(--font-oswald)] text-[11px] tracking-[.2em] text-blue uppercase">index</span>
       </div>
       <div className={isExpanded ? '[&>ol]:max-h-none' : ''}>{list}</div>
-      {hasHiddenItems && !isExpanded && (
+      {hasHiddenItems && (
         <button
           className="block w-full cursor-pointer border-0 border-t-[1.5px] border-dashed border-navy bg-pale-blue p-2.75 text-[13px] font-bold tracking-[.06em] text-navy"
           type="button"
-          onClick={() => setIsExpanded(true)}
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded((current) => !current)}
         >
-          すべてを見る <span className="text-[10px]">▼</span>
+          {isExpanded ? (
+            <>
+              閉じる <span className="text-[10px]">▲</span>
+            </>
+          ) : (
+            <>
+              すべてを見る <span className="text-[10px]">▼</span>
+            </>
+          )}
         </button>
       )}
     </nav>

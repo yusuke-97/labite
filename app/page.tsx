@@ -336,8 +336,8 @@ export default async function Home() {
         <div className={innerClass}>
           <div className={`fade relative mx-auto max-w-210 rounded-2xl border-[1.5px] border-navy bg-white px-8 py-16 text-center max-md:px-5.5 max-md:py-12 ${cardDotsClass}`}>
             <span className={`${outlineTitleClass} text-[clamp(28px,4vw,44px)]`}>Contact</span>
-            <h2 className="mb-3.5 text-[clamp(20px,2.6vw,26px)]">学習やキャリアの相談を受け付けています</h2>
-            <p className="mx-auto mb-7.5 max-w-140">記事を読んで分からなかったこと、学習の進め方やキャリアの悩みなど、お気軽にご相談ください。</p>
+            <h2 className="mb-3.5 text-[clamp(20px,2.6vw,26px)]">お問い合わせを受け付けています</h2>
+            <p className="mx-auto mb-7.5 max-w-140">サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。</p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link className={yellowPillClass} href="/contact">
                 お問い合わせ

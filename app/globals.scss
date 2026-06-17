@@ -56,6 +56,10 @@ button:active {
   transform: translateY(1px);
 }
 
+a[href]:active {
+  background-color: rgba(255, 201, 75, .24);
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 3px solid var(--color-yellow);

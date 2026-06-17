@@ -159,7 +159,9 @@ export function SiteHeader() {
 
       <div className={`${isDrawerOpen ? 'flex' : 'hidden'} fixed inset-0 z-200 flex-col bg-cream px-6 pb-6`} id="drawer">
         <div className="-mx-6 mb-6 flex h-18 items-center justify-between border-b border-navy px-6 max-md:h-15">
-          <Image className="h-7.5 w-auto max-md:h-6" src="/images/site-logo.svg" width={150} height={50} alt="Labite" />
+          <Link href="/" aria-label="Labite トップページへ" onClick={closeDrawer}>
+            <Image className="h-7.5 w-auto max-md:h-6" src="/images/site-logo.svg" width={150} height={50} alt="Labite" />
+          </Link>
           <button className={menuButtonClass} type="button" onClick={closeDrawer}>
             CLOSE
           </button>

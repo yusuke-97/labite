@@ -250,7 +250,7 @@ export default async function Home() {
 
       <ArticleListSection posts={posts} />
 
-      <section className={`${sectionClass} bg-white`}>
+      <section className={`${sectionClass} border-t-[1.5px] border-navy bg-white`}>
         <div className={innerClass}>
           <SectionHeading
             english="Category"

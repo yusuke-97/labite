@@ -60,6 +60,33 @@ a[href]:active {
   background-color: rgba(255, 201, 75, .24);
 }
 
+@media (hover: none) {
+  a[href]:active,
+  button:active {
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 4px rgba(74, 125, 255, .16);
+  }
+
+  a[href].bg-white:active,
+  button.bg-white:active {
+    background-color: var(--color-pale-blue);
+  }
+
+  a[href].bg-yellow:active,
+  button.bg-yellow:active,
+  a[href].\!bg-yellow:active,
+  button.\!bg-yellow:active {
+    background-color: #f0b92f !important;
+  }
+
+  a[href].bg-blue:active,
+  button.bg-blue:active,
+  a[href].\!bg-blue:active,
+  button.\!bg-blue:active {
+    background-color: #1d2b50 !important;
+  }
+}
+
 a:focus-visible,
 button:focus-visible {
   outline: 3px solid var(--color-yellow);

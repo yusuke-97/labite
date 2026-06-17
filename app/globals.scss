@@ -40,6 +40,28 @@ a {
   text-decoration: none;
 }
 
+a,
+button {
+  transition:
+    background-color .18s ease,
+    border-color .18s ease,
+    color .18s ease,
+    opacity .18s ease,
+    transform .18s ease;
+}
+
+a:active,
+button:active {
+  opacity: .78;
+  transform: translateY(1px);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-yellow);
+  outline-offset: 3px;
+}
+
 .breadcrumb-link:hover {
   color: #4a7dff;
 }
@@ -195,6 +217,16 @@ ul {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  a,
+  button {
+    transition: none;
+  }
+
+  a:active,
+  button:active {
+    transform: none;
+  }
+
   .fv-marquee-track,
   .fv-marquee-track b,
   .typing-cursor::after {

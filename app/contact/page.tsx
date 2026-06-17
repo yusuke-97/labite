@@ -78,7 +78,7 @@ export default function ContactPage() {
               </Link>
             </li>
             <li className="flex items-center gap-2.5 text-navy/60">
-              <span className="text-navy/50" aria-hidden="true">›</span>
+              <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
               お問い合わせ
             </li>
           </ol>

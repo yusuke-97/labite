@@ -128,7 +128,7 @@ export default function PrivacyPolicyPage() {
               itemType="https://schema.org/ListItem"
               aria-current="page"
             >
-              <span className="text-navy/50" aria-hidden="true">›</span>
+              <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
               <span itemProp="name">プライバシーポリシー</span>
               <meta itemProp="position" content="2" />
             </li>

@@ -46,9 +46,7 @@ export function TableOfContents({ toc, variant = 'mobile' }: Props) {
                 <span className="inline-flex size-5.5 shrink-0 translate-y-0.75 items-center justify-center rounded-full font-[family-name:var(--font-oswald)] text-xs font-semibold text-blue">
                   {String(item.sectionNumber).padStart(2, '0')}
                 </span>
-              ) : (
-                <span className="shrink-0 text-[11px] text-blue">└</span>
-              )}
+              ) : null}
               <span>{item.text}</span>
             </a>
           </li>

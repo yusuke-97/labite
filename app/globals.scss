@@ -44,6 +44,10 @@ a {
   color: #4a7dff;
 }
 
+.breadcrumb-separator::before {
+  content: "▶";
+}
+
 ul {
   list-style: none;
 }

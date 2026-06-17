@@ -149,8 +149,8 @@ function SummaryBox({ items }: { items: NonNullable<Props['summaryItems']> }) {
       </p>
       <ul>
         {items.map((item) => (
-          <li key={item.text} className="flex items-start gap-2.5 py-1 text-sm font-medium max-md:text-[13px]">
-            <span className="mt-1.25 inline-flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] border-navy bg-yellow text-[11px] font-bold">✓</span>
+          <li key={item.text} className="flex items-center gap-2.5 py-1 text-sm font-medium max-md:text-[13px]">
+            <span className="inline-flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] border-navy bg-yellow text-[11px] font-bold">✓</span>
             <span>{item.text}</span>
           </li>
         ))}
@@ -364,15 +364,15 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
           <ol className="flex items-center gap-2.5">
             <li><Link href="/" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">TOP</Link></li>
             <li className="flex items-center gap-2.5">
-              <span className="text-navy/50" aria-hidden="true">›</span>
+              <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
               <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">お役立ち記事一覧</Link>
             </li>
             <li className="flex items-center gap-2.5">
-              <span className="text-navy/50" aria-hidden="true">›</span>
+              <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
               <Link href={`/column/category/${post.category.id}`} className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">{post.category.name}の記事一覧</Link>
             </li>
             <li className="flex items-center gap-2.5 text-navy/60" aria-current="page">
-              <span className="text-navy/50" aria-hidden="true">›</span>
+              <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
               {post.title}
             </li>
           </ol>

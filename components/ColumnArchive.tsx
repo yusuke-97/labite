@@ -68,19 +68,19 @@ export function ColumnArchive({
             {currentCategoryName ? (
               <>
                 <li className="flex items-center gap-2.5">
-                  <span className="text-navy/50" aria-hidden="true">›</span>
+                  <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
                   <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">
                     お役立ち記事一覧
                   </Link>
                 </li>
                 <li className="flex items-center gap-2.5 text-navy/60">
-                  <span className="text-navy/50" aria-hidden="true">›</span>
+                  <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
                   {heading}
                 </li>
               </>
             ) : (
               <li className="flex items-center gap-2.5 text-navy/60">
-                <span className="text-navy/50" aria-hidden="true">›</span>
+                <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
                 お役立ち記事一覧
               </li>
             )}

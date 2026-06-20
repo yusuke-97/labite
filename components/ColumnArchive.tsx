@@ -103,7 +103,7 @@ export function ColumnArchive({
                     お役立ち記事一覧
                   </Link>
                 </li>
-                <li className="flex items-center gap-2.5 text-navy/60">
+                <li className={`flex items-center gap-2.5 ${currentPage > 1 ? 'text-navy' : 'text-navy/60'}`}>
                   <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
                   {currentPage > 1 ? (
                     <Link
@@ -125,7 +125,7 @@ export function ColumnArchive({
               </>
             ) : (
               <>
-                <li className="flex items-center gap-2.5 text-navy/60">
+                <li className={`flex items-center gap-2.5 ${currentPage > 1 ? 'text-navy' : 'text-navy/60'}`}>
                   <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
                   {currentPage > 1 ? (
                     <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">

@@ -53,17 +53,29 @@ export function ColumnArchive({
     : 'お役立ち記事一覧';
   const visiblePages = getVisiblePages(currentPage, totalPages);
   const currentPath = buildPageHref(currentPage, currentCategoryId);
+  const currentPageLabel = `${currentPage}ページ目`;
+  const breadcrumbItems = currentCategoryName
+    ? [
+        { name: 'TOP', path: '/' },
+        { name: 'お役立ち記事一覧', path: '/column' },
+        {
+          name: heading,
+          path: currentPage > 1
+            ? `/column/category/${encodeURIComponent(currentCategoryId ?? currentCategoryName)}`
+            : currentPath,
+        },
+        ...(currentPage > 1 ? [{ name: currentPageLabel, path: currentPath }] : []),
+      ]
+    : [
+        { name: 'TOP', path: '/' },
+        {
+          name: 'お役立ち記事一覧',
+          path: currentPage > 1 ? '/column' : currentPath,
+        },
+        ...(currentPage > 1 ? [{ name: currentPageLabel, path: currentPath }] : []),
+      ];
   const breadcrumbJsonLd = createBreadcrumbListJsonLd(
-    currentCategoryName
-      ? [
-          { name: 'TOP', path: '/' },
-          { name: 'お役立ち記事一覧', path: '/column' },
-          { name: heading, path: currentPath },
-        ]
-      : [
-          { name: 'TOP', path: '/' },
-          { name: 'お役立ち記事一覧', path: currentPath },
-        ],
+    breadcrumbItems,
   );
 
   return (
@@ -93,14 +105,43 @@ export function ColumnArchive({
                 </li>
                 <li className="flex items-center gap-2.5 text-navy/60">
                   <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
-                  {heading}
+                  {currentPage > 1 ? (
+                    <Link
+                      href={`/column/category/${encodeURIComponent(currentCategoryId ?? currentCategoryName)}`}
+                      className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue"
+                    >
+                      {heading}
+                    </Link>
+                  ) : (
+                    heading
+                  )}
                 </li>
+                {currentPage > 1 && (
+                  <li className="flex items-center gap-2.5 text-navy/60" aria-current="page">
+                    <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
+                    {currentPageLabel}
+                  </li>
+                )}
               </>
             ) : (
-              <li className="flex items-center gap-2.5 text-navy/60">
-                <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
-                お役立ち記事一覧
-              </li>
+              <>
+                <li className="flex items-center gap-2.5 text-navy/60">
+                  <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
+                  {currentPage > 1 ? (
+                    <Link href="/column" className="breadcrumb-link font-medium hover:border-b-[1.5px] hover:border-dotted hover:border-blue">
+                      お役立ち記事一覧
+                    </Link>
+                  ) : (
+                    'お役立ち記事一覧'
+                  )}
+                </li>
+                {currentPage > 1 && (
+                  <li className="flex items-center gap-2.5 text-navy/60" aria-current="page">
+                    <span className="breadcrumb-separator text-navy/50" aria-hidden="true" />
+                    {currentPageLabel}
+                  </li>
+                )}
+              </>
             )}
           </ol>
         </div>

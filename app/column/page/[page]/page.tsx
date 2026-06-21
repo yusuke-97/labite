@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
-  const title = withSiteName(`記事一覧 ${page}ページ目`);
-  const description = `記事一覧の${page}ページ目です。`;
+  const title = withSiteName(`Webエンジニア向け記事一覧 ${page}ページ目`);
+  const description = `Webエンジニア向け記事一覧の${page}ページ目です。未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。`;
   const canonical = `/column/page/${page}`;
 
   return {

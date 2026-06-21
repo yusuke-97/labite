@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const categoryName = currentCategory?.name ?? categorySlug;
   const title = withSiteName(`${categoryName}の記事一覧 ${page}ページ目`);
-  const description = `${categoryName}の記事一覧の${page}ページ目です。`;
+  const description = `${categoryName}に関する記事一覧です。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。${page}ページ目です。`;
   const canonical = `/column/category/${encodeURIComponent(categorySlug)}/page/${page}`;
 
   return {

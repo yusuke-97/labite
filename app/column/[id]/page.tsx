@@ -24,6 +24,7 @@ export const dynamic = 'force-dynamic';
 type Props = {
   id: string;
   title: string;
+  description?: string;
   image: ImageField;
   body: string;
   publishedAt: string;
@@ -106,7 +107,7 @@ export async function generateMetadata({
   const { id } = await params;
   const post = await getColumnPost(id);
   const title = withSiteName(post.title);
-  const description = createMetaDescription(post.title);
+  const description = post.description?.trim() || createMetaDescription(post.title);
   const canonical = `/column/${id}`;
   const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)
     ? post.revisedAt
@@ -349,7 +350,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     '@type': 'Article',
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     headline: post.title,
-    description: createMetaDescription(post.title),
+    description: post.description?.trim() || createMetaDescription(post.title),
     image: [post.image.url],
     datePublished: post.publishedAt,
     ...(revisedAt ? { dateModified: revisedAt } : {}),

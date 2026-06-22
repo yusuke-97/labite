@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 const title = withSiteName('Webエンジニア向け記事一覧');
 const description =
-  '未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。';
+  '未経験からWebエンジニアを目指す方向けの記事一覧です。学習法・未経験・キャリアの3カテゴリから、今の悩みに合う記事を探せます。何から読むか迷ったらロードマップへ。';
 
 export const metadata: Metadata = {
   title: {

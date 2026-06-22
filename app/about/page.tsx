@@ -16,7 +16,7 @@ import { createBreadcrumbListJsonLd } from '../../libs/structured-data';
 
 const title = withSiteName('運営者について');
 const description =
-  'Labiteの運営者プロフィール、Webエンジニアを目指す方に向けた発信方針、得意分野について紹介します。';
+  'Labite運営者のプロフィールです。Web開発の実務経験、得意分野、未経験からエンジニアを目指す方へ発信する理由を紹介しています。記事を書いている人の背景を知りたい方へ。';
 
 export const metadata: Metadata = {
   title: {

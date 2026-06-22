@@ -17,9 +17,9 @@ import { getRoadmapPointText, getRoadmapSteps, type RoadmapStep } from '../../li
 import { ogImage, withSiteName } from '../../libs/site-metadata';
 import { createBreadcrumbListJsonLd } from '../../libs/structured-data';
 
-const title = withSiteName('学習ロードマップ');
+const title = withSiteName('未経験からWebエンジニアになる学習ロードマップ');
 const description =
-  '未経験からWebエンジニアを目指す方に向けて、学習前の準備から実務に入った後の立ち回りまでを整理しています。';
+  '何から始めればいいか迷わないよう、未経験からWebエンジニアになるまでの学習を5つのSTEPに整理しました。マインドセットから実務サバイバルまで、進む順番がわかるロードマップです。';
 
 export const dynamic = 'force-dynamic';
 
@@ -157,7 +157,7 @@ export default async function RoadmapPage() {
             未経験からWebエンジニアを目指すロードマップ
           </h1>
           <p className="mt-3.5 max-w-180 text-[14.5px] leading-[1.9] text-navy/88 max-md:text-[13.5px]">
-            学習を始める前の準備から、実務に入った後の立ち回りまでをSTEPごとに整理しています。今の自分がどこにいるのかを確認しながら、必要な記事へ進めます。
+            何から始めればいいか迷わないよう、未経験からWebエンジニアになるまでの学習を5つのSTEPに整理しました。マインドセットから実務サバイバルまで、進む順番がわかるロードマップです。
           </p>
           <div className="mt-7 flex flex-wrap gap-4">
             <Link className={yellowPillClass} href="#steps">

@@ -41,6 +41,11 @@ export type ColumnCategoryCount = {
   count: number;
 };
 
+type PopularPostsContent = {
+  post: ArticleCard[];
+  order: number;
+};
+
 const noStoreRequestInit = {
   cache: 'no-store',
 } satisfies RequestInit;
@@ -158,6 +163,22 @@ export async function getLatestColumnPosts(excludeId?: string): Promise<ArticleC
   });
 
   return data.contents;
+}
+
+export async function getRecommendedColumnPosts(): Promise<ArticleCard[]> {
+  const data = await client.get({
+    endpoint: 'popular-posts',
+    queries: {
+      fields: 'post,order',
+      orders: 'order',
+      limit: 4,
+      depth: 2,
+    },
+    customRequestInit: noStoreRequestInit,
+  });
+
+  const contents = data.contents as PopularPostsContent[];
+  return contents.flatMap((content) => content.post).slice(0, 4);
 }
 
 export async function getRelatedColumnPosts(

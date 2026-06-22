@@ -180,7 +180,7 @@ export function ColumnArchive({
               category
             </span>
           </h2>
-          <div className="-mx-6 flex gap-3 overflow-x-auto px-6 py-0.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:flex-wrap md:overflow-visible md:p-0">
+          <div className="flex flex-wrap gap-3 py-0.5">
             <Link
               href="/column"
               className={`${!currentCategoryId ? 'pointer-events-none bg-yellow' : 'bg-white hover:-translate-y-0.5 hover:bg-pale-blue'} inline-flex shrink-0 items-baseline gap-1.5 rounded-full border-2 border-navy px-5 py-2 text-[13.5px] font-bold transition-[background,transform] max-md:px-4 max-md:py-1.75 max-md:text-[12.5px]`}

@@ -14,7 +14,10 @@ import {
 type Props = {
   posts: ArticleCard[];
   title?: string;
+  englishTitle?: string;
   variant?: 'primary' | 'light';
+  className?: string;
+  showArchiveLink?: boolean;
 };
 
 function PostMeta({ post }: { post: ArticleCard }) {
@@ -28,7 +31,14 @@ function PostMeta({ post }: { post: ArticleCard }) {
   );
 }
 
-export function ArticleListSection({ posts, title = '新着記事', variant = 'primary' }: Props) {
+export function ArticleListSection({
+  posts,
+  title = '新着記事',
+  englishTitle = 'New Posts',
+  variant = 'primary',
+  className = '',
+  showArchiveLink = true,
+}: Props) {
   if (posts.length === 0) {
     return null;
   }
@@ -40,17 +50,19 @@ export function ArticleListSection({ posts, title = '新着記事', variant = 'p
     'relative flex aspect-video items-center justify-center overflow-hidden border-b-[1.5px] border-navy bg-[repeating-linear-gradient(-45deg,#EAF1FB,#EAF1FB_12px,#dfeafd_12px,#dfeafd_24px)]';
 
   return (
-    <section className={`${sectionClass} article-list-section article-list-section--${variant}`}>
+    <section className={`${sectionClass} article-list-section article-list-section--${variant} ${className}`}>
       <div className={innerClass}>
         <div className="fade mb-12 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className={outlineTitleClass}>New Posts</span>
+            <span className={outlineTitleClass}>{englishTitle}</span>
             <h2 className="mt-3.5 text-[clamp(22px,3vw,30px)] font-bold">{title}</h2>
           </div>
-          <Link className={pillClass} href="/column">
-            記事一覧を見る
-            <span className={pillArrowClass}><ArrowIcon /></span>
-          </Link>
+          {showArchiveLink && (
+            <Link className={pillClass} href="/column">
+              記事一覧を見る
+              <span className={pillArrowClass}><ArrowIcon /></span>
+            </Link>
+          )}
         </div>
         <div className="mt-2 grid grid-cols-[1.05fr_.95fr] gap-7 max-md:grid-cols-1">
           <Link className={`${cardClass} block overflow-hidden rounded-xl`} href={`/column/${featuredPost.id}`}>

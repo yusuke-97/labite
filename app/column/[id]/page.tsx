@@ -8,6 +8,7 @@ import { ArrowIcon } from '../../../components/ArrowIcon';
 import { TableOfContents } from '../../../components/TableOfContents';
 import {
   getLatestColumnPosts,
+  getRecommendedColumnPosts,
   getRelatedColumnPosts,
   type ArticleCard,
   type Category,
@@ -273,25 +274,33 @@ function PostSection({
   label,
   title,
   mobileOnly = false,
+  showArchiveLink = true,
+  backgroundClassName = 'bg-cream',
+  archiveHref = '/column',
 }: {
   posts: ArticleCard[];
   label: string;
   title: string;
   mobileOnly?: boolean;
+  showArchiveLink?: boolean;
+  backgroundClassName?: string;
+  archiveHref?: string;
 }) {
   if (posts.length === 0) return null;
 
   return (
-    <section className={`border-t-[1.5px] border-navy bg-cream py-22 max-md:py-16 ${mobileOnly ? 'hidden max-lg:block' : ''}`}>
+    <section className={`border-t-[1.5px] border-navy py-22 max-md:py-16 ${backgroundClassName} ${mobileOnly ? 'hidden max-lg:block' : ''}`}>
       <div className={innerClass}>
         <div className="fade mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="block font-[family-name:var(--font-oswald)] text-[clamp(34px,5vw,56px)] leading-none font-bold tracking-[.06em] text-transparent uppercase [-webkit-text-stroke:1.5px_#1D2B50]">{label}</span>
             <h2 className="mt-2.5 text-[clamp(20px,2.6vw,26px)] font-black">{title}</h2>
           </div>
-          <Link href="/column" className={pillClass}>
-            記事一覧を見る <span className={arrowClass}><ArrowIcon /></span>
-          </Link>
+          {showArchiveLink && (
+            <Link href={archiveHref} className={pillClass}>
+              記事一覧を見る <span className={arrowClass}><ArrowIcon /></span>
+            </Link>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-4.5 max-md:grid-cols-1">
           {posts.map((post) => (
@@ -329,9 +338,10 @@ function PostSection({
 export default async function ColumnPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const post = await getColumnPost(id);
-  const [latestPosts, relatedPosts] = await Promise.all([
+  const [latestPosts, relatedPosts, recommendedPosts] = await Promise.all([
     getLatestColumnPosts(id),
     getRelatedColumnPosts(id, post.category.id),
+    getRecommendedColumnPosts(),
   ]);
   const bodyHtml = addSectionLabels(addHeadingIds(decodeHtmlEntities(post.body)));
   const toc = renderToc(bodyHtml);
@@ -453,7 +463,19 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
         </div>
       </div>
 
-      <PostSection posts={relatedPosts} label="Related" title="関連記事" />
+      <PostSection
+        posts={recommendedPosts}
+        label="Recommended Posts"
+        title="おすすめ記事"
+        showArchiveLink={false}
+        backgroundClassName="bg-pale-blue"
+      />
+      <PostSection
+        posts={relatedPosts}
+        label="Related Posts"
+        title="関連記事"
+        archiveHref={`/column/category/${encodeURIComponent(post.category.id)}`}
+      />
       <PostSection posts={latestPosts} label="New Posts" title="新着記事" mobileOnly />
     </>
   );

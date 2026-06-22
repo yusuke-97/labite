@@ -12,7 +12,11 @@ import {
   yellowPillArrowClass,
   yellowPillClass,
 } from '../components/site-design';
-import { getColumnCategoryCounts, getLatestColumnPosts } from '../libs/column';
+import {
+  getColumnCategoryCounts,
+  getLatestColumnPosts,
+  getRecommendedColumnPosts,
+} from '../libs/column';
 import { getRoadmapSteps } from '../libs/roadmap';
 import {
   getAbsoluteUrl,
@@ -186,11 +190,12 @@ function SectionHeading({
 }
 
 export default async function Home() {
-  const [posts, categoryCounts] = await Promise.all([
+  const [posts, recommendedPosts, categoryCounts, roadmapSteps] = await Promise.all([
     getLatestColumnPosts(),
+    getRecommendedColumnPosts(),
     getColumnCategoryCounts(),
+    getRoadmapSteps(),
   ]);
-  const roadmapSteps = await getRoadmapSteps();
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -220,6 +225,14 @@ export default async function Home() {
           ))}
         </div>
       </div>
+
+      <ArticleListSection
+        posts={recommendedPosts}
+        title="おすすめ記事"
+        englishTitle="Recommended Posts"
+        className="border-b-[1.5px] border-navy bg-pale-blue"
+        showArchiveLink={false}
+      />
 
       <section className={`${sectionClass} border-b-[1.5px] border-navy bg-pale-blue`} id="roadmap">
         <div className={innerClass}>

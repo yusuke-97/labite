@@ -17,6 +17,7 @@ type Props = {
   totalPages: number;
   currentCategoryId?: string;
   currentCategoryName?: string;
+  currentCategoryLead?: string;
 };
 
 const innerClass = 'mx-auto w-full max-w-280 px-6';
@@ -47,6 +48,7 @@ export function ColumnArchive({
   totalPages,
   currentCategoryId,
   currentCategoryName,
+  currentCategoryLead,
 }: Props) {
   const heading = currentCategoryName
     ? `${currentCategoryName}の記事一覧`
@@ -165,7 +167,7 @@ export function ColumnArchive({
             </span>
           </div>
           <p className="mt-3.5 max-w-170 text-[14.5px] text-navy/88 max-md:text-[13.5px]">
-            未経験からWebエンジニアを目指す方に向けて、プログラミング学習やWeb開発、キャリアに関する記事をまとめています。
+            {currentCategoryLead?.trim() || 'このページは、未経験からWebエンジニアを目指す方向けの記事一覧です。学習法・未経験・キャリアの3つのカテゴリに分けて、今の悩みに合う記事を探せるようにしています。「何から読めばいいか分からない」という方は、まず学習ロードマップで全体像をつかむのがおすすめです。学習の始め方から、ポートフォリオ作り、転職活動、入社後のサバイバルまで、順番に読み進められます。気になるテーマから、気軽に開いてみてください。'}
           </p>
         </div>
       </header>

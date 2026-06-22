@@ -123,6 +123,7 @@ export default async function ColumnCategoryPage({ params, searchParams }: Props
       totalPages={totalPages}
       currentCategoryId={currentCategory?.id ?? categorySlug}
       currentCategoryName={categoryName}
+      currentCategoryLead={currentCategory?.lead}
     />
   );
 }

@@ -110,6 +110,7 @@ export default async function ColumnCategoryPagedPage({ params }: Props) {
       totalPages={totalPages}
       currentCategoryId={currentCategory?.id ?? categorySlug}
       currentCategoryName={currentCategory?.name ?? categorySlug}
+      currentCategoryLead={currentCategory?.lead}
     />
   );
 }

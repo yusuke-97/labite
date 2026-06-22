@@ -9,6 +9,7 @@ export type ImageField = {
 export type Category = {
   id: string;
   name: string;
+  lead?: string;
   metaTitle: string;
   metaDescription: string;
 };

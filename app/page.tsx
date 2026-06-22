@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   alternates: {
-    canonical: '/',
+    canonical: getAbsoluteUrl('/'),
   },
   openGraph: {
     title: siteTitle,

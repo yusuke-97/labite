@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowIcon } from '../../components/ArrowIcon';
+import { ProfileCard } from '../../components/ProfileCard';
 import {
   cardDotsClass,
   innerClass,
@@ -16,7 +16,7 @@ import { createBreadcrumbListJsonLd } from '../../libs/structured-data';
 
 const title = withSiteName('運営者について');
 const description =
-  'Labite運営者のプロフィールです。Web開発の実務経験、得意分野、未経験からエンジニアを目指す方へ発信する理由を紹介しています。記事を書いている人の背景を知りたい方へ。';
+  'Labite運営者のプロフィール。未経験からWebエンジニアになり、実務でPHP・Laravel・JavaScriptを用いた開発に従事。学習・開発・キャリア情報を発信しています。';
 
 export const metadata: Metadata = {
   title: {
@@ -50,27 +50,34 @@ export const metadata: Metadata = {
 const specialties = [
   {
     number: '01',
-    title: 'フロントエンド開発',
+    title: 'バックエンド開発',
     description:
-      'HTML・CSS・JavaScriptを中心に、画面設計から実装までを分かりやすく解説します。',
+      'PHP・Laravelを用いたWebアプリ開発。サーバーサイドの設計・実装を、初学者にも分かるように解説します。',
   },
   {
     number: '02',
-    title: '学習設計',
+    title: 'フロントエンド',
     description:
-      '未経験から学ぶときに迷いやすい順序を整理し、無理なく継続できる学習方法を考えます。',
+      'JavaScriptを中心に、画面の実装やUIの動きを分かりやすく届けます。',
   },
   {
     number: '03',
-    title: 'キャリア選択',
+    title: '学習設計・キャリア',
     description:
-      '職場選びや転職準備など、Webエンジニアとして働く前に知っておきたい判断軸を届けます。',
+      '未経験から学ぶ順序の整理と、職場選び・転職準備など働く前に知っておきたい判断軸を伝えます。',
   },
+];
+
+const career = [
+  { title: '未経験からスタート', description: '別分野からWeb開発の世界へ' },
+  { title: '独学で学習', description: 'HTML・CSS・JavaScript・PHPを学ぶ' },
+  { title: '実務へ（2年以上）', description: 'PHP・Laravel・JavaScriptで開発に従事' },
+  { title: 'Labiteで発信', description: '同じ道を目指す人へ、現場の知見を整理' },
 ];
 
 const policies = [
   '専門用語をできるだけかみ砕き、初めて学ぶ方にも伝わる表現を使います。',
-  '手順だけではなく、なぜその方法を選ぶのかまで説明します。',
+  '手順だけでなく、なぜその方法を選ぶのかまで説明します。',
   '実際の開発や学習で再現しやすい、具体的な内容を大切にします。',
 ];
 
@@ -115,50 +122,34 @@ export default function AboutPage() {
             運営者について
           </h1>
           <p className="mt-3.5 max-w-170 text-[14.5px] text-navy/88 max-md:text-[13.5px]">
-            Labiteを運営し、未経験からWebエンジニアを目指す方に向けて、学習・開発・キャリアに役立つ情報を発信しています。
+            未経験からWebエンジニアになり、現在は実務でPHP・Laravel・JavaScriptを用いた開発に従事しています。同じ道を通った経験をもとに、学習・開発・キャリアに役立つ情報を、現場の目線で発信しています。
           </p>
         </div>
       </header>
 
       <section className="border-y-[1.5px] border-navy bg-pale-blue py-20 max-md:py-14">
         <div className={innerClass}>
-          <div
-            className={`fade relative rounded-2xl border-[1.5px] border-navy bg-white px-12 py-14 max-md:px-5.5 max-md:py-10 ${cardDotsClass}`}
-          >
-            <div className="grid grid-cols-[240px_1fr] items-center gap-12 max-md:grid-cols-1 max-md:justify-items-center max-md:gap-8">
-              <div className="flex size-50 items-center justify-center overflow-hidden rounded-full border-[3px] border-yellow bg-pale-blue max-md:size-35">
-                <Image
-                  className="h-11 w-auto max-md:h-9"
-                  src="/images/site-logo.svg"
-                  alt="Labite運営者"
-                  width={150}
-                  height={50}
-                  priority
-                />
-              </div>
-              <div className="w-full">
-                <p className="mb-1 text-xl font-bold">Labite 運営者</p>
-                <p className="mb-4 text-[13px] font-bold text-[#C99514]">Webエンジニア</p>
-                <p className="mb-6 text-[15px] text-navy/90">
-                  Web開発の現場で得た知識をもとに、未経験の方がつまずきやすいポイントを整理して記事にしています。情報を並べるだけでなく、次に何をすればよいかが分かる発信を目指しています。
-                </p>
-                <dl>
-                  <div className="grid grid-cols-[8.5em_1fr] gap-4 border-b-[1.5px] border-dashed border-navy/45 px-0.5 py-2.5 text-[13.5px] max-md:grid-cols-[6em_1fr]">
-                    <dt className="font-bold text-blue">経験</dt>
-                    <dd>Web開発の実務経験</dd>
-                  </div>
-                  <div className="grid grid-cols-[8.5em_1fr] gap-4 border-b-[1.5px] border-dashed border-navy/45 px-0.5 py-2.5 text-[13.5px] max-md:grid-cols-[6em_1fr]">
-                    <dt className="font-bold text-blue">得意分野</dt>
-                    <dd>フロントエンド開発・学習設計</dd>
-                  </div>
-                  <div className="grid grid-cols-[8.5em_1fr] gap-4 border-b-[1.5px] border-dashed border-navy/45 px-0.5 py-2.5 text-[13.5px] max-md:grid-cols-[6em_1fr]">
-                    <dt className="font-bold text-blue">発信内容</dt>
-                    <dd>学習手順・開発ノウハウ・キャリア情報</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+          <ProfileCard />
+        </div>
+      </section>
+
+      <section className="border-b-[1.5px] border-navy py-24 max-md:py-16">
+        <div className={innerClass}>
+          <div className="fade mb-12 max-md:mb-8">
+            <span className={outlineTitleClass}>Career</span>
+            <h2 className="mt-3.5 text-[clamp(22px,3vw,30px)] font-bold">これまでの歩み</h2>
           </div>
+          <ol className="fade relative mx-auto max-w-180 pl-9 before:absolute before:top-2 before:bottom-2 before:left-2 before:w-0.5 before:bg-navy">
+            {career.map((item) => (
+              <li
+                className="relative pb-7 last:pb-0 before:absolute before:top-1 before:-left-9 before:size-5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow"
+                key={item.title}
+              >
+                <h3 className="font-bold">{item.title}</h3>
+                <p className="mt-1 text-[13.5px] text-navy/75">{item.description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -216,22 +207,22 @@ export default function AboutPage() {
           <div
             className={`fade relative mx-auto max-w-210 rounded-2xl border-[1.5px] border-navy bg-white px-8 py-16 text-center max-md:px-5.5 max-md:py-12 ${cardDotsClass}`}
           >
-            <span className={`${outlineTitleClass} text-[clamp(28px,4vw,44px)]`}>Next</span>
+            <span className={`${outlineTitleClass} text-[clamp(28px,4vw,44px)]`}>Contact</span>
             <h2 className="mb-3.5 text-[clamp(20px,2.6vw,26px)]">
-              学習に役立つ記事を読む
+              お仕事・ご相談・ご質問
             </h2>
             <p className="mx-auto mb-7.5 max-w-140 text-[14px]">
-              学習の始め方から開発、キャリアまで、今の目的に合った記事を探せます。
+              記事へのご質問のほか、執筆・開発のご依頼、その他のご相談も受け付けています。お気軽にご連絡ください。
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link className={yellowPillClass} href="/column">
-                記事一覧を見る
+              <Link className={yellowPillClass} href="/contact">
+                お問い合わせ
                 <span className={yellowPillArrowClass}>
                   <ArrowIcon />
                 </span>
               </Link>
-              <Link className={pillClass} href="/contact">
-                お問い合わせ
+              <Link className={pillClass} href="/column">
+                記事一覧を見る
                 <span className={pillArrowClass}>
                   <ArrowIcon />
                 </span>

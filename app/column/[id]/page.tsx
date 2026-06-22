@@ -235,14 +235,14 @@ function SidebarNewPosts({ posts }: { posts: ArticleCard[] }) {
 function AuthorBox() {
   return (
     <footer className="relative mt-18 mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
-      <div className="flex size-25 items-center justify-center overflow-hidden rounded-full border-3 border-yellow bg-pale-blue max-md:mx-auto">
-        <Image src="/images/site-logo.svg" width={62} height={22} alt="" />
+      <div className="relative size-25 overflow-hidden rounded-full border-3 border-yellow bg-pale-blue max-md:mx-auto">
+        <Image src="/images/profile-shu.png" alt="Labite運営者 しゅう" fill sizes="100px" className="object-cover" />
       </div>
       <div>
-        <p className="!mb-0 text-base font-bold">Labite 運営者</p>
-        <p className="!mb-2 text-xs font-bold text-[#c99514]">Webエンジニア</p>
+        <p className="!mb-0 text-base font-bold">しゅう</p>
+        <p className="!mb-2 text-xs font-bold text-[#c99514]">Webエンジニア ｜ Labite運営者</p>
         <p className="!mb-3 text-[13px] text-navy/90 max-md:text-[12.5px]">
-          Web開発の現場で得た知識をもとに、未経験の人がつまずきやすいポイントを整理して記事にしています。
+          未経験からWebエンジニアになり、PHP・Laravel・JavaScriptを用いた実務経験をもとに、学習・開発・キャリア情報を発信しています。
         </p>
         <Link href="/about" className={`${pillClass} !px-5 !py-2.25 !text-[13px]`}>
           プロフィールを見る

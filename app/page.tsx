@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArticleListSection } from '../components/ArticleListSection';
 import { ArrowIcon } from '../components/ArrowIcon';
 import { HomeHero } from '../components/HomeHero';
+import { ProfileCard } from '../components/ProfileCard';
 import {
   cardDotsClass,
   innerClass,
@@ -295,30 +296,8 @@ export default async function Home() {
 
       <section className={`${sectionClass} border-y-[1.5px] border-navy bg-pale-blue`} id="about">
         <div className={innerClass}>
-          <SectionHeading english="About" title="この記事を書いている人" />
-          <div className={`fade relative rounded-2xl border-[1.5px] border-navy bg-white px-12 py-14 max-md:px-5.5 max-md:py-10 ${cardDotsClass}`}>
-            <div className="grid grid-cols-[240px_1fr] items-center gap-12 max-md:grid-cols-1 max-md:justify-items-center max-md:gap-8 max-md:text-left">
-              <div className="fade flex size-50 items-center justify-center overflow-hidden rounded-full border-[3px] border-yellow bg-pale-blue max-md:size-35">
-                <Image className="h-11 w-auto" src="/images/site-logo.svg" alt="運営者アバター" width={150} height={50} />
-              </div>
-              <div className="fade">
-                <p className="mb-1 text-xl font-bold">Labite 運営者</p>
-                <p className="mb-4 text-[13px] font-bold text-[#C99514]">Webエンジニア</p>
-                <p className="mb-5.5 max-w-150 text-[15px] text-navy/90">
-                  Web開発の現場で得た知識をもとに、未経験の人がつまずきやすいポイントを整理して記事にしています。経歴・得意分野の詳細はプロフィールページをご覧ください。
-                </p>
-                <ul className="mb-6.5 max-w-150">
-                  <li className="flex gap-4 border-b-[1.5px] border-dashed border-[#1D2B50]/45 px-0.5 py-2.5 text-[13.5px]"><span className="w-[8.5em] flex-none font-bold text-[#4A7DFF]">経験</span><span>Web開発の実務経験</span></li>
-                  <li className="flex gap-4 border-b-[1.5px] border-dashed border-[#1D2B50]/45 px-0.5 py-2.5 text-[13.5px]"><span className="w-[8.5em] flex-none font-bold text-[#4A7DFF]">得意分野</span><span>フロントエンド開発・学習設計</span></li>
-                  <li className="flex gap-4 border-b-[1.5px] border-dashed border-[#1D2B50]/45 px-0.5 py-2.5 text-[13.5px]"><span className="w-[8.5em] flex-none font-bold text-[#4A7DFF]">このサイトで</span><span>学習手順・開発ノウハウ・キャリア情報を発信</span></li>
-                </ul>
-                <Link className={yellowPillClass} href="/about">
-                  プロフィールを見る
-                  <span className={yellowPillArrowClass}><ArrowIcon /></span>
-                </Link>
-              </div>
-            </div>
-          </div>
+          <SectionHeading english="About" title="このサイトの運営者" />
+          <ProfileCard showProfileLink />
         </div>
       </section>
 

@@ -202,6 +202,114 @@
     }
   }
 
+  :global(.codeblock) {
+    overflow: hidden;
+    margin: 0 0 1.5em;
+    border: 2px solid #1d2b50;
+    border-radius: 12px;
+    background: #16223f;
+  }
+
+  :global(.codeblock .cb-head) {
+    position: relative;
+    display: flex;
+    min-height: 38px;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 2px solid #1d2b50;
+    background: #eaf1fb;
+    color: rgba(29, 43, 80, .7);
+    font-family: var(--font-oswald), sans-serif;
+    font-size: 11px;
+    letter-spacing: .14em;
+    line-height: 1;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  :global(.codeblock .cb-head)::before {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 48px;
+    height: 12px;
+    flex: 0 0 auto;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg width='48' height='12' viewBox='0 0 48 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='5' fill='%23FFC94B' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='6' r='5' fill='white' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='42' cy='6' r='5' fill='%234A7DFF' stroke='%231D2B50' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 48px 12px;
+    content: "";
+  }
+
+  :global(.codeblock .cb-head i) {
+    display: none;
+  }
+
+  :global(.codeblock .cb-head p) {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+
+  :global(.codeblock .cb-head span) {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    min-width: 0;
+    transform: translateY(-50%);
+  }
+
+  :global(.codeblock .cb-head p span) {
+    position: static;
+    margin: 0;
+    transform: none;
+  }
+
+  :global(.codeblock .cb-head > *) {
+    min-width: 0;
+  }
+
+  :global(.codeblock > p),
+  :global(.codeblock > br) {
+    display: none;
+  }
+
+  :global(.codeblock pre) {
+    margin: 0;
+    padding: 24px 20px;
+    border: 0;
+    border-radius: 0;
+  }
+
+  :global(.codeblock pre code) {
+    display: inline;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+  }
+
+  :global(.codeblock pre code:empty) {
+    display: none;
+  }
+
+  :global(.codeblock pre p) {
+    margin: 0;
+  }
+
+  :global(.codeblock pre p:empty) {
+    display: none;
+  }
+
+  :global(.codeblock pre .c) {
+    color: #7e93c4;
+  }
+
+  :global(.codeblock pre .y) {
+    color: #ffc94b;
+  }
+
   table {
     width: 100%;
     margin: 0 0 1.5em;

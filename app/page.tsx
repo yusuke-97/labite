@@ -239,7 +239,8 @@ export default async function Home() {
         posts={recommendedPosts}
         title="おすすめ記事"
         englishTitle="Recommended Posts"
-        className="border-b-[1.5px] border-navy bg-pale-blue"
+        lead="未経験からWebエンジニアを目指す方に、まず読んでほしい記事をまとめています。学習の進め方やキャリアの考え方など、迷ったときの入口になる内容をピックアップしています。"
+        className="border-b-[1.5px] border-navy"
         showArchiveLink={false}
       />
 
@@ -270,7 +271,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <ArticleListSection posts={posts} />
+      <ArticleListSection
+        posts={posts}
+        lead="Webエンジニア学習、未経験からの転職、現場で役立つ考え方など、Labiteで公開した最新の記事を掲載しています。気になるテーマから読み進めてください。"
+      />
 
       <section className={`${sectionClass} border-t-[1.5px] border-navy bg-white`}>
         <div className={innerClass}>

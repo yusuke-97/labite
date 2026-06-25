@@ -15,6 +15,7 @@ type Props = {
   posts: ArticleCard[];
   title?: string;
   englishTitle?: string;
+  lead?: string;
   variant?: 'primary' | 'light';
   className?: string;
   showArchiveLink?: boolean;
@@ -35,6 +36,7 @@ export function ArticleListSection({
   posts,
   title = '新着記事',
   englishTitle = 'New Posts',
+  lead,
   variant = 'primary',
   className = '',
   showArchiveLink = true,
@@ -56,6 +58,7 @@ export function ArticleListSection({
           <div>
             <span className={outlineTitleClass}>{englishTitle}</span>
             <h2 className="mt-3.5 text-[clamp(22px,3vw,30px)] font-bold">{title}</h2>
+            {lead && <p className="mt-3.5 max-w-170 text-[14.5px] text-navy/88 max-md:text-[13.5px]">{lead}</p>}
           </div>
           {showArchiveLink && (
             <Link className={pillClass} href="/column">

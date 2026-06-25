@@ -23,9 +23,13 @@ import {
   getAbsoluteUrl,
   ogImage,
   siteDescription,
-  siteName,
   siteTitle,
 } from '../libs/site-metadata';
+import {
+  createSiteOrganizationJsonLd,
+  createSitePersonJsonLd,
+  createWebSiteJsonLd,
+} from '../libs/structured-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -197,19 +201,23 @@ export default async function Home() {
     getColumnCategoryCounts(),
     getRoadmapSteps(),
   ]);
-  const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteName,
-    alternateName: ['Labite Tech'],
-    url: getAbsoluteUrl('/'),
-  };
+  const websiteJsonLd = createWebSiteJsonLd();
+  const organizationJsonLd = createSiteOrganizationJsonLd();
+  const personJsonLd = createSitePersonJsonLd();
 
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
 
       <HomeHero />

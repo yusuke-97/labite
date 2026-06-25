@@ -17,7 +17,13 @@ import {
 import { client } from '../../../libs/microcms';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
 import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
-import { createBreadcrumbListJsonLd } from '../../../libs/structured-data';
+import {
+  createBreadcrumbListJsonLd,
+  createSiteOrganizationJsonLd,
+  createSitePersonJsonLd,
+  siteOrganizationId,
+  sitePersonId,
+} from '../../../libs/structured-data';
 import styles from './page.module.scss';
 
 export const dynamic = 'force-dynamic';
@@ -357,25 +363,32 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   ]);
   const articleJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     headline: post.title,
     description: post.description?.trim() || createMetaDescription(post.title),
     image: [post.image.url],
     datePublished: post.publishedAt,
     ...(revisedAt ? { dateModified: revisedAt } : {}),
-    author: { '@type': 'Organization', name: siteName, url: getAbsoluteUrl('/') },
+    articleSection: post.category.name,
+    author: { '@id': sitePersonId },
     publisher: {
       '@type': 'Organization',
+      '@id': siteOrganizationId,
       name: siteName,
-      logo: { '@type': 'ImageObject', url: getAbsoluteUrl('/images/site-logo.png') },
+      url: getAbsoluteUrl('/'),
+      logo: { '@type': 'ImageObject', url: getAbsoluteUrl('/images/site-logo.svg') },
     },
   };
+  const personJsonLd = createSitePersonJsonLd();
+  const organizationJsonLd = createSiteOrganizationJsonLd();
 
   return (
     <>
       <ArticleProgress />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
       <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">

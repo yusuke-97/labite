@@ -2,7 +2,10 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ArticleCard, ColumnCategoryCount } from '../libs/column';
-import { createBreadcrumbListJsonLd } from '../libs/structured-data';
+import {
+  createBreadcrumbListJsonLd,
+  createItemListJsonLd,
+} from '../libs/structured-data';
 import { ArrowIcon } from './ArrowIcon';
 import {
   yellowPillArrowClass,
@@ -79,12 +82,26 @@ export function ColumnArchive({
   const breadcrumbJsonLd = createBreadcrumbListJsonLd(
     breadcrumbItems,
   );
+  const itemListJsonLd = createItemListJsonLd({
+    name: heading,
+    path: currentPath,
+    items: posts.map((post) => ({
+      name: post.title,
+      path: `/column/${post.id}`,
+      image: post.image.url,
+      datePublished: post.publishedAt,
+    })),
+  });
 
   return (
     <main data-rail-label={`${currentPage}/${totalPages}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
       <nav
         className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"

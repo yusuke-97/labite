@@ -209,7 +209,7 @@ function renderContent(body: string, recommendBlocks: Props['recommendBlocks']) 
       const marker = part.match(/\[recommend:([\w-]+)\]/)?.[1];
       const block = blocks.find((item) => item.marker === marker);
       return block
-        ? <RecommendCard key={`recommend-${marker}`} article={block.recommendCard.article} />
+        ? <RecommendCard key={`recommend-${marker}-${index}`} article={block.recommendCard.article} />
         : null;
     }
 

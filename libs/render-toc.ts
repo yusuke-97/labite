@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import type { AnyNode, Element } from 'domhandler';
 
 export type TocItem = {
   id: string;
@@ -8,7 +9,7 @@ export type TocItem = {
 
 const meaningfulEmptyParagraphChildren = 'img,video,iframe,embed,object,svg,table,code,pre';
 
-function getNodeTextForCodeBlock($: cheerio.CheerioAPI, node: cheerio.AnyNode) {
+function getNodeTextForCodeBlock($: cheerio.CheerioAPI, node: AnyNode): string {
   if (node.type === 'text') {
     return node.data;
   }
@@ -28,7 +29,7 @@ function getNodeTextForCodeBlock($: cheerio.CheerioAPI, node: cheerio.AnyNode) {
     .join('');
 }
 
-function normalizeCodeBlockText($: cheerio.CheerioAPI, pre: cheerio.Element) {
+function normalizeCodeBlockText($: cheerio.CheerioAPI, pre: Element): string {
   let text = '';
 
   $(pre)
@@ -101,7 +102,7 @@ function normalizePreCodeBlocks($: cheerio.CheerioAPI) {
   });
 }
 
-function isEmptyParagraph($: cheerio.CheerioAPI, paragraph: cheerio.Element) {
+function isEmptyParagraph($: cheerio.CheerioAPI, paragraph: Element) {
   const clone = $(paragraph).clone();
   clone.find('br').remove();
 

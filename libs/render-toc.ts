@@ -6,12 +6,133 @@ export type TocItem = {
   name: 'h2' | 'h3';
 };
 
+const meaningfulEmptyParagraphChildren = 'img,video,iframe,embed,object,svg,table,code,pre';
+
+function getNodeTextForCodeBlock($: cheerio.CheerioAPI, node: cheerio.AnyNode) {
+  if (node.type === 'text') {
+    return node.data;
+  }
+
+  if (node.type !== 'tag') {
+    return '';
+  }
+
+  if (node.tagName === 'br') {
+    return '\n';
+  }
+
+  return $(node)
+    .contents()
+    .toArray()
+    .map((child) => getNodeTextForCodeBlock($, child))
+    .join('');
+}
+
+function normalizeCodeBlockText($: cheerio.CheerioAPI, pre: cheerio.Element) {
+  let text = '';
+
+  $(pre)
+    .contents()
+    .each((_, node) => {
+      if (node.type === 'tag' && ['p', 'div'].includes(node.tagName)) {
+        if (text && !text.endsWith('\n')) {
+          text += '\n';
+        }
+
+        text += getNodeTextForCodeBlock($, node);
+
+        if (text && !text.endsWith('\n')) {
+          text += '\n';
+        }
+
+        return;
+      }
+
+      if (node.type === 'tag' && node.tagName === 'code') {
+        $(node)
+          .contents()
+          .each((_, codeNode) => {
+            if (codeNode.type === 'tag' && ['p', 'div'].includes(codeNode.tagName)) {
+              if (text && !text.endsWith('\n')) {
+                text += '\n';
+              }
+
+              text += getNodeTextForCodeBlock($, codeNode);
+
+              if (text && !text.endsWith('\n')) {
+                text += '\n';
+              }
+
+              return;
+            }
+
+            text += getNodeTextForCodeBlock($, codeNode);
+          });
+
+        return;
+      }
+
+      text += getNodeTextForCodeBlock($, node);
+    });
+
+  return text.replace(/^\n+/, '').replace(/\n+$/, '');
+}
+
+function normalizePreCodeBlocks($: cheerio.CheerioAPI) {
+  $('pre').each((_, pre) => {
+    if ($(pre).find('p').length === 0) {
+      return;
+    }
+
+    const firstCode = $(pre).children('code').first();
+    const codeAttributes = firstCode.attr();
+    const code = $('<code></code>');
+
+    if (codeAttributes) {
+      Object.entries(codeAttributes).forEach(([name, value]) => {
+        if (typeof value === 'string') {
+          code.attr(name, value);
+        }
+      });
+    }
+
+    code.text(normalizeCodeBlockText($, pre));
+    $(pre).empty().append(code);
+  });
+}
+
+function isEmptyParagraph($: cheerio.CheerioAPI, paragraph: cheerio.Element) {
+  const clone = $(paragraph).clone();
+  clone.find('br').remove();
+
+  const text = clone.text().replace(/\u00a0/g, '').trim();
+  const hasMeaningfulChild = clone.find(meaningfulEmptyParagraphChildren).length > 0;
+
+  return !text && !hasMeaningfulChild;
+}
+
 function slugifyHeading(text: string) {
   return text
     .trim()
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^\p{Letter}\p{Number}_-]/gu, '');
+}
+
+export function cleanArticleHtml(body: string) {
+  const $ = cheerio.load(body, null, false);
+
+  normalizePreCodeBlocks($);
+
+  $('p').each((_, paragraph) => {
+    if (isEmptyParagraph($, paragraph)) {
+      $(paragraph).remove();
+    }
+  });
+
+  $('ul > p, ol > p').remove();
+
+  return $.html();
 }
 
 export function addHeadingIds(body: string) {

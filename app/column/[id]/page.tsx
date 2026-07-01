@@ -16,7 +16,7 @@ import {
   type ImageField,
 } from '../../../libs/column';
 import { client } from '../../../libs/microcms';
-import { addHeadingIds, renderToc } from '../../../libs/render-toc';
+import { addHeadingIds, cleanArticleHtml, renderToc } from '../../../libs/render-toc';
 import { getRoadmapSteps } from '../../../libs/roadmap';
 import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
 import {
@@ -352,7 +352,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     getRecommendedColumnPosts(),
     getRoadmapSteps(),
   ]);
-  const bodyHtml = addSectionLabels(addHeadingIds(decodeHtmlEntities(post.body)));
+  const bodyHtml = addSectionLabels(addHeadingIds(cleanArticleHtml(decodeHtmlEntities(post.body))));
   const toc = renderToc(bodyHtml);
   const articleUrl = getAbsoluteUrl(`/column/${id}`);
   const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)

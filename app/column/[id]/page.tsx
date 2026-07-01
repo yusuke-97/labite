@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArticleProgress } from '../../../components/ArticleProgress';
 import { ArrowIcon } from '../../../components/ArrowIcon';
+import { RoadmapSection } from '../../../components/RoadmapSection';
 import { TableOfContents } from '../../../components/TableOfContents';
 import {
   getLatestColumnPosts,
@@ -16,6 +17,7 @@ import {
 } from '../../../libs/column';
 import { client } from '../../../libs/microcms';
 import { addHeadingIds, renderToc } from '../../../libs/render-toc';
+import { getRoadmapSteps } from '../../../libs/roadmap';
 import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
@@ -344,10 +346,11 @@ function PostSection({
 export default async function ColumnPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const post = await getColumnPost(id);
-  const [latestPosts, relatedPosts, recommendedPosts] = await Promise.all([
+  const [latestPosts, relatedPosts, recommendedPosts, roadmapSteps] = await Promise.all([
     getLatestColumnPosts(id),
     getRelatedColumnPosts(id, post.category.id),
     getRecommendedColumnPosts(),
+    getRoadmapSteps(),
   ]);
   const bodyHtml = addSectionLabels(addHeadingIds(decodeHtmlEntities(post.body)));
   const toc = renderToc(bodyHtml);
@@ -490,6 +493,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
         archiveHref={`/column/category/${encodeURIComponent(post.category.id)}`}
       />
       <PostSection posts={latestPosts} label="New Posts" title="新着記事" mobileOnly />
+      <RoadmapSection steps={roadmapSteps} className="border-t-[1.5px] border-navy" />
     </>
   );
 }

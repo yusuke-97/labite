@@ -88,7 +88,8 @@
     font-weight: 700;
   }
 
-  p a {
+  p a,
+  li a {
     border-bottom: 1.5px dotted #4a7dff;
     color: #4a7dff;
     font-weight: 500;
@@ -235,7 +236,7 @@
     height: 12px;
     flex: 0 0 auto;
     transform: translateY(-50%);
-    background-image: url("data:image/svg+xml,%3Csvg width='48' height='12' viewBox='0 0 48 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='5' fill='%23FFC94B' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='6' r='5' fill='white' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='42' cy='6' r='5' fill='%234A7DFF' stroke='%231D2B50' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='48' height='12' viewBox='0 0 48 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='5' fill='%23FF6B6B' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='6' r='5' fill='%23FFC94B' stroke='%231D2B50' stroke-width='1.5'/%3E%3Ccircle cx='42' cy='6' r='5' fill='%2348C774' stroke='%231D2B50' stroke-width='1.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-size: 48px 12px;
     content: "";
@@ -312,7 +313,7 @@
 
   table {
     width: 100%;
-    margin: 0 0 1.5em;
+    margin: 0 auto 1.5em;
     border: 2px solid #1d2b50;
     border-collapse: separate;
     border-spacing: 0;
@@ -331,7 +332,7 @@
   :global(.table-scroll) table {
     width: max-content;
     min-width: 480px;
-    margin: 0;
+    margin: 0 auto;
   }
 
   :global(.table-scroll) th,

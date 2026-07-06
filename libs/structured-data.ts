@@ -61,7 +61,6 @@ export function createItemListJsonLd({
   };
 }
 
-export const siteOrganizationId = getAbsoluteUrl('/#organization');
 export const sitePersonId = getAbsoluteUrl('/about#person');
 export const siteWebsiteId = getAbsoluteUrl('/#website');
 
@@ -75,27 +74,7 @@ export function createSitePersonJsonLd() {
     url: getAbsoluteUrl('/about'),
     image: getAbsoluteUrl('/images/profile-shu.png'),
     jobTitle: 'Webエンジニア',
-    worksFor: {
-      '@id': siteOrganizationId,
-    },
     knowsAbout: ['PHP', 'Laravel', 'JavaScript', 'Webエンジニア転職', '未経験エンジニア学習'],
-  };
-}
-
-export function createSiteOrganizationJsonLd() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': siteOrganizationId,
-    name: siteName,
-    url: getAbsoluteUrl('/'),
-    logo: {
-      '@type': 'ImageObject',
-      url: getAbsoluteUrl('/images/site-logo.svg'),
-    },
-    founder: {
-      '@id': sitePersonId,
-    },
   };
 }
 
@@ -108,9 +87,11 @@ export function createWebSiteJsonLd() {
     alternateName: ['Labite Tech'],
     url: getAbsoluteUrl('/'),
     publisher: {
-      '@id': siteOrganizationId,
+      '@type': 'Person',
+      '@id': sitePersonId,
     },
     creator: {
+      '@type': 'Person',
       '@id': sitePersonId,
     },
   };

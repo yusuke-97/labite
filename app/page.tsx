@@ -27,7 +27,6 @@ import {
   siteTitle,
 } from '../libs/site-metadata';
 import {
-  createSiteOrganizationJsonLd,
   createSitePersonJsonLd,
   createWebSiteJsonLd,
 } from '../libs/structured-data';
@@ -165,7 +164,6 @@ export default async function Home() {
     getRoadmapSteps(),
   ]);
   const websiteJsonLd = createWebSiteJsonLd();
-  const organizationJsonLd = createSiteOrganizationJsonLd();
   const personJsonLd = createSitePersonJsonLd();
 
   return (
@@ -173,10 +171,6 @@ export default async function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
       <script
         type="application/ld+json"

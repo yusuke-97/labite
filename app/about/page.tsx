@@ -14,7 +14,6 @@ import {
 import { ogImage, withSiteName } from '../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
-  createSiteOrganizationJsonLd,
   createSitePersonJsonLd,
 } from '../../libs/structured-data';
 
@@ -92,7 +91,6 @@ export default function AboutPage() {
   ]);
 
   const personJsonLd = createSitePersonJsonLd();
-  const organizationJsonLd = createSiteOrganizationJsonLd();
 
   return (
     <main data-rail-label="01">
@@ -103,10 +101,6 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
       <nav
         className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"

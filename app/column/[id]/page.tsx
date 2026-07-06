@@ -18,12 +18,10 @@ import {
 import { client } from '../../../libs/microcms';
 import { addHeadingIds, cleanArticleHtml, renderToc } from '../../../libs/render-toc';
 import { getRoadmapSteps } from '../../../libs/roadmap';
-import { getAbsoluteUrl, siteName, withSiteName } from '../../../libs/site-metadata';
+import { getAbsoluteUrl, withSiteName } from '../../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
-  createSiteOrganizationJsonLd,
   createSitePersonJsonLd,
-  siteOrganizationId,
   sitePersonId,
 } from '../../../libs/structured-data';
 import styles from './page.module.scss';
@@ -374,24 +372,19 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     datePublished: post.publishedAt,
     ...(revisedAt ? { dateModified: revisedAt } : {}),
     articleSection: post.category.name,
-    author: { '@id': sitePersonId },
+    author: { '@type': 'Person', '@id': sitePersonId },
     publisher: {
-      '@type': 'Organization',
-      '@id': siteOrganizationId,
-      name: siteName,
-      url: getAbsoluteUrl('/'),
-      logo: { '@type': 'ImageObject', url: getAbsoluteUrl('/images/site-logo.svg') },
+      '@type': 'Person',
+      '@id': sitePersonId,
     },
   };
   const personJsonLd = createSitePersonJsonLd();
-  const organizationJsonLd = createSiteOrganizationJsonLd();
 
   return (
     <>
       <ArticleProgress />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
 
       <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">

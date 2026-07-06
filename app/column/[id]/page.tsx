@@ -92,22 +92,6 @@ function createMetaDescription(title: string) {
   return `${title}を解説しております。未経験からWebエンジニアを目指す方に向けて、学習や開発、キャリアに役立つ情報をまとめています。`;
 }
 
-function createArticleImageJsonLdUrls(imageUrl: string) {
-  return [
-    { width: 1200, height: 1200 },
-    { width: 1200, height: 900 },
-    { width: 1200, height: 675 },
-  ].map(({ width, height }) => {
-    const url = new URL(imageUrl, getAbsoluteUrl('/'));
-
-    url.searchParams.set('w', String(width));
-    url.searchParams.set('h', String(height));
-    url.searchParams.set('fit', 'crop');
-
-    return url.toString();
-  });
-}
-
 function addSectionLabels(html: string) {
   let sectionNumber = 0;
 
@@ -386,7 +370,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     headline: post.title,
     description: post.description?.trim() || createMetaDescription(post.title),
-    image: createArticleImageJsonLdUrls(post.image.url),
+    image: [post.image.url],
     datePublished: post.publishedAt,
     ...(revisedAt ? { dateModified: revisedAt } : {}),
     articleSection: post.category.name,

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowIcon } from './ArrowIcon';
 import {
   yellowPillClass,
@@ -20,10 +21,12 @@ const menuButtonClass =
   'hidden cursor-pointer rounded-lg border-[1.5px] border-navy bg-transparent px-3 py-2 font-[family-name:var(--font-oswald)] text-xs font-semibold text-navy max-md:block';
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [railNo, setRailNo] = useState('01');
   const [isNotFoundPage, setIsNotFoundPage] = useState(false);
   const [pageRailLabel, setPageRailLabel] = useState<string | null>(null);
+  const [articleProgressLabel, setArticleProgressLabel] = useState<string | null>(null);
   const [isToTopVisible, setIsToTopVisible] = useState(false);
   const [isTopClicked, setIsTopClicked] = useState(false);
   const [logoSpinKey, setLogoSpinKey] = useState(0);
@@ -41,6 +44,17 @@ export function SiteHeader() {
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleRailLabel = (event: Event) => {
+      const customEvent = event as CustomEvent<string | null>;
+      setArticleProgressLabel(customEvent.detail);
+    };
+
+    window.addEventListener('labite:rail-label', handleRailLabel);
+
+    return () => window.removeEventListener('labite:rail-label', handleRailLabel);
   }, []);
 
   useEffect(() => {
@@ -83,28 +97,54 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    const sections: Element[] = Array.from(document.querySelectorAll('section'));
+    let sections: Element[] = [];
+    let frameId: number | null = null;
 
-    if (sections.length === 0) {
-      return;
-    }
+    const updateRailNo = () => {
+      if (sections.length === 0) {
+        setRailNo('01');
+        return;
+      }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sections.indexOf(entry.target) + 1;
-            setRailNo(String(index).padStart(2, '0'));
-          }
-        });
-      },
-      { threshold: 0.35 },
-    );
+      const marker = window.innerHeight * 0.4;
+      const activeIndex = sections.reduce((currentIndex, section, index) => {
+        const rect = section.getBoundingClientRect();
 
-    sections.forEach((section) => observer.observe(section));
+        return rect.top <= marker ? index : currentIndex;
+      }, 0);
 
-    return () => observer.disconnect();
-  }, []);
+      setRailNo(String(activeIndex + 1).padStart(2, '0'));
+    };
+
+    const refreshSections = () => {
+      frameId = null;
+      sections = Array.from(document.querySelectorAll('main section'));
+      updateRailNo();
+    };
+
+    const scheduleRefresh = () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      frameId = requestAnimationFrame(refreshSections);
+    };
+
+    const mutationObserver = new MutationObserver(scheduleRefresh);
+
+    scheduleRefresh();
+    window.addEventListener('scroll', updateRailNo, { passive: true });
+    window.addEventListener('resize', updateRailNo);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', updateRailNo);
+      window.removeEventListener('resize', updateRailNo);
+      mutationObserver.disconnect();
+    };
+  }, [pathname]);
 
   const closeDrawer = () => {
     setIsDrawerOpen(false);
@@ -130,7 +170,7 @@ export function SiteHeader() {
           web engineering for beginners — labite
         </div>
         <div className="flex size-9.5 items-center justify-center rounded-full border-[1.5px] border-navy bg-white font-[family-name:var(--font-oswald)] text-[13px] font-semibold">
-          {isNotFoundPage ? '404' : pageRailLabel ?? railNo}
+          {isNotFoundPage ? '404' : articleProgressLabel ?? pageRailLabel ?? railNo}
         </div>
       </aside>
 

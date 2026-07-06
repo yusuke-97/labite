@@ -27,12 +27,11 @@ export function ArticleProgress() {
       const nextProgress = documentHeight > 0
         ? Math.min(100, (window.scrollY / documentHeight) * 100)
         : 0;
-      const railCounter = document.querySelector<HTMLElement>('aside[aria-hidden="true"] > div:last-child');
 
       setProgress(nextProgress);
-      if (railCounter) {
-        railCounter.textContent = `${Math.round(nextProgress)}%`;
-      }
+      window.dispatchEvent(
+        new CustomEvent('labite:rail-label', { detail: `${Math.round(nextProgress)}%` }),
+      );
     };
 
     observeFadeElements();
@@ -44,10 +43,7 @@ export function ArticleProgress() {
       window.removeEventListener('scroll', updateProgress);
       window.removeEventListener('resize', updateProgress);
       fadeObserver.disconnect();
-      const railCounter = document.querySelector<HTMLElement>('aside[aria-hidden="true"] > div:last-child');
-      if (railCounter) {
-        railCounter.textContent = '01';
-      }
+      window.dispatchEvent(new CustomEvent('labite:rail-label', { detail: null }));
     };
   }, []);
 

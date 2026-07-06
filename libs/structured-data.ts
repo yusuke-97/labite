@@ -78,6 +78,17 @@ export function createSitePersonJsonLd() {
   };
 }
 
+export function createSitePersonReferenceJsonLd() {
+  const person = createSitePersonJsonLd();
+
+  return {
+    '@type': 'Person',
+    '@id': person['@id'],
+    name: person.name,
+    url: person.url,
+  };
+}
+
 export function createWebSiteJsonLd() {
   return {
     '@context': 'https://schema.org',

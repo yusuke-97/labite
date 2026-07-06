@@ -22,7 +22,7 @@ import { getAbsoluteUrl, withSiteName } from '../../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
   createSitePersonJsonLd,
-  sitePersonId,
+  createSitePersonReferenceJsonLd,
 } from '../../../libs/structured-data';
 import styles from './page.module.scss';
 
@@ -356,6 +356,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
   const revisedAt = post.revisedAt && dayjs(post.revisedAt).isAfter(post.publishedAt)
     ? post.revisedAt
     : undefined;
+  const personReferenceJsonLd = createSitePersonReferenceJsonLd();
   const breadcrumbJsonLd = createBreadcrumbListJsonLd([
     { name: 'TOP', path: '/' },
     { name: 'お役立ち記事一覧', path: '/column' },
@@ -372,11 +373,8 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     datePublished: post.publishedAt,
     ...(revisedAt ? { dateModified: revisedAt } : {}),
     articleSection: post.category.name,
-    author: { '@type': 'Person', '@id': sitePersonId },
-    publisher: {
-      '@type': 'Person',
-      '@id': sitePersonId,
-    },
+    author: personReferenceJsonLd,
+    publisher: personReferenceJsonLd,
   };
   const personJsonLd = createSitePersonJsonLd();
 

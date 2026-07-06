@@ -14,7 +14,7 @@ import {
 import { ogImage, withSiteName } from '../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
-  createSitePersonJsonLd,
+  createProfilePageJsonLd,
 } from '../../libs/structured-data';
 
 const title = withSiteName('運営者について');
@@ -90,7 +90,7 @@ export default function AboutPage() {
     { name: '運営者について', path: '/about' },
   ]);
 
-  const personJsonLd = createSitePersonJsonLd();
+  const profilePageJsonLd = createProfilePageJsonLd();
 
   return (
     <main data-rail-label="01">
@@ -100,7 +100,7 @@ export default function AboutPage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
       />
       <nav
         className="mt-18 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs leading-[1.8] whitespace-nowrap max-md:mt-15 max-md:py-2 max-md:text-[11px]"

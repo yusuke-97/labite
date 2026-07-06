@@ -89,6 +89,20 @@ export function createSitePersonReferenceJsonLd() {
   };
 }
 
+export function createProfilePageJsonLd() {
+  const person = { ...createSitePersonJsonLd() };
+
+  delete person['@context'];
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    '@id': getAbsoluteUrl('/about#profile-page'),
+    url: getAbsoluteUrl('/about'),
+    mainEntity: person,
+  };
+}
+
 export function createWebSiteJsonLd() {
   return {
     '@context': 'https://schema.org',

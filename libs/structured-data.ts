@@ -12,6 +12,21 @@ type ItemListItem = {
   datePublished?: string;
 };
 
+type JsonLdNode = Record<string, unknown>;
+
+function withoutJsonLdContext(jsonLd: JsonLdNode) {
+  return Object.fromEntries(
+    Object.entries(jsonLd).filter(([key]) => key !== '@context'),
+  );
+}
+
+export function createJsonLdGraph(nodes: JsonLdNode[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': nodes.map(withoutJsonLdContext),
+  };
+}
+
 export function createBreadcrumbListJsonLd(items: BreadcrumbItem[]) {
   return {
     '@context': 'https://schema.org',
@@ -90,9 +105,7 @@ export function createSitePersonReferenceJsonLd() {
 }
 
 export function createProfilePageJsonLd() {
-  const person = { ...createSitePersonJsonLd() };
-
-  delete person['@context'];
+  const person = withoutJsonLdContext(createSitePersonJsonLd());
 
   return {
     '@context': 'https://schema.org',

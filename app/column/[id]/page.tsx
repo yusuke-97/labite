@@ -21,6 +21,7 @@ import { getRoadmapSteps } from '../../../libs/roadmap';
 import { getAbsoluteUrl, withSiteName } from '../../../libs/site-metadata';
 import {
   createBreadcrumbListJsonLd,
+  createJsonLdGraph,
   createSitePersonJsonLd,
   createSitePersonReferenceJsonLd,
 } from '../../../libs/structured-data';
@@ -377,13 +378,16 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     publisher: personReferenceJsonLd,
   };
   const personJsonLd = createSitePersonJsonLd();
+  const graphJsonLd = createJsonLdGraph([
+    breadcrumbJsonLd,
+    personJsonLd,
+    articleJsonLd,
+  ]);
 
   return (
     <>
       <ArticleProgress />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graphJsonLd) }} />
 
       <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">
         <div className={innerClass}>

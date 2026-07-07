@@ -14,12 +14,30 @@ import {
   yellowPillClass,
 } from '../../components/site-design';
 import { getRoadmapPointText, getRoadmapSteps, type RoadmapStep } from '../../libs/roadmap';
-import { ogImage, withSiteName } from '../../libs/site-metadata';
+import { getAbsoluteUrl, ogImage, withSiteName } from '../../libs/site-metadata';
 import { createBreadcrumbListJsonLd } from '../../libs/structured-data';
 
 const title = withSiteName('未経験からWebエンジニアになる学習ロードマップ');
 const description =
-  '何から始めればいいか迷わないよう、未経験からWebエンジニアになるまでの学習を5つのSTEPに整理しました。マインドセットから実務サバイバルまで、進む順番がわかるロードマップです。';
+  '未経験からWebエンジニアになるまでに必要な学習時間は、一般に600〜1,000時間、働きながらなら6ヶ月〜1年が目安です。ただし、順番を間違えると同じ時間でも結果が大きく変わります。教材から始めて挫折する人が多いのは、その前の「判断軸づくり」と「続く仕組みづくり」を飛ばしてしまうからです。このロードマップでは、遠回りに見えて実はいちばん速い順番で、5つのSTEPに整理しました。';
+
+const roadmapFaqItems = [
+  {
+    question: '未経験からWebエンジニアになるには何ヶ月かかりますか？',
+    answer:
+      '働きながらで6ヶ月〜1年、1日3時間以上取れるなら4〜6ヶ月が現実的な目安です。学習時間の合計より「毎日続いたか」の方が結果を左右します。',
+  },
+  {
+    question: '働きながらでも可能ですか？',
+    answer:
+      '可能です。実際、転職成功者の多くは在職中に学習しています。重要なのは長時間ではなく、平日30分〜1時間を止めない仕組みです（STEP 2参照）。',
+  },
+  {
+    question: '最初にどの言語を学ぶべきですか？',
+    answer:
+      'Web系ならHTML/CSS→JavaScriptの順が定石です。バックエンド志望ならその後にPHPなどのサーバーサイド言語へ進みます（STEP 1の進路選びを先に）。',
+  },
+];
 
 export const dynamic = 'force-dynamic';
 
@@ -120,12 +138,29 @@ export default async function RoadmapPage() {
     { name: 'TOP', path: '/' },
     { name: '学習ロードマップ', path: '/roadmap' },
   ]);
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': getAbsoluteUrl('/roadmap#faq'),
+    mainEntity: roadmapFaqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       <nav
@@ -157,7 +192,7 @@ export default async function RoadmapPage() {
             未経験からWebエンジニアを目指すロードマップ
           </h1>
           <p className="mt-3.5 max-w-180 text-[14.5px] leading-[1.9] text-navy/88 max-md:text-[13.5px]">
-            何から始めればいいか迷わないよう、未経験からWebエンジニアになるまでの学習を5つのSTEPに整理しました。マインドセットから実務サバイバルまで、進む順番がわかるロードマップです。
+            未経験からWebエンジニアになるまでに必要な学習時間は、一般に600〜1,000時間、働きながらなら6ヶ月〜1年が目安です。ただし、順番を間違えると同じ時間でも結果が大きく変わります。教材から始めて挫折する人が多いのは、その前の「判断軸づくり」と「続く仕組みづくり」を飛ばしてしまうからです。このロードマップでは、遠回りに見えて実はいちばん速い順番で、5つのSTEPに整理しました。
           </p>
           <div className="mt-7 flex flex-wrap gap-4">
             <Link className={yellowPillClass} href="#steps">
@@ -215,6 +250,35 @@ export default async function RoadmapPage() {
                 </section>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className={`${sectionClass} border-b-[1.5px] border-navy bg-white`} id="faq">
+        <div className={innerClass}>
+          <div className="fade mb-12 max-md:mb-8">
+            <span className={outlineTitleClass}>FAQ</span>
+            <h2 className="mt-3.5 text-[clamp(22px,3vw,30px)] font-black">
+              よくある質問
+            </h2>
+          </div>
+          <div className="grid gap-5">
+            {roadmapFaqItems.map((item, index) => (
+              <article
+                className={`fade relative rounded-2xl border-2 border-navy bg-cream px-7 py-6 max-md:px-5 max-md:py-5 ${cardDotsClass}`}
+                key={item.question}
+              >
+                <h3 className="flex items-center gap-3 pr-7 text-[17px] font-black leading-[1.7] max-md:text-[15.5px]">
+                  <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full border-[1.5px] border-navy bg-yellow font-[family-name:var(--font-oswald)] text-[12px] font-bold">
+                    Q{index + 1}
+                  </span>
+                  {item.question}
+                </h3>
+                <p className="mt-4 border-t-[1.5px] border-dashed border-navy/35 pt-4 text-[14.5px] leading-[1.9] text-navy/88 max-md:text-[13.5px]">
+                  {item.answer}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

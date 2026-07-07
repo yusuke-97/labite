@@ -122,7 +122,7 @@ export default async function RoadmapPage() {
   ]);
 
   return (
-    <main data-rail-label="01">
+    <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}

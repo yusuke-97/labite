@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getSitemapColumnPosts } from '../libs/column';
 import { getAbsoluteUrl } from '../libs/site-metadata';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 const POSTS_PER_PAGE = 15;
 

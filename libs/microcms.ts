@@ -15,3 +15,11 @@ export const client = createClient({
   serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
   apiKey: process.env.MICROCMS_API_KEY,
 });
+
+export const CMS_REVALIDATE_SECONDS = 3600;
+
+export const cmsRequestInit = {
+  next: {
+    revalidate: CMS_REVALIDATE_SECONDS,
+  },
+} as RequestInit;

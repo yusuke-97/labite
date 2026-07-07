@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { ColumnArchive } from '../../../../components/ColumnArchive';
 import {
+  getColumnCategories,
   getColumnCategoryCounts,
   getColumnPostsByCategoryPage,
 } from '../../../../libs/column';
@@ -9,29 +10,20 @@ import { ogImage, withSiteName } from '../../../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 15;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{
     category: string;
   }>;
-  searchParams: Promise<{
-    page?: string;
-  }>;
 };
 
-function getPageNumber(page?: string) {
-  if (!page) {
-    return 1;
-  }
+export async function generateStaticParams() {
+  const categories = await getColumnCategories();
 
-  const pageNumber = Number(page);
-
-  if (!Number.isInteger(pageNumber) || pageNumber < 1) {
-    return null;
-  }
-
-  return pageNumber;
+  return categories.map((category) => ({
+    category: category.id,
+  }));
 }
 
 export async function generateMetadata({
@@ -90,17 +82,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function ColumnCategoryPage({ params, searchParams }: Props) {
+export default async function ColumnCategoryPage({ params }: Props) {
   const { category } = await params;
-  const { page } = await searchParams;
   const categorySlug = decodeURIComponent(category);
-
-  if (page) {
-    const legacyPage = getPageNumber(page);
-    const base = `/column/category/${encodeURIComponent(categorySlug)}`;
-
-    redirect(legacyPage && legacyPage > 1 ? `${base}/page/${legacyPage}` : base);
-  }
 
   const [{ posts, totalCount, category: currentCategory }, categories] = await Promise.all([
     getColumnPostsByCategoryPage(categorySlug, 1, POSTS_PER_PAGE),

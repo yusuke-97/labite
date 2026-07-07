@@ -4,12 +4,13 @@ import { ColumnArchive } from '../../../../../../components/ColumnArchive';
 import {
   getColumnCategoryCounts,
   getColumnPostsByCategoryPage,
+  getSitemapColumnPosts,
 } from '../../../../../../libs/column';
 import { ogImage, withSiteName } from '../../../../../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 15;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{
@@ -21,6 +22,24 @@ type Props = {
 function parsePageNumber(value: string) {
   const page = Number(value);
   return Number.isInteger(page) && page > 0 ? page : null;
+}
+
+export async function generateStaticParams() {
+  const posts = await getSitemapColumnPosts();
+  const categoryCounts = new Map<string, number>();
+
+  posts.forEach((post) => {
+    categoryCounts.set(post.category.id, (categoryCounts.get(post.category.id) ?? 0) + 1);
+  });
+
+  return Array.from(categoryCounts.entries()).flatMap(([category, count]) => {
+    const totalPages = Math.max(1, Math.ceil(count / POSTS_PER_PAGE));
+
+    return Array.from({ length: totalPages - 1 }, (_, index) => ({
+      category,
+      page: String(index + 2),
+    }));
+  });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

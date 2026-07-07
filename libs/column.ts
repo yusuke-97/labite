@@ -1,4 +1,4 @@
-import { client } from './microcms';
+import { client, cmsRequestInit } from './microcms';
 
 export type ImageField = {
   url: string;
@@ -46,10 +46,6 @@ type PopularPostsContent = {
   order: number;
 };
 
-const noStoreRequestInit = {
-  cache: 'no-store',
-} satisfies RequestInit;
-
 export async function getColumnCategories(): Promise<Category[]> {
   const posts = await client.getAllContents<ArticleCard>({
     endpoint: 'column',
@@ -57,7 +53,7 @@ export async function getColumnCategories(): Promise<Category[]> {
       fields: 'category',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
   const categories = new Map<string, Category>();
 
@@ -75,7 +71,7 @@ export async function getColumnCategoryCounts(): Promise<ColumnCategoryCount[]> 
       fields: 'category',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
   const counts = new Map<string, ColumnCategoryCount>();
 
@@ -98,7 +94,7 @@ export async function getSitemapColumnPosts(): Promise<SitemapColumnPost[]> {
       orders: '-publishedAt',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 }
 
@@ -115,7 +111,7 @@ export async function getColumnPostsPage(
       orders: '-publishedAt',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 
   return {
@@ -136,7 +132,7 @@ export async function getColumnPostsByCategoryPage(
       orders: '-publishedAt',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
   const filteredPosts = posts.filter(
     (post) => post.category.id === categorySlug || post.category.name === categorySlug,
@@ -159,7 +155,7 @@ export async function getLatestColumnPosts(excludeId?: string): Promise<ArticleC
       orders: '-publishedAt',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 
   return data.contents;
@@ -174,7 +170,7 @@ export async function getRecommendedColumnPosts(): Promise<ArticleCard[]> {
       limit: 4,
       depth: 2,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 
   const contents = data.contents as PopularPostsContent[];
@@ -194,7 +190,7 @@ export async function getRelatedColumnPosts(
       orders: '-publishedAt',
       depth: 1,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 
   return data.contents;

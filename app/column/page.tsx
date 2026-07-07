@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { ColumnArchive } from '../../components/ColumnArchive';
 import { getColumnCategoryCounts, getColumnPostsPage } from '../../libs/column';
 import { ogImage, withSiteName } from '../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 15;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 const title = withSiteName('Webエンジニア向け記事一覧');
 const description =
@@ -41,35 +40,7 @@ export const metadata: Metadata = {
   },
 };
 
-type Props = {
-  searchParams: Promise<{
-    page?: string;
-  }>;
-};
-
-function getPageNumber(page?: string) {
-  if (!page) {
-    return 1;
-  }
-
-  const pageNumber = Number(page);
-
-  if (!Number.isInteger(pageNumber) || pageNumber < 1) {
-    return null;
-  }
-
-  return pageNumber;
-}
-
-export default async function ColumnPage({ searchParams }: Props) {
-  const { page } = await searchParams;
-
-  if (page) {
-    const legacyPage = getPageNumber(page);
-
-    redirect(legacyPage && legacyPage > 1 ? `/column/page/${legacyPage}` : '/column');
-  }
-
+export default async function ColumnPage() {
   const [{ posts, totalCount }, categories] = await Promise.all([
     getColumnPostsPage(1, POSTS_PER_PAGE),
     getColumnCategoryCounts(),

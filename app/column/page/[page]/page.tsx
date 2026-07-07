@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { ColumnArchive } from '../../../../components/ColumnArchive';
-import { getColumnCategoryCounts, getColumnPostsPage } from '../../../../libs/column';
+import { getColumnCategoryCounts, getColumnPostsPage, getSitemapColumnPosts } from '../../../../libs/column';
 import { ogImage, withSiteName } from '../../../../libs/site-metadata';
 
 const POSTS_PER_PAGE = 15;
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{
@@ -17,6 +17,15 @@ type Props = {
 function parsePageNumber(value: string) {
   const page = Number(value);
   return Number.isInteger(page) && page > 0 ? page : null;
+}
+
+export async function generateStaticParams() {
+  const posts = await getSitemapColumnPosts();
+  const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+
+  return Array.from({ length: totalPages - 1 }, (_, index) => ({
+    page: String(index + 2),
+  }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

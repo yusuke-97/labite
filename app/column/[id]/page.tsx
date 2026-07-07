@@ -11,11 +11,12 @@ import {
   getLatestColumnPosts,
   getRecommendedColumnPosts,
   getRelatedColumnPosts,
+  getSitemapColumnPosts,
   type ArticleCard,
   type Category,
   type ImageField,
 } from '../../../libs/column';
-import { client } from '../../../libs/microcms';
+import { client, cmsRequestInit } from '../../../libs/microcms';
 import { addHeadingIds, cleanArticleHtml, renderToc } from '../../../libs/render-toc';
 import { getRoadmapSteps } from '../../../libs/roadmap';
 import { getAbsoluteUrl, withSiteName } from '../../../libs/site-metadata';
@@ -27,7 +28,7 @@ import {
 } from '../../../libs/structured-data';
 import styles from './page.module.scss';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 type Props = {
   id: string;
@@ -53,10 +54,6 @@ type Props = {
   }[];
 };
 
-const noStoreRequestInit = {
-  cache: 'no-store',
-} satisfies RequestInit;
-
 const innerClass = 'mx-auto w-full max-w-280 px-6';
 const pillClass =
   'group inline-flex items-center gap-3 rounded-full border-2 border-navy bg-white px-6.5 py-3.5 text-[15px] font-bold transition-[transform,background] duration-250 hover:-translate-y-0.75';
@@ -68,7 +65,7 @@ async function getColumnPost(id: string): Promise<Props> {
     return await client.get({
       endpoint: `column/${id}`,
       queries: { depth: 2 },
-      customRequestInit: noStoreRequestInit,
+      customRequestInit: cmsRequestInit,
     });
   } catch (error) {
     if (error instanceof Error && error.message.includes('status: 404')) {
@@ -76,6 +73,14 @@ async function getColumnPost(id: string): Promise<Props> {
     }
     throw error;
   }
+}
+
+export async function generateStaticParams() {
+  const posts = await getSitemapColumnPosts();
+
+  return posts.map((post) => ({
+    id: post.id,
+  }));
 }
 
 function decodeHtmlEntities(html: string) {

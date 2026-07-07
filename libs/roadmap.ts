@@ -1,5 +1,5 @@
 import type { ArticleCard } from './column';
-import { client } from './microcms';
+import { client, cmsRequestInit } from './microcms';
 
 type RoadmapPoint = string | {
   text?: string;
@@ -17,10 +17,6 @@ export type RoadmapStep = {
   relatedArticles?: ArticleCard[];
 };
 
-const noStoreRequestInit = {
-  cache: 'no-store',
-} satisfies RequestInit;
-
 export function getRoadmapPointText(point: RoadmapPoint) {
   if (typeof point === 'string') {
     return point;
@@ -37,7 +33,7 @@ export async function getRoadmapSteps(): Promise<RoadmapStep[]> {
       orders: 'stepNumber',
       depth: 2,
     },
-    customRequestInit: noStoreRequestInit,
+    customRequestInit: cmsRequestInit,
   });
 
   return steps.sort((a, b) => a.stepNumber - b.stepNumber);

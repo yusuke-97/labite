@@ -240,7 +240,7 @@ export function ColumnArchive({
                     src={post.image.url}
                     alt={post.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1024px) calc((100vw - 72px) / 2), 357px"
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                   />
                 </div>

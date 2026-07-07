@@ -321,7 +321,7 @@ function PostSection({
                   src={post.image.url}
                   alt={post.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, 110px"
+                  sizes="(max-width: 768px) calc(100vw - 48px), 110px"
                   className="object-cover"
                 />
               </span>
@@ -446,6 +446,7 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
                   width={post.image.width}
                   height={post.image.height}
                   alt={post.title}
+                  sizes="(max-width: 1023px) calc(100vw - 48px), (max-width: 1168px) calc(100vw - 388px), 780px"
                   className="h-auto w-full"
                   priority
                 />

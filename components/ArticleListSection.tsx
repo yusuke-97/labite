@@ -74,7 +74,7 @@ export function ArticleListSection({
                 src={featuredPost.image.url}
                 alt={featuredPost.title}
                 fill
-                sizes="(max-width: 768px) 100vw, 540px"
+                sizes="(max-width: 768px) calc(100vw - 48px), 575px"
                 className="!h-full !w-full object-cover opacity-100"
               />
             </div>
@@ -91,7 +91,7 @@ export function ArticleListSection({
                     src={post.image.url}
                     alt={post.title}
                     fill
-                    sizes="120px"
+                    sizes="(max-width: 768px) calc(100vw - 48px), 120px"
                     className="!h-full !w-full object-cover opacity-100"
                   />
                 </div>

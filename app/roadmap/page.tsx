@@ -110,7 +110,7 @@ function RelatedArticles({ step }: { step: RoadmapStep }) {
                 src={article.image.url}
                 alt={article.title}
                 fill
-                sizes="(max-width: 1024px) 100vw, 320px"
+                sizes="(max-width: 768px) calc(100vw - 48px), 350px"
                 className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
             </div>

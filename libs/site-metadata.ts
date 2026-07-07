@@ -1,7 +1,7 @@
 export const siteName = 'Labite';
 
 export const siteTitle =
-  'Labite | 未経験からWebエンジニアを目指す技術ブログ';
+  '未経験からWebエンジニアを目指す学習ロードマップ | Labite';
 
 export const siteDescription =
   'Labiteは、未経験からWebエンジニアを目指す方のための技術ブログです。学習の進め方や開発の基礎知識、キャリアに関する情報を発信しています。';

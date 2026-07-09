@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { ArticleProgress } from '../../../components/ArticleProgress';
 import { ArrowIcon } from '../../../components/ArrowIcon';
 import { RoadmapSection } from '../../../components/RoadmapSection';
+import { SkillHacksAffiliate } from '../../../components/SkillHacksAffiliate';
 import { TableOfContents } from '../../../components/TableOfContents';
 import {
   getLatestColumnPosts,
@@ -40,6 +41,7 @@ type Props = {
   revisedAt?: string;
   updatedAt?: string;
   category: Category;
+  showAffiliate?: boolean;
   summaryItems?: { text: string }[];
   recommendBlocks?: {
     marker: string;
@@ -246,7 +248,7 @@ function SidebarNewPosts({ posts }: { posts: ArticleCard[] }) {
 
 function AuthorBox() {
   return (
-    <footer className="relative mt-18 mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
+    <footer className="relative mb-8 grid grid-cols-[110px_1fr] items-center gap-6 rounded-2xl border-2 border-navy bg-white p-7.5 before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:grid-cols-1 max-md:p-6 max-md:text-center">
       <div className="relative size-25 overflow-hidden rounded-full border-3 border-yellow bg-pale-blue max-md:mx-auto">
         <Image src="/images/profile-shu.png" alt="Labite運営者 しゅう" fill sizes="100px" className="object-cover" />
       </div>
@@ -457,11 +459,15 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
                 />
               </figure>
               <SummaryBox items={post.summaryItems ?? []} />
+              {post.showAffiliate && (
+                <SkillHacksAffiliate placement="after-summary" />
+              )}
               <TableOfContents toc={toc} variant="mobile" />
             </div>
 
             <article className={`${styles.content} mt-10`}>
               {renderContent(bodyHtml, post.recommendBlocks)}
+              {post.showAffiliate && <SkillHacksAffiliate />}
               <AuthorBox />
               <ConsultationCard />
             </article>

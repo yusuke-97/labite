@@ -1,152 +1,134 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowIcon } from './ArrowIcon';
-import {
-  bluePillArrowClass,
-  bluePillClass,
-  innerClass,
-  pillArrowClass,
-  pillClass,
-} from './site-design';
 
-const titleSegments = [
-  { text: '実務で使える技術を、' },
-  { break: true },
-  { text: '未経験', marked: true },
-  { text: 'から。' },
-] as const;
-
-const titleSegmentStarts = titleSegments.map((_, index) =>
-  titleSegments
-    .slice(0, index)
-    .reduce((length, segment) => length + ('text' in segment ? segment.text.length : 0), 0),
-);
-
-function WaveText() {
-  const text = 'Labite Labite Labite\u00a0';
-
+function LabiteWordmarkBackground() {
   return (
-    <div className="fv-marquee" aria-hidden="true">
-      {[0, 1].map((copy) => (
-        <span className="fv-marquee-track" key={copy}>
-          {[...text].map((character, index) => (
-            <i key={`${copy}-${index}`}>
-              <b style={{ animationDelay: `${index * 0.14}s` }}>
-                {character === ' ' || character === '\u00a0' ? '\u00a0' : character}
-              </b>
-            </i>
-          ))}
-        </span>
+    <div
+      className="pointer-events-none absolute inset-0 z-0 flex flex-col justify-center overflow-hidden"
+      aria-hidden="true"
+    >
+      {[
+        { margin: '-1%', size: 'text-[154px]' },
+        { margin: '-20%', size: 'text-[154px]' },
+        { margin: '-6%', size: 'text-[154px]' },
+        { margin: '-24%', size: 'text-[154px]' },
+        { margin: '-3%', size: 'text-[154px]' },
+      ].map((row, index) => (
+        <div
+          className={`${row.size} font-[family-name:var(--font-oswald)] leading-[.96] font-bold tracking-[.04em] whitespace-nowrap text-transparent uppercase [-webkit-text-stroke:1.5px_rgba(29,43,80,.09)] max-md:text-[84px] max-md:[-webkit-text-stroke:1.2px_rgba(29,43,80,.1)]`}
+          key={index}
+          style={{ marginLeft: row.margin }}
+        >
+          Labite Labite Labite Labite Labite Labite Labite Labite
+        </div>
       ))}
     </div>
   );
 }
 
-function FvIllustration() {
+function BrowserPhoto() {
   return (
-    <svg viewBox="0 0 480 360" fill="none" aria-hidden="true">
-      <rect x="40" y="30" width="400" height="270" rx="14" stroke="#1D2B50" strokeWidth="3" fill="#fff" />
-      <line x1="40" y1="78" x2="440" y2="78" stroke="#1D2B50" strokeWidth="3" />
-      <circle cx="68" cy="54" r="7" fill="#FFC94B" stroke="#1D2B50" strokeWidth="2.5" />
-      <circle cx="94" cy="54" r="7" fill="#fff" stroke="#1D2B50" strokeWidth="2.5" />
-      <circle cx="120" cy="54" r="7" fill="#4A7DFF" stroke="#1D2B50" strokeWidth="2.5" />
-      <rect x="68" y="104" width="120" height="12" rx="6" fill="#4A7DFF" opacity=".3" />
-      <rect x="68" y="132" width="220" height="12" rx="6" fill="#EAF1FB" stroke="#1D2B50" strokeWidth="1.5" opacity=".35" />
-      <rect x="96" y="160" width="170" height="12" rx="6" fill="#FFC94B" opacity=".35" />
-      <rect x="96" y="188" width="240" height="12" rx="6" fill="#EAF1FB" stroke="#1D2B50" strokeWidth="1.5" opacity=".35" />
-      <rect x="68" y="216" width="90" height="12" rx="6" fill="#1D2B50" opacity=".3" />
-      <rect x="68" y="248" width="150" height="12" rx="6" fill="#EAF1FB" stroke="#1D2B50" strokeWidth="1.5" opacity=".35" />
-      <path d="M395 250l40 40" stroke="#1D2B50" strokeWidth="3" strokeLinecap="round" strokeDasharray="2 8" />
-      <circle cx="430" cy="120" r="26" fill="#FFC94B" stroke="#1D2B50" strokeWidth="3" />
-      <path d="M420 120l7 7 13-14" stroke="#1D2B50" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M30 320q60-24 120 0t120 0t120 0t60-12" stroke="#1D2B50" strokeWidth="2.5" strokeDasharray="1 10" strokeLinecap="round" />
-    </svg>
+    <div className="relative mx-auto w-full max-w-[506px] max-lg:max-w-[560px]">
+      <div className="relative overflow-hidden rounded-[16px] border-[1.5px] border-navy bg-white shadow-[8px_8px_0_rgba(29,43,80,.1)]">
+        <div className="flex h-12 items-center gap-2.5 border-b-[1.5px] border-navy bg-[#EFE7D5] px-4 max-md:h-10 max-md:gap-2 max-md:px-3">
+          <span className="size-3 rounded-full border border-navy bg-[#E8695B] max-md:size-2.5" />
+          <span className="size-3 rounded-full border border-navy bg-yellow max-md:size-2.5" />
+          <span className="size-3 rounded-full border border-navy bg-[#5FB878] max-md:size-2.5" />
+          <span className="ml-2 flex min-w-0 flex-1 items-center gap-1.5 rounded-full border-[1.5px] border-navy bg-white px-3 py-1 leading-none max-md:ml-1 max-md:px-2">
+            <svg className="size-3 shrink-0 text-[#5B6473] max-md:size-2.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect width="18" height="11" x="3" y="11" rx="2" stroke="currentColor" strokeWidth="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+            </svg>
+            <span className="truncate font-mono text-[11px] tracking-[.04em] text-[#33405A] max-md:text-[10px]">
+              labite-tech.com
+            </span>
+          </span>
+        </div>
+
+        <div className="relative aspect-[16/12.1] bg-[#EFE7D5]">
+          <Image
+            src="/images/top-fv.png"
+            alt="ノートPCで作業する男性"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 506px"
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      <div className="absolute right-3 -bottom-4 flex h-9 w-15 rotate-[-4deg] items-center justify-center rounded-[10px] border-[1.5px] border-navy bg-yellow font-mono text-[15px] font-black text-navy shadow-[3px_3px_0_#1D2B50] max-md:right-2 max-md:-bottom-3 max-md:h-8 max-md:w-13 max-md:text-[13px]">
+        &lt;/&gt;
+      </div>
+    </div>
+  );
+}
+
+function HeroButton({
+  href,
+  children,
+  variant = 'yellow',
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: 'yellow' | 'white';
+}) {
+  const isYellow = variant === 'yellow';
+
+  return (
+    <Link
+      className={`group inline-flex min-h-13 items-center justify-center gap-3 rounded-full border-[1.5px] border-navy px-7 text-[14px] font-black whitespace-nowrap text-navy shadow-[3px_3px_0_rgba(29,43,80,.08)] transition-[transform,box-shadow,background] duration-200 hover:-translate-y-0.75 hover:shadow-[5px_5px_0_rgba(29,43,80,.14)] max-md:w-full max-md:px-5 max-md:text-[13.5px] ${isYellow ? 'bg-yellow hover:bg-[#f0b92f]' : 'bg-white hover:bg-pale-blue'}`}
+      href={href}
+    >
+      {children}
+      <span
+        className={`inline-flex size-6 items-center justify-center rounded-full text-[12px] transition-transform duration-200 group-hover:translate-x-0.75 ${isYellow ? 'bg-navy text-yellow' : 'bg-navy text-white'}`}
+      >
+        <ArrowIcon />
+      </span>
+    </Link>
   );
 }
 
 export function HomeHero() {
-  const [visibleCharacters, setVisibleCharacters] = useState<number | null>(null);
-  const fullTextLength = titleSegments.reduce(
-    (length, segment) => length + ('text' in segment ? segment.text.length : 0),
-    0,
-  );
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    let count = 0;
-    let interval: number | undefined;
-    const startTimer = window.setTimeout(() => {
-      setVisibleCharacters(0);
-      interval = window.setInterval(() => {
-        count += 1;
-        setVisibleCharacters(count);
-        if (count >= fullTextLength) {
-          window.clearInterval(interval);
-          window.setTimeout(() => setVisibleCharacters(null), 1500);
-        }
-      }, 110);
-    }, 500);
-
-    return () => {
-      window.clearTimeout(startTimer);
-      if (interval !== undefined) {
-        window.clearInterval(interval);
-      }
-    };
-  }, [fullTextLength]);
-
   return (
-    <section className="relative flex min-h-[78vh] items-center overflow-hidden pt-40 pb-24 max-md:min-h-[100svh] max-md:pt-19 max-md:pb-7">
-      {/* <a
-        className="absolute bottom-0 left-6 flex items-center gap-2.5 font-[family-name:var(--font-oswald)] text-[11px] tracking-[.3em] transition-colors hover:text-[#C99514] after:block after:h-16 after:w-0.5 after:rounded-sm after:bg-navy after:content-[''] after:animate-[scrollLine_1.8s_ease-in-out_infinite] hover:after:bg-[#C99514] [writing-mode:vertical-rl] max-md:hidden"
-        href="#roadmap"
-        aria-label="次のセクションへスクロール"
-      >
-        SCROLL
-      </a> */}
-      <div className={`${innerClass} relative z-2 grid w-full grid-cols-[1fr_1.15fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-8.75`}>
-        <div className="fade is-show">
-          <h1 className={`${visibleCharacters !== null ? 'typing-cursor' : ''} mb-5.5 text-[48px] leading-[1.5] font-black text-yellow [-webkit-text-stroke:4px_#1D2B50] [paint-order:stroke_fill] max-md:mb-3 max-md:text-[32px]`}>
-            {titleSegments.map((segment, index) => {
-              if ('break' in segment) {
-                return <br className="min-[640px]:max-md:hidden" key={index} />;
-              }
+    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-[100svh] max-md:pt-19 max-md:pb-7">
+      <LabiteWordmarkBackground />
 
-              const start = titleSegmentStarts[index];
-              const shown =
-                visibleCharacters === null
-                  ? segment.text
-                  : segment.text.slice(0, Math.max(0, visibleCharacters - start));
+      <div className="relative z-1 mx-auto grid max-w-[1120px] grid-cols-[1fr_506px] items-center gap-18 px-8 max-xl:max-w-[1040px] max-xl:grid-cols-[1fr_480px] max-xl:gap-12 max-lg:grid-cols-1 max-lg:gap-8 max-md:px-5">
+        <div className="fade is-show max-w-[560px] max-lg:max-w-none">
+          <div className="mb-7 flex items-center gap-3 max-md:mb-4">
+            <span className="size-3 rotate-45 border-[1.5px] border-navy bg-yellow max-md:size-2.5" />
+            <span className="font-mono text-[12px] font-semibold tracking-[.42em] text-navy uppercase max-md:text-[9px] max-md:tracking-[.22em]">
+              TECH BLOG FOR ASPIRING WEB ENGINEERS
+            </span>
+          </div>
 
-              return 'marked' in segment && segment.marked
-                ? <span key={index}>{shown}</span>
-                : <span key={index}>{shown}</span>;
-            })}
+          <h1 className="mb-7 text-[42px] leading-[1.48] font-black tracking-normal text-navy max-md:mb-5 max-md:text-[29px] max-md:leading-[1.5]">
+            <span className="bg-linear-to-t from-yellow from-[31%] to-transparent to-[31%]">
+              実務で使える技術を、
+            </span>
+            <br />
+            未経験から。
           </h1>
-          <p className="fv-description mb-8.5 max-w-130 max-md:mb-4 max-md:text-sm">
+
+          <div className="mb-7 hidden max-md:block">
+            <BrowserPhoto />
+          </div>
+
+          <p className="max-w-[560px] text-[15.5px] leading-[2.15] font-medium text-navy max-md:text-[13.5px] max-md:leading-[2]">
             Labiteは、未経験からWebエンジニアを目指す人のための技術ブログです。学習の手順、開発ノウハウ、キャリアの情報を、現場の目線で整理して発信しています。
           </p>
+
+          <div className="mt-9 flex flex-wrap gap-4 max-md:mt-7 max-md:flex-col max-md:gap-3">
+            <HeroButton href="/roadmap">学習ロードマップを見る</HeroButton>
+            <HeroButton href="/column" variant="white">記事一覧を見る</HeroButton>
+          </div>
         </div>
-        <div className="fade is-show relative">
-          <WaveText />
-          <div className="relative z-1 [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:w-full max-md:[&_svg]:max-w-[430px]">
-            <FvIllustration />
-          </div>
-          <div className="absolute bottom-[30%] left-1/2 z-2 flex w-max max-w-[80%] -translate-x-1/2 flex-col items-center gap-2.5">
-            <Link className={`${bluePillClass} !px-5 !py-2.75 !text-[13.5px] whitespace-nowrap max-md:!px-4.5 max-md:!py-2.5 max-md:!text-[12.5px]`} href="/roadmap">
-              学習ロードマップを見る
-              <span className={`${bluePillArrowClass} !size-6 !text-xs`}><ArrowIcon /></span>
-            </Link>
-            <Link className={`${pillClass} !px-5 !py-2.75 !text-[13.5px] whitespace-nowrap max-md:!px-4.5 max-md:!py-2.5 max-md:!text-[12.5px]`} href="/column">
-              記事一覧を見る
-              <span className={`${pillArrowClass} !size-6 !text-xs`}><ArrowIcon /></span>
-            </Link>
-          </div>
+
+        <div className="fade is-show relative max-lg:mx-auto max-lg:w-full max-md:hidden">
+          <BrowserPhoto />
         </div>
       </div>
     </section>

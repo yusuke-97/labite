@@ -2,18 +2,10 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArticleListSection } from '../components/ArticleListSection';
-import { ArrowIcon } from '../components/ArrowIcon';
 import { HomeHero } from '../components/HomeHero';
 import { ProfileCard } from '../components/ProfileCard';
 import { RoadmapSection } from '../components/RoadmapSection';
-import {
-  cardDotsClass,
-  innerClass,
-  outlineTitleClass,
-  sectionClass,
-  yellowPillArrowClass,
-  yellowPillClass,
-} from '../components/site-design';
+import { outlineTitleClass } from '../components/site-design';
 import {
   getColumnCategoryCounts,
   getLatestColumnPosts,
@@ -246,20 +238,75 @@ function CategoryCard({
   );
 }
 
-function SectionHeading({
-  english,
-  title,
-  lead,
-}: {
-  english: string;
-  title: string;
-  lead?: string;
-}) {
+function AboutBackground() {
   return (
-    <div className="fade mb-12">
-      <span className={outlineTitleClass}>{english}</span>
-      <h2 className="mt-3.5 text-[clamp(22px,3vw,30px)] font-bold">{title}</h2>
-      {lead && <p className="mt-3.5 max-w-170">{lead}</p>}
+    <div className="pointer-events-none absolute inset-0 -z-1 overflow-hidden" aria-hidden="true">
+      <svg className="absolute -top-7 right-18 size-50 opacity-[.06] max-md:-top-4 max-md:right-4 max-md:size-29" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="8" r="5" stroke="#17233D" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+        <path d="M20 21a8 8 0 0 0-16 0" stroke="#17233D" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+      </svg>
+      <svg className="absolute bottom-2 left-[3%] size-37.5 opacity-[.05] max-md:size-21" viewBox="0 0 24 24" fill="none">
+        <path d="m7 11 2-2-2-2M11 13h4" stroke="#17233D" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+        <rect width="18" height="18" x="3" y="3" rx="2" stroke="#17233D" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+      </svg>
+      <svg className="absolute top-[42%] right-[33%] size-13 opacity-[.06] max-md:hidden" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2 2 12l10 10 10-10z" stroke="#17233D" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+      </svg>
+    </div>
+  );
+}
+
+function AboutHeadingIcon() {
+  return (
+    <span className="inline-flex size-7.5 items-center justify-center rounded-[9px] border-[1.5px] border-navy bg-yellow text-navy max-md:size-7 max-md:rounded-lg">
+      <svg className="size-4 max-md:size-3.75" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="8" r="5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <path d="M20 21a8 8 0 0 0-16 0" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    </span>
+  );
+}
+
+function ContactHeadingIcon() {
+  return (
+    <span className="inline-flex size-7.5 items-center justify-center rounded-[9px] border-[1.5px] border-navy bg-yellow text-navy max-md:size-7 max-md:rounded-lg">
+      <svg className="size-4 max-md:size-3.75" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect width="20" height="16" x="2" y="4" rx="2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    </span>
+  );
+}
+
+function ContactStamp({ compact = false }: { compact?: boolean }) {
+  return (
+    <div
+      className={compact ? 'relative w-18.5 flex-none' : 'relative w-24'}
+      aria-hidden="true"
+    >
+      <div className={`${compact ? 'rounded-[5px] border-2 p-1.25' : 'rounded-md border-2 p-1.75'} rotate-[3deg] overflow-hidden border-dashed border-navy bg-[#DCE8FA]`}>
+        <Image
+          className="h-auto w-full"
+          src="/images/contact-person.svg"
+          alt=""
+          width={compact ? 74 : 96}
+          height={compact ? 74 : 96}
+        />
+        <div className={`${compact ? 'pt-0.5 pb-px text-[6.5px] tracking-[.18em]' : 'pt-0.75 pb-0.5 text-[7.5px] tracking-[.2em]'} text-center font-mono leading-none font-bold text-navy`}>
+          LABITE
+        </div>
+      </div>
+      <svg
+        className={`${compact ? '-bottom-2.5 -left-16 w-23' : '-bottom-4.5 -left-21 w-30.5'} absolute text-navy opacity-70`}
+        viewBox="0 0 104 48"
+        fill="none"
+      >
+        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" strokeDasharray="4 3" strokeWidth="2" />
+        <image href="/images/rail-site-logo.svg" x="13" y="13" width="22" height="22" preserveAspectRatio="xMidYMid meet" />
+        <path d="M52 12 q5 -5 10 0 t10 0 t10 0 t10 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+        <path d="M52 24 q5 -5 10 0 t10 0 t10 0 t10 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+        <path d="M52 36 q5 -5 10 0 t10 0 t10 0 t10 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+      </svg>
     </div>
   );
 }
@@ -343,24 +390,83 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className={`${sectionClass} border-y-[1.5px] border-navy bg-pale-blue`} id="about">
-        <div className={innerClass}>
-          <SectionHeading english="About" title="このサイトの運営者" />
-          <ProfileCard showProfileLink />
+      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-cream py-22 max-md:px-5.5 max-md:py-12" id="about">
+        <AboutBackground />
+        <div className="mx-auto max-w-280 px-8 max-md:px-0">
+          <div className="fade">
+            <span className={outlineTitleClass}>About</span>
+            <div className="mt-3.5 flex items-center gap-3 max-md:mt-3 max-md:gap-2.5">
+              <AboutHeadingIcon />
+              <h2 className="text-[17px] leading-[1.5] font-black max-md:text-base">このサイトの運営者</h2>
+            </div>
+          </div>
+          <ProfileCard showProfileLink variant="top" />
         </div>
       </section>
 
-      <section className={sectionClass} id="cta">
-        <div className={innerClass}>
-          <div className={`fade relative mx-auto max-w-210 rounded-2xl border-[1.5px] border-navy bg-white px-8 py-16 text-center max-md:px-5.5 max-md:py-12 ${cardDotsClass}`}>
-            <span className={`${outlineTitleClass} text-[clamp(28px,4vw,44px)]`}>Contact</span>
-            <h2 className="mb-3.5 text-[clamp(20px,2.6vw,26px)]">お問い合わせを受け付けています</h2>
-            <p className="mx-auto mb-7.5 max-w-140">サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link className={yellowPillClass} href="/contact">
-                お問い合わせ
-                <span className={yellowPillArrowClass}><ArrowIcon /></span>
-              </Link>
+      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-22 max-md:px-5.5 max-md:py-12" id="cta">
+        <div className="mx-auto max-w-280 px-8 max-md:px-0">
+          <div className="fade">
+            <span className={outlineTitleClass}>Contact</span>
+            <div className="mt-3.5 flex items-center gap-3 max-md:mt-3 max-md:gap-2.5">
+              <ContactHeadingIcon />
+              <h2 className="text-[17px] leading-[1.5] font-black max-md:text-base">お問い合わせ</h2>
+            </div>
+          </div>
+
+          <div className="fade mt-7.5 rounded-[20px] border-[1.5px] border-navy bg-[repeating-linear-gradient(45deg,#F2635F_0_12px,#FFF8EC_12px_24px,#A9C4EE_24px_36px,#FFF8EC_36px_48px)] p-2.5 shadow-[10px_10px_0_rgba(23,35,61,.15)] max-md:mt-5 max-md:rounded-2xl max-md:bg-[repeating-linear-gradient(45deg,#F2635F_0_9px,#FFF8EC_9px_18px,#A9C4EE_18px_27px,#FFF8EC_27px_36px)] max-md:p-2 max-md:shadow-[7px_7px_0_rgba(23,35,61,.15)]">
+            <div className="relative overflow-hidden rounded-xl border-[1.5px] border-navy bg-white px-12 py-[46px] pb-10.5 max-md:rounded-[10px] max-md:px-5 max-md:py-5.5 max-md:pb-6">
+              <div className="absolute inset-0 bg-[radial-gradient(rgba(23,35,61,.04)_1.5px,transparent_1.5px)] [background-size:20px_20px] max-md:[background-size:16px_16px]" aria-hidden="true" />
+              <div className="absolute top-6.5 right-10 max-md:hidden">
+                <ContactStamp />
+              </div>
+
+              <div className="relative hidden min-h-24 items-start justify-between gap-3.5 max-md:flex">
+                <p className="pt-1 font-mono text-[9px] leading-none font-bold tracking-[.3em] text-[#8A8266]">POST CARD</p>
+                <ContactStamp compact />
+              </div>
+
+              <p className="absolute top-5.5 left-12 font-mono text-[10px] leading-none font-bold tracking-[.34em] text-[#8A8266] max-md:hidden">POST CARD</p>
+
+              <div className="relative mt-6.5 flex items-start gap-14 max-md:mt-4 max-md:block">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-[28px] leading-[1.55] font-black text-navy max-md:text-xl max-md:leading-[1.55]">
+                    お問い合わせを
+                    <br className="hidden max-md:block" />
+                    <span className="bg-[linear-gradient(transparent_62%,#F5C543_62%,#F5C543_92%,transparent_92%)] px-0.75 max-md:px-0.5">受け付けています</span>
+                  </h3>
+                  <p className="mt-4 mb-7.5 max-w-130 text-[14.5px] leading-[2.05] text-[#4A5468] max-md:mt-3 max-md:mb-0 max-md:text-[12.5px] max-md:leading-[1.95]">
+                    サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。
+                  </p>
+
+                  <div className="hidden max-md:my-5.5 max-md:block">
+                    <p className="font-mono text-[8.5px] leading-none font-bold tracking-[.24em] text-[#8A8266]">TO :</p>
+                    <p className="border-b-[1.5px] border-navy/30 py-2.5 pb-1.5 text-[13.5px] leading-none font-extrabold text-navy">Labite サイト運営者 宛</p>
+                  </div>
+
+                  <Link
+                    className="group inline-flex items-center gap-3.25 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.25 pr-7 pl-2.25 text-[15.5px] font-extrabold !text-white shadow-[4px_4px_0_#17233D] transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:!text-white hover:shadow-[5px_5px_0_#17233D] max-md:flex max-md:w-full max-md:justify-center max-md:gap-2.75 max-md:py-2 max-md:pr-4.5 max-md:pl-2 max-md:text-sm max-md:shadow-[3px_3px_0_#17233D]"
+                    href="/contact"
+                  >
+                    <span className="inline-flex size-10 items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-[#F2635F] max-md:size-8.5">
+                      <svg className="size-4.75 max-md:size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="m22 2-7 20-4-9-9-4Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                        <path d="M22 2 11 13" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                      </svg>
+                    </span>
+                    お問い合わせフォームへ
+                  </Link>
+                </div>
+
+                <div className="w-75 flex-none pt-24 max-md:hidden">
+                  <p className="font-mono text-[9.5px] leading-none font-bold tracking-[.26em] text-[#8A8266]">TO :</p>
+                  <div className="mt-5 flex flex-col gap-7.5">
+                    <span className="block border-b-[1.5px] border-navy/30 pb-1.75 text-[15px] leading-none font-extrabold text-navy">Labite サイト運営者 宛</span>
+                    <span className="block border-b-[1.5px] border-navy/18" />
+                    <span className="block border-b-[1.5px] border-navy/18" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

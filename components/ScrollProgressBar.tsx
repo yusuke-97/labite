@@ -52,17 +52,17 @@ export function ScrollProgressBar() {
   const riderLeft = `${progress}%`;
 
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-65 overflow-visible border-t-[1.5px] border-navy bg-[#EFE7D5] px-8 py-2 max-md:px-5.5" aria-label={`スクロール進捗 ${Math.round(progress)}%`}>
-      <div className="relative mx-auto h-8 max-w-280 max-md:h-6">
-        <div className="absolute top-5 right-0 left-0 h-2 rounded-full border-[1.5px] border-navy bg-transparent max-md:top-3.75 max-md:h-1.5" />
+    <div className="fixed right-0 bottom-0 left-0 z-65 overflow-visible border-t-[1.5px] border-navy bg-[#EFE7D5] px-8 py-2 max-md:px-5.5 max-md:py-2.5" aria-label={`スクロール進捗 ${Math.round(progress)}%`}>
+      <div className="relative mx-auto h-8 max-w-280 max-md:h-7.5">
+        <div className="absolute top-5 right-0 left-0 h-2 rounded-full border-[1.5px] border-navy bg-transparent max-md:top-4.5 max-md:h-2" />
         <div
-          className="absolute top-5 left-0 h-2 rounded-full border-[1.5px] border-navy bg-[#E23B34] transition-[width] duration-75 max-md:top-3.75 max-md:h-1.5"
+          className="absolute top-5 left-0 h-2 rounded-full border-[1.5px] border-navy bg-[#E23B34] transition-[width] duration-75 max-md:top-4.5 max-md:h-2"
           style={{ width: `${progress}%` }}
         />
 
         {[0, 25, 50, 75].map((mark) => (
           <span
-            className="absolute top-1.25 h-3 w-1.5 rounded-[3px] border-[1.5px] border-navy bg-yellow transition-colors duration-150 data-[passed=true]:bg-[#E23B34] max-md:top-0.75 max-md:h-2.25 max-md:w-1.25"
+            className="absolute top-1.25 h-3 w-1.5 rounded-[3px] border-[1.5px] border-navy bg-yellow transition-colors duration-150 data-[passed=true]:bg-[#E23B34] max-md:top-1 max-md:h-2.75 max-md:w-1.5"
             key={mark}
             data-passed={progress >= mark}
             style={{ left: `${mark}%`, transform: mark === 0 ? undefined : 'translateX(-50%)' }}
@@ -70,7 +70,7 @@ export function ScrollProgressBar() {
         ))}
 
         <Image
-          className="absolute right-[-9px] bottom-2 h-6.5 w-auto max-md:right-[-7px] max-md:bottom-1.5 max-md:h-5"
+          className="absolute right-[-9px] bottom-2 h-6.5 w-auto max-md:right-[-7px] max-md:bottom-2 max-md:h-5.5"
           src="/images/finish-flag.svg"
           alt="ゴール"
           width={26}
@@ -78,11 +78,11 @@ export function ScrollProgressBar() {
         />
 
         <div
-          className="pointer-events-none absolute bottom-1 flex -translate-x-1/2 flex-col items-center transition-[left] duration-75 max-md:bottom-0.75"
+          className="pointer-events-none absolute bottom-1 flex -translate-x-1/2 flex-col items-center transition-[left] duration-75 max-md:bottom-1"
           style={{ left: riderLeft }}
         >
           <div
-            className="mb-1.5 min-w-11 whitespace-nowrap rounded-full border-[1.5px] border-navy bg-white px-2.25 py-0.5 text-center font-mono text-[9.5px] leading-none font-bold text-navy shadow-[2px_2px_0_rgba(23,35,61,.9)] max-md:mb-1 max-md:min-w-9 max-md:px-1.75 max-md:text-[8px] max-md:shadow-[1.5px_1.5px_0_rgba(23,35,61,.9)]"
+            className="mb-1.5 min-w-11 whitespace-nowrap rounded-full border-[1.5px] border-navy bg-white px-2.25 py-0.5 text-center font-mono text-[9.5px] leading-none font-bold text-navy shadow-[2px_2px_0_rgba(23,35,61,.9)] max-md:mb-1 max-md:min-w-10 max-md:px-2 max-md:py-0.75 max-md:text-[10.5px] max-md:shadow-[1.5px_1.5px_0_rgba(23,35,61,.9)]"
             style={{
               transform: `translateX(${progress < 6 ? 28 - progress * 4.67 : progress > 94 ? -((progress - 94) * 4.67) : 0}px)`,
             }}

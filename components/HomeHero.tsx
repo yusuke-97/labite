@@ -108,7 +108,7 @@ function HeroButton({
 
 export function HomeHero() {
   return (
-    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-0 max-md:items-start max-md:pt-[76px] max-md:pb-6 max-md:[--fv-fixed:401px]">
+    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-0 max-md:items-start max-md:pt-[76px] max-md:pb-6 max-md:[--fv-fixed:385px]">
       <LabiteWordmarkBackground />
 
       <div className="relative z-1 mx-auto grid max-w-[1120px] grid-cols-[1fr_506px] items-center gap-18 px-8 max-xl:max-w-[1040px] max-xl:grid-cols-[1fr_480px] max-xl:gap-12 max-lg:grid-cols-1 max-lg:gap-8 max-md:px-5">

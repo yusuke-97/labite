@@ -19,6 +19,7 @@ type Props = {
   variant?: 'primary' | 'light';
   className?: string;
   showArchiveLink?: boolean;
+  id?: string;
 };
 
 function PostMeta({ post }: { post: ArticleCard }) {
@@ -106,6 +107,7 @@ export function ArticleListSection({
   variant = 'primary',
   className = '',
   showArchiveLink = true,
+  id,
 }: Props) {
   if (posts.length === 0) {
     return null;
@@ -122,7 +124,7 @@ export function ArticleListSection({
   const listOrderClass = isRecommended ? 'md:order-2' : 'md:order-1';
 
   return (
-    <section className={`relative isolate overflow-hidden ${sectionClass} article-list-section article-list-section--${variant} ${className}`}>
+    <section className={`relative isolate overflow-hidden ${sectionClass} article-list-section article-list-section--${variant} ${className}`} id={id}>
       <SectionBackground type={sectionType} />
       <div className={innerClass}>
         <div className="fade flex flex-wrap items-end justify-between gap-8 max-md:block">

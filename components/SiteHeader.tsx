@@ -4,21 +4,30 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowIcon } from './ArrowIcon';
-import {
-  yellowPillArrowClass,
-  yellowPillClass,
-} from './site-design';
 
 const navItems = [
-  { href: '/', label: 'TOP', sub: 'top' },
-  { href: '/roadmap', label: '学習ロードマップ', sub: 'roadmap' },
-  { href: '/column', label: 'コラム', sub: 'column', prefetch: false },
-  { href: '/about', label: '運営者について', sub: 'about' },
+  { href: '/', label: 'TOP', sub: 'TOP', color: '#F5C543', hover: 'hover:bg-[#FCEFC0]' },
+  { href: '/roadmap', label: '学習ロードマップ', sub: 'ROADMAP', color: '#5FB878', hover: 'hover:bg-[#D6EEDF]' },
+  { href: '/column', label: 'コラム', sub: 'COLUMN', color: '#6FA0E8', hover: 'hover:bg-[#DCE8FA]' },
+  { href: '/about', label: '運営者について', sub: 'ABOUT', color: '#B98CE0', hover: 'hover:bg-[#ECDFF6]' },
 ];
 
-const menuButtonClass =
-  'hidden cursor-pointer rounded-lg border-[1.5px] border-navy bg-transparent px-3 py-2 font-[family-name:var(--font-oswald)] text-xs font-semibold text-navy max-md:block';
+function MailIcon({ className = 'size-3.75' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect width="20" height="16" x="2" y="4" rx="2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg className="size-3.75" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="m9 6 6 6-6 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.4" />
+    </svg>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -50,6 +59,14 @@ export function SiteHeader() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isDrawerOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isDrawerOpen]);
 
   useEffect(() => {
     const fadeObserver = new IntersectionObserver(
@@ -92,56 +109,102 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-100 flex h-18 items-center border-b border-navy bg-cream max-md:h-15">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6">
-          <Link href="/" aria-label="Labite トップページへ" onClick={closeDrawer}>
-            <Image className="h-7.5 w-auto max-md:h-6" src="/images/site-logo.svg" width={150} height={50} alt="Labite" priority />
+      <header className="fixed top-0 right-0 left-0 z-100 border-b-[1.5px] border-navy bg-[#EFE7D5]/94 backdrop-blur-[8px]">
+        <div className="mx-auto flex h-18 w-full max-w-280 items-center justify-between gap-8 px-8 max-md:h-14.5 max-md:px-5">
+          <Link className="flex items-center" href="/" aria-label="Labite トップページへ" onClick={closeDrawer}>
+            <Image className="h-8.5 w-auto max-md:h-7" src="/images/site-logo.svg" width={150} height={50} alt="Labite" priority />
           </Link>
-          <nav className="flex items-center gap-7.5 max-md:hidden" aria-label="グローバルナビゲーション">
+
+          <nav className="flex items-center gap-8.5 max-md:hidden" aria-label="グローバルナビゲーション">
             {navItems.map((item) => (
-              <Link key={item.sub} href={item.href} prefetch={item.prefetch} className="group flex flex-col items-center leading-[1.3]">
-                <span className="text-sm font-bold group-hover:text-blue">{item.label}</span>
-                <span className="font-[family-name:var(--font-oswald)] text-[10px] tracking-[.1em] text-blue uppercase">{item.sub}</span>
+              <Link key={item.sub} href={item.href} className="group flex flex-col items-center gap-px">
+                <span className="text-[13.5px] leading-[1.35] font-bold group-hover:text-[#C08A00]">{item.label}</span>
+                <span className="font-mono text-[9px] leading-[1.35] tracking-[.2em] text-[#98A1B5]">{item.sub}</span>
               </Link>
             ))}
-            <Link href="/contact" className={`${yellowPillClass} px-5 py-2.5 text-sm`}>
-              お問い合わせ
-              <span className={yellowPillArrowClass}><ArrowIcon /></span>
-            </Link>
           </nav>
-          <button className={menuButtonClass} type="button" onClick={() => setIsDrawerOpen(true)}>
-            MENU
+
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2.75 rounded-full border-[1.5px] border-navy bg-yellow py-1.5 pr-5 pl-1.5 text-[13.5px] font-extrabold shadow-[3px_3px_0_#17233D] hover:-translate-x-px hover:-translate-y-px hover:text-navy hover:shadow-[4px_4px_0_#17233D] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none max-md:hidden"
+          >
+            <span className="inline-flex size-7.5 items-center justify-center rounded-full bg-navy text-yellow">
+              <MailIcon />
+            </span>
+            お問い合わせ
+          </Link>
+
+          <button
+            className="hidden h-10.5 w-14 cursor-pointer items-center justify-center rounded-[14px] border-[1.5px] border-navy bg-transparent text-navy max-md:flex"
+            type="button"
+            aria-expanded={isDrawerOpen}
+            aria-controls="drawer"
+            aria-label={isDrawerOpen ? 'メニューを閉じる' : 'メニューを開く'}
+            onClick={() => setIsDrawerOpen((open) => !open)}
+          >
+            <span className="relative block h-6 w-7">
+              <span className={`${isDrawerOpen ? 'translate-y-2.5 rotate-45' : ''} absolute top-0 left-0 h-[3px] w-7 rounded-sm bg-navy transition-transform duration-300`} />
+              <span className={`${isDrawerOpen ? 'scale-x-[.2] opacity-0' : ''} absolute top-2.5 left-0 h-[3px] w-7 rounded-sm bg-navy transition-[opacity,transform] duration-200`} />
+              <span className={`${isDrawerOpen ? '-translate-y-2.5 -rotate-45' : ''} absolute top-5 left-0 h-[3px] w-7 rounded-sm bg-navy transition-transform duration-300`} />
+            </span>
           </button>
         </div>
       </header>
 
-      <div className={`${isDrawerOpen ? 'flex' : 'hidden'} fixed inset-0 z-200 flex-col bg-cream px-6 pb-6`} id="drawer">
-        <div className="-mx-6 mb-6 flex h-18 items-center justify-between border-b border-navy px-6 max-md:h-15">
-          <Link href="/" aria-label="Labite トップページへ" onClick={closeDrawer}>
-            <Image className="h-7.5 w-auto max-md:h-6" src="/images/site-logo.svg" width={150} height={50} alt="Labite" />
-          </Link>
-          <button className={menuButtonClass} type="button" onClick={closeDrawer}>
-            CLOSE
-          </button>
+      <div
+        className={`${isDrawerOpen ? 'flex' : 'hidden'} fixed top-14.5 right-0 bottom-0 left-0 z-90 flex-col overflow-hidden border-t-[1.5px] border-navy bg-[#EFE7D5]`}
+        id="drawer"
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(23,35,61,.06)_1.5px,transparent_1.5px)] [background-size:20px_20px]" aria-hidden="true" />
+        <div className="relative flex items-center gap-3 px-5.5 pt-6.5 pb-2.5">
+          <span className="font-mono text-[10px] font-bold tracking-[.28em] text-[#F2635F]">NAVIGATION</span>
+          <span className="h-[1.5px] flex-1 bg-navy/16" />
         </div>
-        <ul>
-          {navItems.map((item) => (
-            <li className="border-b-[1.5px] border-dashed border-navy" key={item.sub}>
-              <Link className="flex items-baseline justify-between px-1 py-4.5 font-bold" href={item.href} prefetch={item.prefetch} onClick={closeDrawer}>
-                {item.label}
-                <span className="font-[family-name:var(--font-oswald)] text-[11px] text-blue uppercase">{item.sub}</span>
-              </Link>
-            </li>
+        <nav className="relative flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-3 py-0.5" aria-label="モバイルナビゲーション">
+          {navItems.map((item, index) => (
+            <Link
+              className={`flex items-center gap-4 rounded-2xl px-3.5 py-3.5 text-navy ${item.hover} hover:translate-x-1`}
+              href={item.href}
+              key={item.sub}
+              onClick={closeDrawer}
+              style={{ animation: `menuitem-in .4s ease both ${0.05 + index * 0.05}s` }}
+            >
+              <span className="min-w-10.5 font-[family-name:var(--font-oswald)] text-[28px] leading-none font-bold text-transparent [-webkit-text-stroke:1.4px_#17233D]">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2.25">
+                  <span className="size-2.25 flex-none rotate-45 border-[1.5px] border-navy" style={{ backgroundColor: item.color }} />
+                  <span className="text-xl leading-[1.2] font-black">{item.label}</span>
+                </span>
+                <span className="mt-1.25 block pl-4.5 font-mono text-[9px] tracking-[.2em] text-[#8A8266]">{item.sub}</span>
+              </span>
+              <span className="flex size-8.5 flex-none items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-navy">
+                <ChevronIcon />
+              </span>
+            </Link>
           ))}
-        </ul>
-        <Link href="/contact" className={`${yellowPillClass} mt-7 justify-center`} onClick={closeDrawer}>
-          お問い合わせ
-          <span className={yellowPillArrowClass}><ArrowIcon /></span>
-        </Link>
+        </nav>
+        <div className="relative shrink-0 border-t-[1.5px] border-navy px-5 py-3.5 pb-5.5">
+          <Link
+            className="flex w-full items-center justify-center gap-2.75 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.5 pr-5 pl-2.5 text-[14.5px] font-extrabold !text-white shadow-[3px_3px_0_#17233D] hover:-translate-x-px hover:-translate-y-px hover:!text-white hover:shadow-[4px_4px_0_#17233D] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
+            href="/contact"
+            onClick={closeDrawer}
+          >
+            <span className="inline-flex size-8 items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-[#F2635F]">
+              <MailIcon className="size-4" />
+            </span>
+            お問い合わせフォームへ
+          </Link>
+          <div className="mt-3.5 flex items-center justify-center gap-2">
+            <Image className="h-4.5 w-auto opacity-85" src="/images/site-logo.svg" width={150} height={50} alt="Labite" />
+            <span className="font-mono text-[9px] tracking-[.14em] text-[#8A8266]">© 2026 LABITE</span>
+          </div>
+        </div>
       </div>
 
       <a
-        className={`${isNotFoundPage ? 'hidden' : 'flex'} ${isToTopVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isTopClicked ? 'bg-white! translate-y-0!' : ''} fixed right-5 bottom-5 z-90 aspect-square size-23 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-navy bg-white transition-[opacity,transform,background] duration-400 hover:-translate-y-0.75 hover:bg-yellow max-md:right-3 max-md:bottom-3 max-md:size-18`}
+        className={`${isNotFoundPage ? 'hidden' : 'flex'} ${isToTopVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} ${isTopClicked ? 'bg-white! translate-y-0!' : ''} fixed right-5 bottom-18 z-90 aspect-square size-23 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-navy bg-white transition-[opacity,transform,background] duration-400 hover:-translate-y-0.75 hover:bg-yellow max-md:right-3 max-md:bottom-16 max-md:size-18`}
         href="#"
         aria-label="ページ上部へ戻る"
         onClick={scrollToTop}

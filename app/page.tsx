@@ -359,6 +359,7 @@ export default async function Home() {
       <RoadmapSection steps={roadmapSteps} className="border-b-[1.5px] border-navy" />
 
       <ArticleListSection
+        id="posts"
         posts={posts}
         lead="Webエンジニア学習、未経験からの転職、現場で役立つ考え方など、Labiteで公開した最新の記事を掲載しています。気になるテーマから読み進めてください。"
       />
@@ -404,7 +405,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-22 max-md:px-5.5 max-md:py-12" id="cta">
+      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-22 max-md:px-5.5 max-md:py-12" id="contact">
         <div className="mx-auto max-w-280 px-8 max-md:px-0">
           <div className="fade">
             <span className={outlineTitleClass}>Contact</span>
@@ -445,7 +446,7 @@ export default async function Home() {
                   </div>
 
                   <Link
-                    className="group inline-flex items-center gap-3.25 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.25 pr-7 pl-2.25 text-[15.5px] font-extrabold !text-white shadow-[4px_4px_0_#17233D] transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:!text-white hover:shadow-[5px_5px_0_#17233D] max-md:flex max-md:w-full max-md:justify-center max-md:gap-2.75 max-md:py-2 max-md:pr-4.5 max-md:pl-2 max-md:text-sm max-md:shadow-[3px_3px_0_#17233D]"
+                    className="group inline-flex items-center gap-3.25 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.25 pr-7 pl-2.25 text-[15.5px] font-extrabold !text-white shadow-[4px_4px_0_#17233D] transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:!text-white hover:shadow-[5px_5px_0_#17233D] active:translate-x-1 active:translate-y-1 active:shadow-none max-md:flex max-md:w-full max-md:justify-center max-md:gap-2.75 max-md:py-2 max-md:pr-4.5 max-md:pl-2 max-md:text-sm max-md:shadow-[3px_3px_0_#17233D] max-md:active:translate-x-[3px] max-md:active:translate-y-[3px]"
                     href="/contact"
                   >
                     <span className="inline-flex size-10 items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-[#F2635F] max-md:size-8.5">

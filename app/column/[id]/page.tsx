@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArticleProgress } from '../../../components/ArticleProgress';
 import { ArrowIcon } from '../../../components/ArrowIcon';
 import { RoadmapSection } from '../../../components/RoadmapSection';
 import { SkillHacksAffiliate } from '../../../components/SkillHacksAffiliate';
@@ -393,7 +392,6 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
 
   return (
     <>
-      <ArticleProgress />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(graphJsonLd) }} />
 
       <nav className="mt-19 overflow-x-auto border-b-[1.5px] border-navy bg-white py-2.5 text-xs whitespace-nowrap max-md:mt-16 max-md:py-2 max-md:text-[11px]" aria-label="パンくずリスト">

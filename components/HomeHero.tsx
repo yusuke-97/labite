@@ -43,7 +43,7 @@ function BrowserPhoto({ compact = false }: { compact?: boolean }) {
   const imageVersion = getTodayYmd();
 
   return (
-    <div className={`relative mx-auto w-full max-w-[506px] max-lg:max-w-[560px] ${compact ? 'max-md:max-w-[330px]' : ''}`}>
+    <div className={`relative mx-auto w-full max-w-[506px] max-lg:max-w-[560px] ${compact ? 'max-md:max-w-none' : ''}`}>
       <div className="relative overflow-hidden rounded-[16px] border-[1.5px] border-navy bg-white shadow-[8px_8px_0_rgba(29,43,80,.1)]">
         <div className="flex h-12 items-center gap-2.5 border-b-[1.5px] border-navy bg-[#EFE7D5] px-4 max-md:h-10 max-md:gap-2 max-md:px-3">
           <span className="size-3 rounded-full border border-navy bg-[#E8695B] max-md:size-2.5" />
@@ -60,7 +60,7 @@ function BrowserPhoto({ compact = false }: { compact?: boolean }) {
           </span>
         </div>
 
-        <div className="relative aspect-[16/12.1] bg-[#EFE7D5]">
+        <div className={`relative bg-[#EFE7D5] ${compact ? 'aspect-[4/3] max-md:aspect-auto max-md:h-[max(120px,calc(100svh_-_var(--fv-fixed)))]' : 'aspect-[4/3]'}`}>
           <Image
             src={`/images/top-fv.png?v=${imageVersion}`}
             alt="ノートPCで作業する男性"
@@ -108,19 +108,19 @@ function HeroButton({
 
 export function HomeHero() {
   return (
-    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-[calc(100svh-60px)] max-md:pt-16 max-md:pb-5">
+    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-[none] max-md:min-h-0 max-md:items-start max-md:pt-[76px] max-md:pb-6 max-md:[--fv-fixed:487px]">
       <LabiteWordmarkBackground />
 
       <div className="relative z-1 mx-auto grid max-w-[1120px] grid-cols-[1fr_506px] items-center gap-18 px-8 max-xl:max-w-[1040px] max-xl:grid-cols-[1fr_480px] max-xl:gap-12 max-lg:grid-cols-1 max-lg:gap-8 max-md:px-5">
         <div className="fade is-show max-w-[560px] max-lg:max-w-none">
           <div className="mb-7 flex items-center gap-3 max-md:mb-3">
             <span className="size-3 rotate-45 border-[1.5px] border-navy bg-yellow max-md:size-2.5" />
-            <span className="font-mono text-[12px] font-semibold tracking-[.42em] text-navy uppercase max-md:text-[9px] max-md:tracking-[.22em]">
+            <span className="font-mono text-[12px] leading-none font-semibold tracking-[.42em] text-navy uppercase max-md:text-[10px] max-md:tracking-[.22em]">
               TECH BLOG FOR ASPIRING WEB ENGINEERS
             </span>
           </div>
 
-          <h1 className="mb-7 text-[42px] leading-[1.48] font-black tracking-normal text-navy max-md:mb-4 max-md:text-[28px] max-md:leading-[1.45]">
+          <h1 className="mb-7 text-[42px] leading-[1.5] font-black tracking-normal text-navy max-md:mb-4 max-md:text-[28px]">
             <span className="bg-linear-to-t from-yellow from-[31%] to-transparent to-[31%]">
               実務で使える技術を、
             </span>
@@ -128,15 +128,15 @@ export function HomeHero() {
             未経験から。
           </h1>
 
-          <div className="mb-6 hidden max-md:block">
+          <div className="mb-7 hidden max-md:mb-6 max-md:block">
             <BrowserPhoto compact />
           </div>
 
-          <p className="max-w-[560px] text-[15.5px] leading-[2.15] font-medium text-navy max-md:text-[13px] max-md:leading-[1.85]">
+          <p className="max-w-[560px] text-[16px] leading-[1.5] font-medium text-navy max-md:text-[14px]">
             Labiteは、未経験からWebエンジニアを目指す人のための技術ブログです。学習の手順、開発ノウハウ、キャリアの情報を、現場の目線で整理して発信しています。
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-4 max-md:mt-5 max-md:flex-col max-md:gap-2.5">
+          <div className="mt-9 flex flex-wrap gap-4 max-md:mt-4 max-md:flex-col max-md:gap-4">
             <HeroButton href="/roadmap">学習ロードマップを見る</HeroButton>
             <HeroButton href="/column" variant="white">記事一覧を見る</HeroButton>
           </div>

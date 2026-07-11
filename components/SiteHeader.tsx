@@ -135,7 +135,7 @@ export function SiteHeader() {
           </Link>
 
           <button
-            className="hidden h-10.5 w-14 cursor-pointer items-center justify-center rounded-[14px] border-[1.5px] border-navy bg-transparent text-navy max-md:flex"
+            className="hidden h-10.5 w-14 cursor-pointer items-center justify-center rounded-[14px] bg-transparent text-navy outline-none [-webkit-tap-highlight-color:transparent] focus:outline-none focus-visible:outline-none active:outline-none max-md:flex"
             type="button"
             aria-expanded={isDrawerOpen}
             aria-controls="drawer"
@@ -152,7 +152,7 @@ export function SiteHeader() {
       </header>
 
       <div
-        className={`${isDrawerOpen ? 'flex' : 'hidden'} fixed top-14.5 right-0 bottom-0 left-0 z-90 flex-col overflow-hidden border-t-[1.5px] border-navy bg-[#EFE7D5]`}
+        className={`${isDrawerOpen ? 'flex' : 'hidden'} fixed top-14.5 right-0 bottom-0 left-0 z-90 flex-col overflow-hidden bg-[#EFE7D5]`}
         id="drawer"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(23,35,61,.06)_1.5px,transparent_1.5px)] [background-size:20px_20px]" aria-hidden="true" />

@@ -87,7 +87,7 @@ function NotebookRings() {
 function RoadmapButton({ full = false }: { full?: boolean }) {
   return (
     <Link
-      className={`${full ? 'w-full' : ''} group inline-flex min-h-11.5 items-center justify-center gap-3 rounded-full border-[1.5px] border-navy bg-yellow px-7.5 text-[14px] font-black text-navy transition-[transform,box-shadow,background] duration-200 hover:-translate-y-0.75 hover:bg-[#f0b92f] hover:shadow-[4px_4px_0_rgba(23,35,61,.25)] max-md:min-h-12 max-md:px-5`}
+      className={`${full ? 'w-full' : ''} group inline-flex min-h-11.5 items-center justify-center gap-3 rounded-full border-[1.5px] border-navy bg-yellow px-7.5 text-sm font-black text-navy transition-[transform,box-shadow,background] duration-200 hover:-translate-y-0.75 hover:bg-[#f0b92f] hover:shadow-[4px_4px_0_rgba(23,35,61,.25)] max-md:min-h-12 max-md:px-5`}
       href="/roadmap"
     >
       学習ロードマップを見る
@@ -130,7 +130,7 @@ function DesktopStepCard({ step, index }: { step: RoadmapStep; index: number }) 
           {label}
         </span>
         <h3 className="relative z-1 text-[16.5px] leading-[1.5] font-black">{step.title}</h3>
-        <p className="relative z-1 text-[12px] leading-[1.85] text-[#414B60]">{step.lead}</p>
+        <p className="relative z-1 text-xs leading-[1.85] text-[#414B60]">{step.lead}</p>
       </div>
       <NotebookRings />
     </Link>
@@ -173,7 +173,7 @@ export function RoadmapSection({ steps, className = '' }: Props) {
   const displaySteps = steps.slice(0, 5);
 
   return (
-    <section className={`relative isolate overflow-hidden bg-[#E7EEF9] py-[88px] max-md:px-[22px] max-md:py-12 ${className}`} id="roadmap">
+    <section className={`relative isolate overflow-hidden bg-[#E7EEF9] py-22 max-md:px-5.5 max-md:py-12 ${className}`} id="roadmap">
       <SectionBackground />
 
       <div className="mx-auto max-w-280 px-8 max-md:px-0">
@@ -186,13 +186,13 @@ export function RoadmapSection({ steps, className = '' }: Props) {
               <span className="hidden max-md:inline">未経験からの5つのSTEP</span>
             </h3>
           </div>
-          <p className="mt-4 max-w-160 text-[14px] leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">
+          <p className="mt-4 max-w-160 text-sm leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">
             何から始めればいいか迷わないように、学習の流れを5つの段階に分けました。各STEPのまとめ記事から読み進めてください。
           </p>
         </div>
 
         <div className="relative mt-10.5 max-md:hidden">
-          <div className="absolute top-[46px] right-[2%] left-[2%] border-t-2 border-dashed border-navy/32" aria-hidden="true" />
+          <div className="absolute top-11.5 right-[2%] left-[2%] border-t-2 border-dashed border-navy/32" aria-hidden="true" />
           <div className="relative grid grid-cols-5 gap-4">
             {displaySteps.map((step, index) => (
               <DesktopStepCard index={index} key={step.id} step={step} />

@@ -215,7 +215,7 @@ function CategoryCard({
     >
       <div className="w-16 shrink-0 rounded-l-2xl border-[1.5px] border-navy max-md:w-14" style={{ backgroundColor: style.color }} />
       <div className="relative flex-1 overflow-hidden rounded-r-2xl border-[1.5px] border-navy bg-white px-7 py-6.5 max-md:px-5.5 max-md:py-5.5">
-        <span className="absolute top-3 right-5.5 font-mono text-[60px] leading-none font-bold text-navy/7 max-md:top-2.5 max-md:right-4 max-md:text-[48px]">
+        <span className="absolute top-3 right-5.5 font-mono text-6xl leading-none font-bold text-navy/7 max-md:top-2.5 max-md:right-4 max-md:text-5xl">
           {String(index + 1).padStart(2, '0')}
         </span>
         <div className="relative z-1 flex items-center gap-3.5 max-md:gap-2.75">
@@ -316,16 +316,16 @@ export default async function Home() {
         lead="Webエンジニア学習、未経験からの転職、現場で役立つ考え方など、Labiteで公開した最新の記事を掲載しています。気になるテーマから読み進めてください。"
       />
 
-      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-[88px] max-md:px-[22px] max-md:py-12">
+      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-22 max-md:px-5.5 max-md:py-12">
         <CategoryBackground />
         <div className="mx-auto max-w-280 px-8 max-md:px-0">
           <div className="fade">
             <span className={outlineTitleClass}>Category</span>
             <div className="mt-3.5 flex items-center gap-3 max-md:mt-3 max-md:gap-2.5">
               <CategoryHeadingIcon />
-              <h2 className="text-[17px] leading-[1.5] font-black max-md:text-[16px]">目的から探す</h2>
+              <h2 className="text-[17px] leading-[1.5] font-black max-md:text-base">目的から探す</h2>
             </div>
-            <p className="mt-4 max-w-160 text-[14px] leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">
+            <p className="mt-4 max-w-160 text-sm leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">
               単語ではなく目的で記事をまとめています。今の状況に近いものから選んでください。
             </p>
           </div>

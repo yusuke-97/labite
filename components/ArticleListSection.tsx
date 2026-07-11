@@ -130,9 +130,9 @@ export function ArticleListSection({
             <span className={outlineTitleClass}>{englishTitle}</span>
             <div className="mt-3.5 flex items-center gap-3 max-md:mt-3 max-md:gap-2.5">
               <HeadingIcon />
-              <h2 className="text-[18px] leading-[1.5] font-black max-md:text-[16px]">{title}</h2>
+              <h2 className="text-lg leading-[1.5] font-black max-md:text-base">{title}</h2>
             </div>
-            {lead && <p className="mt-4 max-w-160 text-[14px] leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">{lead}</p>}
+            {lead && <p className="mt-4 max-w-160 text-sm leading-[2] text-[#33405A] max-md:mt-3.5 max-md:text-[13px] max-md:leading-[1.95]">{lead}</p>}
           </div>
           {showArchiveLink && (
             <Link className={`${pillClass} mb-0.5 max-md:hidden`} href="/column">
@@ -154,7 +154,7 @@ export function ArticleListSection({
             </div>
             <div className="px-6 py-5.5 max-md:px-4.5 max-md:py-4.5">
               <PostMeta post={featuredPost} />
-              <h3 className="line-clamp-2 text-[20px] leading-[1.65] font-extrabold max-md:text-[17px] max-md:leading-[1.6]">{featuredPost.title}</h3>
+              <h3 className="line-clamp-2 text-xl leading-[1.65] font-extrabold max-md:text-[17px] max-md:leading-[1.6]">{featuredPost.title}</h3>
             </div>
           </Link>
           <div className={`${listOrderClass} order-2 flex flex-col gap-4 max-md:gap-3.25`}>

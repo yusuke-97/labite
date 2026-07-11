@@ -44,7 +44,7 @@ function BrowserPhoto({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={`relative mx-auto w-full max-w-[506px] max-lg:max-w-[560px] ${compact ? 'max-md:max-w-none' : ''}`}>
-      <div className="relative overflow-hidden rounded-[16px] border-[1.5px] border-navy bg-white shadow-[8px_8px_0_rgba(29,43,80,.1)]">
+      <div className="relative overflow-hidden rounded-2xl border-[1.5px] border-navy bg-white shadow-[8px_8px_0_rgba(29,43,80,.1)]">
         <div className="flex h-12 items-center gap-2.5 border-b-[1.5px] border-navy bg-[#EFE7D5] px-4 max-md:h-10 max-md:gap-2 max-md:px-3">
           <span className="size-3 rounded-full border border-navy bg-[#E8695B] max-md:size-2.5" />
           <span className="size-3 rounded-full border border-navy bg-yellow max-md:size-2.5" />
@@ -60,7 +60,7 @@ function BrowserPhoto({ compact = false }: { compact?: boolean }) {
           </span>
         </div>
 
-        <div className={`relative bg-[#EFE7D5] ${compact ? 'aspect-[4/3] max-md:aspect-auto max-md:h-[max(120px,calc(100svh_-_var(--fv-fixed)))]' : 'aspect-[4/3]'}`}>
+        <div className={`relative bg-[#EFE7D5] ${compact ? 'aspect-4/3 max-md:aspect-auto max-md:h-[max(120px,calc(100svh_-_var(--fv-fixed)))]' : 'aspect-4/3'}`}>
           <Image
             src={`/images/top-fv.png?v=${imageVersion}`}
             alt="ノートPCで作業する男性"
@@ -93,12 +93,12 @@ function HeroButton({
 
   return (
     <Link
-      className={`group inline-flex min-h-13 items-center justify-center gap-3 rounded-full border-[1.5px] border-navy px-7 text-[14px] font-black whitespace-nowrap text-navy shadow-[3px_3px_0_rgba(29,43,80,.08)] transition-[transform,box-shadow,background] duration-200 hover:-translate-y-0.75 hover:shadow-[5px_5px_0_rgba(29,43,80,.14)] max-md:w-full max-md:px-5 max-md:text-[13.5px] ${isYellow ? 'bg-yellow hover:bg-[#f0b92f]' : 'bg-white hover:bg-pale-blue'}`}
+      className={`group inline-flex min-h-13 items-center justify-center gap-3 rounded-full border-[1.5px] border-navy px-7 text-sm font-black whitespace-nowrap text-navy shadow-[3px_3px_0_rgba(29,43,80,.08)] transition-[transform,box-shadow,background] duration-200 hover:-translate-y-0.75 hover:shadow-[5px_5px_0_rgba(29,43,80,.14)] max-md:w-full max-md:px-5 max-md:text-[13.5px] ${isYellow ? 'bg-yellow hover:bg-[#f0b92f]' : 'bg-white hover:bg-pale-blue'}`}
       href={href}
     >
       {children}
       <span
-        className={`inline-flex size-6 items-center justify-center rounded-full text-[12px] transition-transform duration-200 group-hover:translate-x-0.75 ${isYellow ? 'bg-navy text-yellow' : 'bg-navy text-white'}`}
+        className={`inline-flex size-6 items-center justify-center rounded-full text-xs transition-transform duration-200 group-hover:translate-x-0.75 ${isYellow ? 'bg-navy text-yellow' : 'bg-navy text-white'}`}
       >
         <ArrowIcon />
       </span>
@@ -108,14 +108,14 @@ function HeroButton({
 
 export function HomeHero() {
   return (
-    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-[none] max-md:min-h-0 max-md:items-start max-md:pt-[76px] max-md:pb-6 max-md:[--fv-fixed:487px]">
+    <section className="relative isolate flex min-h-[78vh] items-center overflow-hidden bg-cream pt-40 pb-24 max-md:min-h-0 max-md:items-start max-md:pt-[76px] max-md:pb-6 max-md:[--fv-fixed:487px]">
       <LabiteWordmarkBackground />
 
       <div className="relative z-1 mx-auto grid max-w-[1120px] grid-cols-[1fr_506px] items-center gap-18 px-8 max-xl:max-w-[1040px] max-xl:grid-cols-[1fr_480px] max-xl:gap-12 max-lg:grid-cols-1 max-lg:gap-8 max-md:px-5">
         <div className="fade is-show max-w-[560px] max-lg:max-w-none">
           <div className="mb-7 flex items-center gap-3 max-md:mb-3">
             <span className="size-3 rotate-45 border-[1.5px] border-navy bg-yellow max-md:size-2.5" />
-            <span className="font-mono text-[12px] leading-none font-semibold tracking-[.42em] text-navy uppercase max-md:text-[10px] max-md:tracking-[.22em]">
+            <span className="font-mono text-xs leading-none font-semibold tracking-[.42em] text-navy uppercase max-md:text-[10px] max-md:tracking-[.22em]">
               TECH BLOG FOR ASPIRING WEB ENGINEERS
             </span>
           </div>
@@ -132,7 +132,7 @@ export function HomeHero() {
             <BrowserPhoto compact />
           </div>
 
-          <p className="max-w-[560px] text-[16px] leading-[1.5] font-medium text-navy max-md:text-[14px]">
+          <p className="max-w-[560px] text-base leading-[1.5] font-medium text-navy max-md:text-sm">
             Labiteは、未経験からWebエンジニアを目指す人のための技術ブログです。学習の手順、開発ノウハウ、キャリアの情報を、現場の目線で整理して発信しています。
           </p>
 

@@ -29,9 +29,6 @@ export function ArticleProgress() {
         : 0;
 
       setProgress(nextProgress);
-      window.dispatchEvent(
-        new CustomEvent('labite:rail-label', { detail: `${Math.round(nextProgress)}%` }),
-      );
     };
 
     observeFadeElements();
@@ -43,12 +40,11 @@ export function ArticleProgress() {
       window.removeEventListener('scroll', updateProgress);
       window.removeEventListener('resize', updateProgress);
       fadeObserver.disconnect();
-      window.dispatchEvent(new CustomEvent('labite:rail-label', { detail: null }));
     };
   }, []);
 
   return (
-    <div className="fixed top-18 right-0 left-16 z-90 h-1 bg-navy/12 max-lg:left-0 max-md:top-15" aria-hidden="true">
+    <div className="fixed top-18 right-0 left-0 z-90 h-1 bg-navy/12 max-md:top-15" aria-hidden="true">
       <div
         className="h-full border-r-[1.5px] border-navy bg-yellow"
         style={{ width: `${progress}%` }}

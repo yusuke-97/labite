@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowIcon } from './ArrowIcon';
 import {
-  yellowPillClass,
   yellowPillArrowClass,
+  yellowPillClass,
 } from './site-design';
 
 const navItems = [
@@ -23,10 +23,7 @@ const menuButtonClass =
 export function SiteHeader() {
   const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [railNo, setRailNo] = useState('01');
   const [isNotFoundPage, setIsNotFoundPage] = useState(false);
-  const [pageRailLabel, setPageRailLabel] = useState<string | null>(null);
-  const [articleProgressLabel, setArticleProgressLabel] = useState<string | null>(null);
   const [isToTopVisible, setIsToTopVisible] = useState(false);
   const [isTopClicked, setIsTopClicked] = useState(false);
   const [logoSpinKey, setLogoSpinKey] = useState(0);
@@ -34,9 +31,6 @@ export function SiteHeader() {
   useEffect(() => {
     const updatePageState = () => {
       setIsNotFoundPage(Boolean(document.querySelector('[data-not-found-page]')));
-      setPageRailLabel(
-        document.querySelector<HTMLElement>('[data-rail-label]')?.dataset.railLabel ?? null,
-      );
     };
     const observer = new MutationObserver(updatePageState);
 
@@ -45,17 +39,6 @@ export function SiteHeader() {
 
     return () => observer.disconnect();
   }, [pathname]);
-
-  useEffect(() => {
-    const handleRailLabel = (event: Event) => {
-      const customEvent = event as CustomEvent<string | null>;
-      setArticleProgressLabel(customEvent.detail);
-    };
-
-    window.addEventListener('labite:rail-label', handleRailLabel);
-
-    return () => window.removeEventListener('labite:rail-label', handleRailLabel);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,56 +79,6 @@ export function SiteHeader() {
     };
   }, []);
 
-  useEffect(() => {
-    let sections: Element[] = [];
-    let frameId: number | null = null;
-
-    const updateRailNo = () => {
-      if (sections.length === 0) {
-        setRailNo('01');
-        return;
-      }
-
-      const marker = window.innerHeight * 0.4;
-      const activeIndex = sections.reduce((currentIndex, section, index) => {
-        const rect = section.getBoundingClientRect();
-
-        return rect.top <= marker ? index : currentIndex;
-      }, 0);
-
-      setRailNo(String(activeIndex + 1).padStart(2, '0'));
-    };
-
-    const refreshSections = () => {
-      frameId = null;
-      sections = Array.from(document.querySelectorAll('main section'));
-      updateRailNo();
-    };
-
-    const scheduleRefresh = () => {
-      if (frameId !== null) {
-        cancelAnimationFrame(frameId);
-      }
-      frameId = requestAnimationFrame(refreshSections);
-    };
-
-    const mutationObserver = new MutationObserver(scheduleRefresh);
-
-    scheduleRefresh();
-    window.addEventListener('scroll', updateRailNo, { passive: true });
-    window.addEventListener('resize', updateRailNo);
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      if (frameId !== null) {
-        cancelAnimationFrame(frameId);
-      }
-      window.removeEventListener('scroll', updateRailNo);
-      window.removeEventListener('resize', updateRailNo);
-      mutationObserver.disconnect();
-    };
-  }, [pathname]);
-
   const closeDrawer = () => {
     setIsDrawerOpen(false);
   };
@@ -159,22 +92,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <aside
-        className="fixed inset-y-0 left-0 z-110 flex w-16 flex-col items-center gap-3.5 border-r-[1.5px] border-navy bg-cream px-0 pt-3.25 pb-4 max-lg:hidden"
-        aria-hidden="true"
-      >
-        <div className="flex size-9.5 items-center justify-center rounded-2.5 border-[1.5px] border-navy bg-yellow">
-          <Image className="h-6 w-auto" src="/images/rail-site-logo.svg" alt="Labite" width={150} height={50} />
-        </div>
-        <div className="flex flex-1 items-center font-[family-name:var(--font-oswald)] text-[11px] tracking-[.3em] uppercase [writing-mode:vertical-rl]">
-          web engineering for beginners — labite
-        </div>
-        <div className="flex size-9.5 items-center justify-center rounded-full border-[1.5px] border-navy bg-white font-[family-name:var(--font-oswald)] text-[13px] font-semibold">
-          {isNotFoundPage ? '404' : articleProgressLabel ?? pageRailLabel ?? railNo}
-        </div>
-      </aside>
-
-      <header className="fixed top-0 right-0 left-16 z-100 flex h-18 items-center border-b border-navy bg-cream max-lg:left-0 max-md:h-15">
+      <header className="fixed top-0 right-0 left-0 z-100 flex h-18 items-center border-b border-navy bg-cream max-md:h-15">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6">
           <Link href="/" aria-label="Labite トップページへ" onClick={closeDrawer}>
             <Image className="h-7.5 w-auto max-md:h-6" src="/images/site-logo.svg" width={150} height={50} alt="Labite" priority />

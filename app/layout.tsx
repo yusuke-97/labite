@@ -74,7 +74,7 @@ export default function RootLayout({
       {isProduction && (
         <GoogleTagManager gtmId={gtmId} />
       )}
-      <body className="min-h-full flex flex-col overflow-x-hidden bg-cream pl-16 text-base leading-[1.8] text-navy [overflow-wrap:anywhere] max-lg:pl-0 max-md:text-[15px]">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-cream text-base leading-[1.8] text-navy [overflow-wrap:anywhere] max-md:text-[15px]">
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

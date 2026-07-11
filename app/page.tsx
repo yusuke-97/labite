@@ -316,7 +316,7 @@ export default async function Home() {
         lead="Webエンジニア学習、未経験からの転職、現場で役立つ考え方など、Labiteで公開した最新の記事を掲載しています。気になるテーマから読み進めてください。"
       />
 
-      <section className="relative isolate overflow-hidden border-y-[1.5px] border-navy bg-[#E7EEF9] py-[88px] max-md:px-[22px] max-md:py-12">
+      <section className="relative isolate overflow-hidden border-t-[1.5px] border-navy bg-[#E7EEF9] py-[88px] max-md:px-[22px] max-md:py-12">
         <CategoryBackground />
         <div className="mx-auto max-w-280 px-8 max-md:px-0">
           <div className="fade">

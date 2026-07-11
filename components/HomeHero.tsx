@@ -2,6 +2,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowIcon } from './ArrowIcon';
 
+function getTodayYmd() {
+  const parts = new Intl.DateTimeFormat('ja-JP', {
+    day: '2-digit',
+    month: '2-digit',
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+
+  return `${values.year}${values.month}${values.day}`;
+}
+
 function LabiteWordmarkBackground() {
   return (
     <div
@@ -28,6 +40,8 @@ function LabiteWordmarkBackground() {
 }
 
 function BrowserPhoto({ compact = false }: { compact?: boolean }) {
+  const imageVersion = getTodayYmd();
+
   return (
     <div className={`relative mx-auto w-full max-w-[506px] max-lg:max-w-[560px] ${compact ? 'max-md:max-w-[330px]' : ''}`}>
       <div className="relative overflow-hidden rounded-[16px] border-[1.5px] border-navy bg-white shadow-[8px_8px_0_rgba(29,43,80,.1)]">
@@ -48,10 +62,11 @@ function BrowserPhoto({ compact = false }: { compact?: boolean }) {
 
         <div className="relative aspect-[16/12.1] bg-[#EFE7D5]">
           <Image
-            src="/images/top-fv.png"
+            src={`/images/top-fv.png?v=${imageVersion}`}
             alt="ノートPCで作業する男性"
             fill
             priority
+            unoptimized
             sizes="(max-width: 768px) 100vw, 506px"
             className="object-cover"
           />

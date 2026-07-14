@@ -69,13 +69,14 @@ export function ScrollProgressBar() {
           />
         ))}
 
-        <Image
-          className="absolute right-[-9px] bottom-2 h-6.5 w-auto max-md:right-[-7px] max-md:bottom-2 max-md:h-5.5"
-          src="/images/finish-flag.svg"
-          alt="ゴール"
-          width={26}
-          height={26}
-        />
+        <span className="absolute right-[-9px] bottom-2 size-6.5 max-md:right-[-7px] max-md:bottom-2 max-md:size-5.5">
+          <Image
+            src="/images/finish-flag.svg"
+            alt="ゴール"
+            fill
+            sizes="26px"
+          />
+        </span>
 
         <div
           className="pointer-events-none absolute bottom-1 flex -translate-x-1/2 flex-col items-center transition-[left] duration-75 max-md:bottom-1"
@@ -89,17 +90,19 @@ export function ScrollProgressBar() {
           >
             {Math.round(progress)}%
           </div>
-          <Image
-            className="mt-1 h-auto w-12.5 max-w-none shrink-0 max-md:mt-0.75 max-md:w-8.5"
-            src="/images/pig-rider.svg"
-            alt="読書の進み具合"
-            width={50}
-            height={36}
+          <span
+            className="relative mt-1 aspect-[50/36] w-12.5 shrink-0 max-md:mt-0.75 max-md:w-8.5"
             style={{
-              maxWidth: 'none',
               transform: scrollState.direction === 'up' ? 'scaleX(1)' : 'scaleX(-1)',
             }}
-          />
+          >
+            <Image
+              src="/images/pig-rider.svg"
+              alt="読書の進み具合"
+              fill
+              sizes="(max-width: 768px) 34px, 50px"
+            />
+          </span>
         </div>
       </div>
     </div>

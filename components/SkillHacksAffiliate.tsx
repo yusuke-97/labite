@@ -5,11 +5,17 @@ const bannerUrl =
 const impressionUrl =
   'https://www18.a8.net/0.gif?a8mat=4B62OI+9Z0EK2+4K3S+60WN5';
 
+const isProduction = process.env.VERCEL_ENV === 'production';
+
 export function SkillHacksAffiliate({
   placement = 'before-author',
 }: {
   placement?: 'after-summary' | 'before-author';
 }) {
+  if (!isProduction) {
+    return null;
+  }
+
   return (
     <aside
       className={
@@ -31,6 +37,8 @@ export function SkillHacksAffiliate({
           width="300"
           height="250"
           alt=""
+          loading="lazy"
+          decoding="async"
           className="block border-0"
         />
       </a>
@@ -40,6 +48,8 @@ export function SkillHacksAffiliate({
         width="1"
         height="1"
         alt=""
+        loading="lazy"
+        decoding="async"
         className="border-0"
       />
     </aside>

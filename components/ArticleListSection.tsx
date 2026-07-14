@@ -150,6 +150,7 @@ export function ArticleListSection({
                 src={featuredPost.image.url}
                 alt={featuredPost.title}
                 fill
+                priority
                 sizes="(max-width: 768px) calc(100vw - 44px), 575px"
                 className="!h-full !w-full object-cover opacity-100"
               />

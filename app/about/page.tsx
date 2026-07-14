@@ -73,7 +73,7 @@ const specialties = [
 
 const career = [
   { title: '未経験からスタート', description: '別分野からWeb開発の世界へ' },
-  { title: '独学で学習', description: 'HTML・CSS・JavaScript・PHPを学ぶ' },
+  { title: 'オンラインスクールで学習', description: 'HTML・CSS・JavaScript・PHPを学ぶ' },
   { title: '実務へ（2年以上）', description: 'PHP・Laravel・JavaScriptで開発に従事' },
   { title: 'Labiteで発信', description: '同じ道を目指す人へ、現場の知見を整理' },
 ];

@@ -50,6 +50,8 @@ export function ScrollProgressBar() {
 
   const progress = scrollState.progress;
   const riderLeft = `${progress}%`;
+  const isAtEndpoint = progress <= 0.15 || progress >= 99.85;
+  const isFacingRight = isAtEndpoint || scrollState.direction === 'down';
 
   return (
     <div className="fixed right-0 bottom-0 left-0 z-65 overflow-visible border-t-[1.5px] border-navy bg-[#EFE7D5] px-8 py-2 max-md:px-5.5 max-md:py-2.5" aria-label={`スクロール進捗 ${Math.round(progress)}%`}>
@@ -93,7 +95,7 @@ export function ScrollProgressBar() {
           <span
             className="relative mt-1 aspect-[50/36] w-12.5 shrink-0 max-md:mt-0.75 max-md:w-8.5"
             style={{
-              transform: scrollState.direction === 'up' ? 'scaleX(1)' : 'scaleX(-1)',
+              transform: isFacingRight ? 'scaleX(-1)' : 'scaleX(1)',
             }}
           >
             <Image

@@ -98,16 +98,57 @@ function normalizeFlattenedTreeText(text: string): string {
     .trim();
 }
 
+function isBashCodeBlock($: cheerio.CheerioAPI, pre: Element): boolean {
+  const codeClass = $(pre).children('code').first().attr('class') ?? '';
+  const preClass = $(pre).attr('class') ?? '';
+  const headerText = $(pre).closest('.codeblock').find('.cb-head').first().text().trim();
+
+  return /(?:^|[-_\s])(?:bash|shell|sh)(?:$|[-_\s])/i.test(`${codeClass} ${preClass} ${headerText}`);
+}
+
+function normalizeFlattenedBashText(text: string): string {
+  if (text.includes('\n')) {
+    return text;
+  }
+
+  const commentCount = text.match(/(?:^|\s)#\s+/g)?.length ?? 0;
+  const commandCount = text.match(/(?:^|\s)git\s+commit\b/g)?.length ?? 0;
+
+  if (commentCount === 0 || commandCount === 0) {
+    return text;
+  }
+
+  return text
+    .replace(/\s+(?=#\s+)/g, '\n\n')
+    .replace(/\s+(?=git\s+commit\b)/g, '\n')
+    .trim();
+}
+
 function normalizePreCodeBlocks($: cheerio.CheerioAPI) {
   $('pre').each((_, pre) => {
     const hasParagraphs = $(pre).find('p').length > 0;
-    const normalizedText = normalizeFlattenedTreeText(normalizeCodeBlockText($, pre));
+    const codeBlockText = normalizeCodeBlockText($, pre);
+    const normalizedTreeText = normalizeFlattenedTreeText(codeBlockText);
+    const normalizedText = isBashCodeBlock($, pre)
+      ? normalizeFlattenedBashText(normalizedTreeText)
+      : normalizedTreeText;
 
-    if (!hasParagraphs && normalizedText === $(pre).text()) {
+    const firstCode = $(pre).children('code').first();
+
+    if (!hasParagraphs) {
+      if (normalizedText === $(pre).text()) {
+        return;
+      }
+
+      if (firstCode.length > 0) {
+        firstCode.text(normalizedText);
+      } else {
+        $(pre).text(normalizedText);
+      }
+
       return;
     }
 
-    const firstCode = $(pre).children('code').first();
     const codeAttributes = firstCode.attr();
     const code = $('<code></code>');
 

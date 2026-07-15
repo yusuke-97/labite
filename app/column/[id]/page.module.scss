@@ -286,8 +286,10 @@
   }
 
   :global(.codeblock pre code) {
-    display: inline;
-    white-space: inherit;
+    display: block;
+    width: max-content;
+    min-width: 100%;
+    white-space: pre;
     padding: 0;
     background: transparent;
     color: inherit;

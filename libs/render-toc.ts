@@ -79,9 +79,31 @@ function normalizeCodeBlockText($: cheerio.CheerioAPI, pre: Element): string {
   return text.replace(/^\n+/, '').replace(/\n+$/, '');
 }
 
+function normalizeFlattenedTreeText(text: string): string {
+  const branchCount = text.match(/[├└]──/g)?.length ?? 0;
+
+  if (text.includes('\n') || branchCount < 2) {
+    return text;
+  }
+
+  return text
+    .replace(/([ \t]+)((?:│[ \t]+)?[├└]──)/g, (_, indentation: string, branch: string) => {
+      const preservedIndentation = branch.startsWith('│') || indentation.length === 1
+        ? ''
+        : indentation;
+
+      return `\n${preservedIndentation}${branch}`;
+    })
+    .replace(/[ \t]+$/gm, '')
+    .trim();
+}
+
 function normalizePreCodeBlocks($: cheerio.CheerioAPI) {
   $('pre').each((_, pre) => {
-    if ($(pre).find('p').length === 0) {
+    const hasParagraphs = $(pre).find('p').length > 0;
+    const normalizedText = normalizeFlattenedTreeText(normalizeCodeBlockText($, pre));
+
+    if (!hasParagraphs && normalizedText === $(pre).text()) {
       return;
     }
 
@@ -97,7 +119,7 @@ function normalizePreCodeBlocks($: cheerio.CheerioAPI) {
       });
     }
 
-    code.text(normalizeCodeBlockText($, pre));
+    code.text(normalizedText);
     $(pre).empty().append(code);
   });
 }

@@ -41,6 +41,11 @@ type Props = {
   updatedAt?: string;
   category: Category;
   showAffiliate?: boolean;
+  faq?: {
+    fieldId?: 'faq';
+    question: string;
+    answer: string;
+  }[];
   summaryItems?: { text: string }[];
   recommendBlocks?: {
     marker: string;
@@ -383,11 +388,30 @@ export default async function ColumnPostPage({ params }: { params: Promise<{ id:
     author: personReferenceJsonLd,
     publisher: personReferenceJsonLd,
   };
+  const faqItems = (post.faq ?? []).filter(
+    (item) => item.question?.trim() && item.answer?.trim(),
+  );
+  const faqJsonLd = faqItems.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': `${articleUrl}#faq`,
+        mainEntity: faqItems.map((item) => ({
+          '@type': 'Question',
+          name: item.question.trim(),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer.trim(),
+          },
+        })),
+      }
+    : null;
   const personJsonLd = createSitePersonJsonLd();
   const graphJsonLd = createJsonLdGraph([
     breadcrumbJsonLd,
     personJsonLd,
     articleJsonLd,
+    ...(faqJsonLd ? [faqJsonLd] : []),
   ]);
 
   return (

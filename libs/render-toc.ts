@@ -108,19 +108,29 @@ function isBashCodeBlock($: cheerio.CheerioAPI, pre: Element): boolean {
 
 function normalizeFlattenedBashText(text: string): string {
   if (text.includes('\n')) {
-    return text;
+    return text
+      .replace(/\r\n/g, '\n')
+      .replace(/(?<!\n)\n(?=#\s+)/g, '\n\n');
   }
 
   const commentCount = text.match(/(?:^|\s)#\s+/g)?.length ?? 0;
-  const commandCount = text.match(/(?:^|\s)git\s+commit\b/g)?.length ?? 0;
+  const commandCount = text.match(/(?:^|\s)(?:git|gh)\s+\S+/g)?.length ?? 0;
 
   if (commentCount === 0 || commandCount === 0) {
     return text;
   }
 
   return text
-    .replace(/\s+(?=#\s+)/g, '\n\n')
-    .replace(/\s+(?=git\s+commit\b)/g, '\n')
+    // CMSで改行が単一スペースになった独立コメントだけを次の行へ戻す。
+    // コマンド末尾の「  # 補足」のような2文字以上の空白は維持する。
+    .replace(/(\S) (?=#\s+)/g, '$1\n\n')
+    .replace(/\s+(?=(?:git|gh)\s+\S+)/g, '\n')
+    // コンフリクトマーカーは、マーカーと内容をそれぞれ独立した行に戻す。
+    .replace(/\s*(<{7}\s+HEAD)\s*/g, '\n$1\n')
+    .replace(/\s*(={7})\s*/g, '\n$1\n')
+    .replace(/\s*(>{7}\s+\S+)\s*/g, '\n$1\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/(?<!\n)\n(?=#\s+)/g, '\n\n')
     .trim();
 }
 

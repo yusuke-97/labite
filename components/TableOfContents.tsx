@@ -13,6 +13,10 @@ const INITIAL_VISIBLE_COUNT = 6;
 export function TableOfContents({ toc, variant = 'mobile' }: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const scrollToHeading = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   if (toc.length === 0) {
     return null;
   }
@@ -38,9 +42,10 @@ export function TableOfContents({ toc, variant = 'mobile' }: Props) {
                 : 'py-0.75 pl-5.5 text-[13.5px] text-navy/75'
             }
           >
-            <a
+            <button
               className="group flex w-full cursor-pointer items-baseline gap-2.5 rounded-md border-0 bg-transparent px-2 py-1 text-left font-[inherit] leading-[1.6] text-inherit hover:text-blue"
-              href={`#${item.id}`}
+              type="button"
+              onClick={() => scrollToHeading(item.id)}
             >
               {item.name === 'h2' ? (
                 <span className="inline-flex size-5.5 shrink-0 translate-y-0.75 items-center justify-center rounded-full font-[family-name:var(--font-oswald)] text-xs font-semibold text-blue">
@@ -48,7 +53,7 @@ export function TableOfContents({ toc, variant = 'mobile' }: Props) {
                 </span>
               ) : null}
               <span>{item.text}</span>
-            </a>
+            </button>
           </li>
       ))}
     </ol>

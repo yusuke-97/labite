@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP, Oswald } from "next/font/google";
-import Script from "next/script";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { ScrollProgressBar } from "../components/ScrollProgressBar";
 import { SiteFooter } from "../components/SiteFooter";
@@ -74,18 +73,16 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${oswald.variable} ${notoSansJp.variable} h-full antialiased`}
     >
-      {isProduction && (
-        <>
-          <Script
-            id="google-adsense"
-            strategy="beforeInteractive"
+      <head>
+        {isProduction && (
+          <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
             crossOrigin="anonymous"
           />
-          <GoogleTagManager gtmId={gtmId} />
-        </>
-      )}
+        )}
+      </head>
+      {isProduction && <GoogleTagManager gtmId={gtmId} />}
       <body id="top" className="min-h-full flex flex-col overflow-x-hidden bg-cream text-base leading-[1.8] text-navy [overflow-wrap:anywhere] max-md:text-[15px]">
         <SiteHeader />
         <div className="flex-1">{children}</div>

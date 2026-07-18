@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP, Oswald } from "next/font/google";
+import Script from "next/script";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { ScrollProgressBar } from "../components/ScrollProgressBar";
 import { SiteFooter } from "../components/SiteFooter";
@@ -27,6 +28,7 @@ const notoSansJp = Noto_Sans_JP({
 });
 
 const gtmId = "GTM-N932H479";
+const adsenseClientId = "ca-pub-1529257554548780";
 const isProduction = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
@@ -73,7 +75,16 @@ export default function RootLayout({
       className={`${oswald.variable} ${notoSansJp.variable} h-full antialiased`}
     >
       {isProduction && (
-        <GoogleTagManager gtmId={gtmId} />
+        <>
+          <Script
+            id="google-adsense"
+            strategy="beforeInteractive"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
+            crossOrigin="anonymous"
+          />
+          <GoogleTagManager gtmId={gtmId} />
+        </>
       )}
       <body id="top" className="min-h-full flex flex-col overflow-x-hidden bg-cream text-base leading-[1.8] text-navy [overflow-wrap:anywhere] max-md:text-[15px]">
         <SiteHeader />

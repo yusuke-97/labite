@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { TrackedContactLink } from './TrackedContactLink';
 
 const navItems = [
   { href: '/', label: 'TOP', sub: 'TOP', color: '#F5C543', hover: 'hover:bg-[#FCEFC0]' },
@@ -124,15 +125,15 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <Link
-            href="/contact"
+          <TrackedContactLink
+            location="header_desktop"
             className="inline-flex items-center gap-2.75 rounded-full border-[1.5px] border-navy bg-yellow py-1.5 pr-5 pl-1.5 text-[13.5px] font-extrabold shadow-[3px_3px_0_#17233D] hover:-translate-x-px hover:-translate-y-px hover:text-navy hover:shadow-[4px_4px_0_#17233D] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none max-md:hidden"
           >
             <span className="inline-flex size-7.5 items-center justify-center rounded-full bg-navy text-yellow">
               <MailIcon />
             </span>
             お問い合わせ
-          </Link>
+          </TrackedContactLink>
 
           <button
             className="hidden h-10.5 w-14 cursor-pointer items-center justify-center rounded-[14px] bg-transparent text-navy outline-none [-webkit-tap-highlight-color:transparent] focus:outline-none focus-visible:outline-none active:outline-none max-md:flex"
@@ -186,16 +187,16 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="relative shrink-0 border-t-[1.5px] border-navy px-5 py-3.5 pb-5.5">
-          <Link
+          <TrackedContactLink
             className="flex w-full items-center justify-center gap-2.75 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.5 pr-5 pl-2.5 text-[14.5px] font-extrabold !text-white shadow-[3px_3px_0_#17233D] hover:-translate-x-px hover:-translate-y-px hover:!text-white hover:shadow-[4px_4px_0_#17233D] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
-            href="/contact"
+            location="header_mobile"
             onClick={closeDrawer}
           >
             <span className="inline-flex size-8 items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-[#F2635F]">
               <MailIcon className="size-4" />
             </span>
             お問い合わせフォームへ
-          </Link>
+          </TrackedContactLink>
           <div className="mt-3.5 flex items-center justify-center gap-2">
             <Image className="h-4.5 w-auto opacity-85" src="/images/site-logo.svg" width={150} height={50} alt="Labite" />
             <span className="font-mono text-[9px] tracking-[.14em] text-[#8A8266]">© 2026 LABITE</span>

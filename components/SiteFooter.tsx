@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { TrackedContactLink } from './TrackedContactLink';
 
 const footerItems = [
   { href: '/', label: 'TOP' },
@@ -44,15 +45,15 @@ export function SiteFooter() {
 
         <div className="flex items-center justify-between gap-6 border-b border-navy/18 py-6.5 max-md:block max-md:border-b-0 max-md:py-5.5">
           <span className="text-[13px] font-bold max-md:block">ご質問・お仕事のご相談などはこちらから。</span>
-          <Link
+          <TrackedContactLink
             className="inline-flex items-center gap-2.75 rounded-full border-[1.5px] border-navy bg-yellow py-1.5 pr-5.5 pl-1.5 text-[13px] font-extrabold text-navy shadow-[3px_3px_0_#17233D] hover:-translate-x-px hover:-translate-y-px hover:text-navy hover:shadow-[4px_4px_0_#17233D] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none max-md:mt-5.5 max-md:w-full max-md:justify-center"
-            href="/contact"
+            location="footer"
           >
             <span className="inline-flex size-7 items-center justify-center rounded-full bg-navy text-yellow">
               <MailIcon />
             </span>
             お問い合わせ
-          </Link>
+          </TrackedContactLink>
         </div>
 
         <div className="flex items-center justify-between gap-5 pt-5 max-md:mt-5.5 max-md:block max-md:border-t max-md:border-navy/18 max-md:pt-4.5">

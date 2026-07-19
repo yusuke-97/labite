@@ -5,6 +5,7 @@ import { ArticleListSection } from '../components/ArticleListSection';
 import { HomeHero } from '../components/HomeHero';
 import { ProfileCard } from '../components/ProfileCard';
 import { RoadmapSection } from '../components/RoadmapSection';
+import { TrackedContactLink } from '../components/TrackedContactLink';
 import { outlineTitleClass } from '../components/site-design';
 import {
   getColumnCategoryCounts,
@@ -445,9 +446,9 @@ export default async function Home() {
                     <p className="border-b-[1.5px] border-navy/30 py-2.5 pb-1.5 text-[13.5px] leading-none font-extrabold text-navy">Labite サイト運営者 宛</p>
                   </div>
 
-                  <Link
+                  <TrackedContactLink
                     className="group inline-flex items-center gap-3.25 rounded-full border-[1.5px] border-navy bg-[#F2635F] py-2.25 pr-7 pl-2.25 text-[15.5px] font-extrabold !text-white shadow-[4px_4px_0_#17233D] transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:!text-white hover:shadow-[5px_5px_0_#17233D] active:translate-x-1 active:translate-y-1 active:shadow-none max-md:flex max-md:w-full max-md:justify-center max-md:gap-2.75 max-md:py-2 max-md:pr-4.5 max-md:pl-2 max-md:text-sm max-md:shadow-[3px_3px_0_#17233D] max-md:active:translate-x-[3px] max-md:active:translate-y-[3px]"
-                    href="/contact"
+                    location="home"
                   >
                     <span className="inline-flex size-10 items-center justify-center rounded-full border-[1.5px] border-navy bg-white text-[#F2635F] max-md:size-8.5">
                       <svg className="size-4.75 max-md:size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -456,7 +457,7 @@ export default async function Home() {
                       </svg>
                     </span>
                     お問い合わせフォームへ
-                  </Link>
+                  </TrackedContactLink>
                 </div>
 
                 <div className="w-75 flex-none pt-24 max-md:hidden">

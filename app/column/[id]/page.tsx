@@ -7,6 +7,7 @@ import { ArrowIcon } from '../../../components/ArrowIcon';
 import { RoadmapSection } from '../../../components/RoadmapSection';
 import { SkillHacksAffiliate } from '../../../components/SkillHacksAffiliate';
 import { TableOfContents } from '../../../components/TableOfContents';
+import { TrackedContactLink } from '../../../components/TrackedContactLink';
 import {
   getLatestColumnPosts,
   getRecommendedColumnPosts,
@@ -279,9 +280,9 @@ function ConsultationCard() {
         サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。
       </p>
       <div className="flex flex-wrap justify-center gap-3.5 max-md:flex-col max-md:items-center">
-        <Link href="/contact" className={`${pillClass} !bg-yellow`}>
+        <TrackedContactLink location="column_detail" className={`${pillClass} !bg-yellow`}>
           お問い合わせ <span className={arrowClass}><ArrowIcon /></span>
-        </Link>
+        </TrackedContactLink>
       </div>
     </aside>
   );

@@ -7,6 +7,7 @@ import {
   createItemListJsonLd,
 } from '../libs/structured-data';
 import { ArrowIcon } from './ArrowIcon';
+import { TrackedContactLink } from './TrackedContactLink';
 import {
   yellowPillArrowClass,
   yellowPillClass,
@@ -322,10 +323,10 @@ export function ColumnArchive({
               サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link className={yellowPillClass} href="/contact">
+              <TrackedContactLink className={yellowPillClass} location="column_archive">
                 お問い合わせ
                 <span className={yellowPillArrowClass}><ArrowIcon /></span>
-              </Link>
+              </TrackedContactLink>
             </div>
           </div>
         </div>

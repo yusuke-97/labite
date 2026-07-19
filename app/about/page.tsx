@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowIcon } from '../../components/ArrowIcon';
 import { ProfileCard } from '../../components/ProfileCard';
+import { TrackedContactLink } from '../../components/TrackedContactLink';
 import {
   cardDotsClass,
   innerClass,
@@ -224,12 +225,12 @@ export default function AboutPage() {
               記事へのご質問のほか、執筆・開発のご依頼、その他のご相談も受け付けています。お気軽にご連絡ください。
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link className={yellowPillClass} href="/contact">
+              <TrackedContactLink className={yellowPillClass} location="about">
                 お問い合わせ
                 <span className={yellowPillArrowClass}>
                   <ArrowIcon />
                 </span>
-              </Link>
+              </TrackedContactLink>
               <Link className={pillClass} href="/column">
                 記事一覧を見る
                 <span className={pillArrowClass}>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { sendGTMEvent } from '@next/third-parties/google';
 import Link from 'next/link';
 import { useForm, useWatch } from 'react-hook-form';
 import {
@@ -83,6 +84,7 @@ export function ContactForm() {
       setSubmitMessage(
         result.message || 'お問い合わせを送信しました。ありがとうございます。',
       );
+      sendGTMEvent({ event: 'contact_submit_success' });
       reset(initialValues);
       turnstile?.reset();
     } catch (error) {

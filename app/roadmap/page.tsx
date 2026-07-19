@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowIcon } from '../../components/ArrowIcon';
+import { TrackedContactLink } from '../../components/TrackedContactLink';
 import {
   cardDotsClass,
   innerClass,
@@ -296,10 +297,10 @@ export default async function RoadmapPage() {
                 記事一覧を見る
                 <span className={yellowPillArrowClass}><ArrowIcon /></span>
               </Link>
-              <Link className={pillClass} href="/contact">
+              <TrackedContactLink className={pillClass} location="roadmap">
                 お問い合わせ
                 <span className={pillArrowClass}><ArrowIcon /></span>
-              </Link>
+              </TrackedContactLink>
             </div>
           </div>
         </div>

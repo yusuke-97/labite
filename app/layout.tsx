@@ -11,6 +11,7 @@ import {
   siteTitle,
   siteUrl,
 } from "../libs/site-metadata";
+import "./globals.css";
 import "./globals.scss";
 
 const oswald = Oswald({

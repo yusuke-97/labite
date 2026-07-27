@@ -4,10 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowIcon } from '../../../components/ArrowIcon';
+import { ContactPostcard } from '../../../components/ContactPostcard';
 import { RoadmapSection } from '../../../components/RoadmapSection';
 import { SkillHacksAffiliate } from '../../../components/SkillHacksAffiliate';
 import { TableOfContents } from '../../../components/TableOfContents';
-import { TrackedContactLink } from '../../../components/TrackedContactLink';
 import {
   getLatestColumnPosts,
   getRecommendedColumnPosts,
@@ -274,16 +274,8 @@ function AuthorBox() {
 
 function ConsultationCard() {
   return (
-    <aside id="cta" className="relative mb-2 rounded-2xl border-2 border-navy bg-pale-blue px-7 py-11 text-center before:absolute before:top-3 before:left-3 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow after:absolute after:right-3 after:bottom-3 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow max-md:px-4.5 max-md:py-9">
-      <h2 className="!m-0 !border-0 !bg-transparent !p-0 !text-[clamp(17px,2vw,21px)] before:!hidden">お問い合わせを受け付けています</h2>
-      <p className="mx-auto mt-2.5 mb-6 max-w-120 text-[13.5px]">
-        サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。
-      </p>
-      <div className="flex flex-wrap justify-center gap-3.5 max-md:flex-col max-md:items-center">
-        <TrackedContactLink location="column_detail" className={`${pillClass} !bg-yellow`}>
-          お問い合わせ <span className={arrowClass}><ArrowIcon /></span>
-        </TrackedContactLink>
-      </div>
+    <aside id="cta" className="mb-2">
+      <ContactPostcard location="column_detail" />
     </aside>
   );
 }

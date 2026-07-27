@@ -7,11 +7,7 @@ import {
   createItemListJsonLd,
 } from '../libs/structured-data';
 import { ArrowIcon } from './ArrowIcon';
-import { TrackedContactLink } from './TrackedContactLink';
-import {
-  yellowPillArrowClass,
-  yellowPillClass,
-} from './site-design';
+import { ContactPostcard } from './ContactPostcard';
 
 type Props = {
   posts: ArticleCard[];
@@ -315,20 +311,7 @@ export function ColumnArchive({
 
       <section className="pb-24 max-md:pb-18">
         <div className={innerClass}>
-          <div className="fade relative mx-auto max-w-210 rounded-2xl border-2 border-navy bg-pale-blue px-8 py-14 text-center before:absolute before:top-3.5 before:left-3.5 before:size-2.5 before:rounded-full before:border-[1.5px] before:border-navy before:bg-yellow before:content-[''] after:absolute after:right-3.5 after:bottom-3.5 after:size-2.5 after:rounded-full after:border-[1.5px] after:border-navy after:bg-yellow after:content-[''] max-md:px-5.5 max-md:py-11">
-            <h2 className="mb-3 text-[clamp(18px,2.4vw,24px)] font-black">
-              お問い合わせを受け付けています
-            </h2>
-            <p className="mx-auto mb-7 max-w-135 text-[13.5px]">
-              サイトや記事に関するご質問、お仕事のご相談、その他のご連絡など、内容を問わずお気軽にお問い合わせください。
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <TrackedContactLink className={yellowPillClass} location="column_archive">
-                お問い合わせ
-                <span className={yellowPillArrowClass}><ArrowIcon /></span>
-              </TrackedContactLink>
-            </div>
-          </div>
+          <ContactPostcard className="fade" location="column_archive" />
         </div>
       </section>
     </main>
